@@ -6,7 +6,6 @@
 #include <string.h>
 int BUCKET_SIZE_ARRAY[] = {17, 31, 67, 127, 257, 509, 1021, 2053, 4099, 8191, 16381};
 
-
 static entry_t *entry_create(elem_t key, elem_t value, entry_t *first_entry);
 static bool key_equiv(elem_t key, elem_t value_ignored, void *x, ioopm_eq_function key_eq_func, ioopm_eq_function value_eq_func);
 static bool value_equiv(elem_t ignored, elem_t value, void *x, ioopm_eq_function key_eq_func, ioopm_eq_function value_eq_func);

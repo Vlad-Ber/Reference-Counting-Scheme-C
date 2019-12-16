@@ -7,6 +7,7 @@
 
 typedef void obj;
 typedef void(*function1_t)(obj *);
+typedef struct objectInfo objectInfo_t;
 
 
 
