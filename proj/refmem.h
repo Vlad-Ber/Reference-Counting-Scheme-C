@@ -6,19 +6,19 @@
 //#include "linked_list.h"
 
 
-typedef struct object obj;
+typedef void obj;
 typedef void(*function1_t)(obj *);
 
-struct object
+struct objectInfo
 {
   int rf;
   function1_t *func;
-  void *object;
+  obj *object;
 };
 
 
 obj *allocate(size_t bytes, function1_t *destructor){
-  obj *objectToReturn = calloc(1, sizeof(obj));
+  struct objectInfo *objectToReturn = calloc(1, sizeof(obj));
   void *data = calloc(1, bytes);
   objectToReturn->rf = 0;
   objectToReturn->func = destructor;
@@ -26,11 +26,10 @@ obj *allocate(size_t bytes, function1_t *destructor){
   return data;
 }
 
-/*
+
 void retain(obj *c)
 {
-  
-  c.rf++;
+  ((struct objectInfo *)c)->rf++;
 }
     
 void release (obj *c)
@@ -38,7 +37,7 @@ void release (obj *c)
   c.rf--;
 }
 
-*/
+
 void retain(obj *);
 void release(obj *);
 size_t rc(obj *);
@@ -52,6 +51,7 @@ void shutdown();
 
 int main()
 {
+  
   return 0;
 }
 
