@@ -30,10 +30,9 @@ int main()
   assert(rc(c->cell) == 1);
   
   c->cell->cell = NULL;
-  //free(c->string);
+  
   release(c);
-  //printf("rc = %zu\n",rc(c));
-  //release(c);
+ 
 
   return 0;
 }

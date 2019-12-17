@@ -14,20 +14,15 @@ struct objectInfo
 
 
 
-obj *allocate(size_t bytes, function1_t destructor){
-  
+obj *allocate(size_t bytes, function1_t destructor)
+{
   void *data = calloc(1, sizeof(objectInfo_t) + bytes);
-  //function1_t *func = calloc(1, sizeof(destructor));
-objectInfo_t *objectToReturn = data + bytes -16;
-//printf("size of rf = %ld\n", sizeof(size_t));
- //printf("size of destructor = %ld\n", sizeof(destructor));
-//*func = *destructor;
-objectToReturn->rf = 0;
-objectToReturn->func = destructor;
- printf("alloc %p\n", data+bytes);
- //printf("destructor after alloc = %p object is %p\n", func, objectToReturn);
+  objectInfo_t *objectToReturn = data + bytes - sizeof(objectInfo_t);
 
-return data;
+  objectToReturn->rf = 0;
+  objectToReturn->func = destructor;
+
+  return data;
 }
 
 
