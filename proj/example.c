@@ -16,23 +16,28 @@ void cell_destructor(obj *c)
 
 int main()
 {
+  set_cascade_limit(100);
   struct cell *c = allocate(sizeof(struct cell), cell_destructor);
-  //int *c = NULL; //får segfault
   printf("rc = %zu\n",rc(c));
   assert(rc(c) == 0);
   retain(c);
   printf("rc = %zu\n",rc(c));
   assert(rc(c) == 1);
-  
+  get_cascade_limit(); //ta bort
   c->cell = allocate(sizeof(struct cell), cell_destructor);
   assert(rc(c->cell) == 0);
   retain(c->cell);
   assert(rc(c->cell) == 1);
-  
-  c->cell->cell = NULL;
-  
-  release(c);
- 
 
+  c->cell->cell = allocate(sizeof(struct cell), cell_destructor);
+
+  c->cell->cell->cell = allocate(sizeof(struct cell), cell_destructor);
+  
+   retain(c->cell->cell);
+   
+   c->cell->cell->cell->cell=NULL;
+   release(c);
+   printf("casdadelimit in the end is %ld\n", cascade_limit);
+  
   return 0;
 }

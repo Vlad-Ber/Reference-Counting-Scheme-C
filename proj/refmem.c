@@ -3,8 +3,9 @@
 #include <stdlib.h>
 #include "refmem.h"
 #include <assert.h>
+size_t cascade_limit= 1;
+obj *temp_obj= NULL;
 
-//branch test
 
 struct objectInfo
 {
@@ -34,8 +35,6 @@ void retain(obj *c)
     objectInfo_t *objectInfo = c+sizeof(c);
    
     objectInfo->rf = objectInfo->rf+1;
-    
-    // printf("destructor = %p and rf is %p\n", objectInfo->func, objectInfo);
   }
 
 }
@@ -43,16 +42,16 @@ void retain(obj *c)
 void deallocate(obj *c){
   objectInfo_t *objectInfo = c+sizeof(c);
   function1_t destructor = objectInfo->func;
-  printf("dealloc %p\n",(c+sizeof(c)));
-  printf("adress of functions = %p and %p\n", objectInfo->func, destructor);
+  size_t temp = cascade_limit;
   destructor(c);
   free(c);
+  cascade_limit=temp+1;
+  
 }
 
 void release(obj *c)
 {
-  if(c != NULL)
-  
+  if(c != NULL) 
     {
       objectInfo_t *objectInfo = c+sizeof(c);
       if(objectInfo->rf != 0)
@@ -61,12 +60,31 @@ void release(obj *c)
 	}
       if(objectInfo->rf == 0)
 	{
-	  puts("ping");
-	  deallocate(c);
-	}
+	  cascade_limit = cascade_limit - 1;
+
+	  if(cascade_limit != 0)
+	    {
+	      printf("casdadelimit is %ld\n", cascade_limit);
+	      deallocate(c);
+	    }
+	
   
+	}
     }
 }
+
+
+void set_cascade_limit(size_t size)
+{
+  cascade_limit = size;
+}
+
+size_t get_cascade_limit()
+{
+  return cascade_limit;
+}
+
+  
 
 
 size_t rc(obj *c)
