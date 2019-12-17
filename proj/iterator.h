@@ -2,6 +2,7 @@
 #include <stdbool.h>
 #include "list_linked.h"
 
+// hej
 #define ioopm_int_iterator_next(iter)           \
     ioopm_iterator_next(iter)->i
 #define ioopm_int_iterator_current(iter)           \
