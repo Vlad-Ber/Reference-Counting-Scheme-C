@@ -16,13 +16,16 @@ struct objectInfo
 
 obj *allocate(size_t bytes, function1_t destructor){
   
-void *data = calloc(1, sizeof(objectInfo_t) + bytes);
-function1_t func = calloc(1, sizeof(destructor));
-objectInfo_t *objectToReturn = data + bytes - 16;
+  void *data = calloc(1, sizeof(objectInfo_t) + bytes);
+  //function1_t *func = calloc(1, sizeof(destructor));
+objectInfo_t *objectToReturn = data + bytes -16;
+//printf("size of rf = %ld\n", sizeof(size_t));
+ //printf("size of destructor = %ld\n", sizeof(destructor));
+//*func = *destructor;
 objectToReturn->rf = 0;
-objectToReturn->func = func;
+objectToReturn->func = destructor;
  printf("alloc %p\n", data+bytes);
-printf("destructor after alloc = %p object is %p\n", func, objectToReturn);
+ //printf("destructor after alloc = %p object is %p\n", func, objectToReturn);
 
 return data;
 }
@@ -48,8 +51,7 @@ void deallocate(obj *c){
   printf("dealloc %p\n",(c+sizeof(c)));
   printf("adress of functions = %p and %p\n", objectInfo->func, destructor);
   destructor(c);
-  
-  //cell_destructor(c);
+  free(c);
 }
 
 void release(obj *c)
@@ -58,15 +60,16 @@ void release(obj *c)
   
     {
       objectInfo_t *objectInfo = c+sizeof(c);
+      if(objectInfo->rf != 0)
+	{
+	  objectInfo->rf--;
+	}
       if(objectInfo->rf == 0)
 	{
 	  puts("ping");
 	  deallocate(c);
 	}
-      else
-	{
-	  objectInfo->rf--;
-	}
+  
     }
 }
 

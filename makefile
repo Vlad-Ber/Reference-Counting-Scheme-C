@@ -1,5 +1,5 @@
 run:proj/refmem.c
-	gcc -g -Wall proj/refmem.c -o memory
+	gcc -g -Wall proj/example.c -o memory
 	./memory
 
 valgrind: run

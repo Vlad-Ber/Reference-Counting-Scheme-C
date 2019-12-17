@@ -32,10 +32,8 @@ int main()
   c->cell->cell = NULL;
   //free(c->string);
   release(c);
-  printf("rc = %zu\n",rc(c));
-  release(c);
-  printf("rc = %zu\n",rc(c));
-  
+  //printf("rc = %zu\n",rc(c));
+  //release(c);
 
   return 0;
 }
