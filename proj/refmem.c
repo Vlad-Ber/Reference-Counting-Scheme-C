@@ -3,8 +3,9 @@
 #include <stdlib.h>
 #include "refmem.h"
 #include <assert.h>
-size_t cascade_limit= 1;
-obj *temp_obj= NULL;
+
+size_t cascade_limit= 10;
+obj *last_cascade = NULL;
 
 
 struct objectInfo
@@ -55,21 +56,22 @@ void release(obj *c)
     {
       objectInfo_t *objectInfo = c+sizeof(c);
       if(objectInfo->rf != 0)
-	{
-	  objectInfo->rf--;
-	}
+        {
+          objectInfo->rf--;
+        }
       if(objectInfo->rf == 0)
-	{
-	  cascade_limit = cascade_limit - 1;
+        {
+          cascade_limit = cascade_limit - 1;
 
-	  if(cascade_limit != 0)
-	    {
-	      printf("casdadelimit is %ld\n", cascade_limit);
-	      deallocate(c);
-	    }
-	
-  
-	}
+          if(cascade_limit > 0)
+            {
+              deallocate(c);
+            }
+          if(cascade_limit == 0)
+            {
+              last_cascade = c;
+            }
+        }
     }
 }
 

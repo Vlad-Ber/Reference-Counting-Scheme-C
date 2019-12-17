@@ -16,7 +16,7 @@ void cell_destructor(obj *c)
 
 int main()
 {
-  set_cascade_limit(100);
+  set_cascade_limit(10);
   struct cell *c = allocate(sizeof(struct cell), cell_destructor);
   printf("rc = %zu\n",rc(c));
   assert(rc(c) == 0);
