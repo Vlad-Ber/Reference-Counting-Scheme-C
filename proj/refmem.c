@@ -100,12 +100,16 @@ void release(obj *c)
 
 void remove_next_link(objectInfo_t *trav){
   objectInfo_t *to_remove_inf = trav->next;
-  trav->next = trav->next->next;
+  trav->next = trav->next->next; // funkar den här som den ska tro?
+  
+  printf("trav next: %p \n", trav->next);
+
+  
   //printf("\n");
   //printf("destructor in remove1:  %p\n", to_remove_inf->func);
 
-   long long to_remove_inf_addr = (long long) to_remove_inf;
-   obj *to_remove = ((void *) to_remove_inf_addr + sizeof(objectInfo_t));
+   long long to_remove_inf_adr = (long long) to_remove_inf;  // xd
+   obj *to_remove = ((void *) to_remove_inf_adr + sizeof(objectInfo_t));
     
   deallocate(to_remove);
 }
@@ -119,7 +123,7 @@ void cleanup(){
       return;
     }
   
-  while(trav->next != NULL) // Das ist die Schuld
+  while(trav->next != NULL) 
     {
       printf("---helklo \n");
       printf("rf in cleanup:  %ld\n",trav->next->rf);
@@ -129,20 +133,28 @@ void cleanup(){
       remove_next_link(trav);
       
     }
-      
-      //trav = trav->next;
+      printf("trav almost at end of while: %p\n", trav);
+      if(trav->next != NULL)
+        {
+      trav = trav->next;
+        }
       printf("alive \n");
       printf("trav at end of while: %p\n", trav);
 
       printf("rf trav at end: %ld \n", trav->rf);
   }
+
+
   
   if(first_info->rf == 0){
     
     objectInfo_t *new_first = first_info->next;
-    printf("new_first func:%p\n", new_first->func);
+     printf("first_info func:%p\n", first_info->func);
+
+     long long first_info_adr = (long long) first_info; // detta e så facking sjukt 
     
-    deallocate(first_info + sizeof(objectInfo_t));
+     deallocate( (void *) first_info_adr + sizeof(objectInfo_t));
+    
     first_info = new_first;
     
   }
