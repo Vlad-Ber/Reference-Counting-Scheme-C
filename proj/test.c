@@ -33,11 +33,13 @@ void test_retain()
 {
   struct cell1 *c1 = allocate(sizeof(struct cell1), cell_destructor1);
   struct cell2 *c2 = allocate(sizeof(struct cell2), cell_destructor2);
-  objectInfo_t *c1Info = c1-sizeof(objectInfo_t);
-  objectInfo_t *c2Info = c2-sizeof(objectInfo_t);
+  objectInfo_t *c1_Info = ((obj *) c1 - sizeof(objectInfo_t));
+  objectInfo_t *c2_Info = ((obj *) c2 - sizeof(objectInfo_t));
 
   retain(c1);
-  CU_ASSERT_TRUE(c1Info->rf == 1);
+  CU_ASSERT_TRUE(c1_Info->rf == 1);
+  CU_ASSERT_TRUE(c2_Info->rf == 0);
+  retain(c2);
  
 }
 void test_release()
