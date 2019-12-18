@@ -101,13 +101,43 @@ void release(obj *c)
 void remove_next_link(objectInfo_t *trav){
   objectInfo_t *to_remove_inf = trav->next;
   trav->next = trav->next->next;
+  printf("\n");
+  printf("destructor in remove1:  %p\n", to_remove_inf->func);
 
-  printf("destructor in remove:  %p\n", to_remove_inf->func);
+
+  printf("remove_inf:  %p\n", to_remove_inf);
+
 
   
   obj *to_remove = to_remove_inf + sizeof(objectInfo_t);
 
-  printf("to_remove: %p \n", to_remove);
+  printf("to_remove: %p \n \n", to_remove);
+
+
+  
+  objectInfo_t *to_remove_inf2 = to_remove - sizeof(objectInfo_t);
+  
+  printf("destructor in remove2:  %p\n", to_remove_inf2->func);
+
+  obj *to_remove2 = to_remove_inf2 + sizeof(objectInfo_t);
+
+  printf(" to_remove2:  %p\n", to_remove2);
+
+
+
+
+
+
+  objectInfo_t *to_remove_inf3 = to_remove2 - sizeof(objectInfo_t);
+  
+  printf("destructor in remove3:  %p\n", to_remove_inf3->func);
+
+  obj *to_remove3 = to_remove_inf3 + sizeof(objectInfo_t);
+
+  printf(" to_remove3:  %p\n", to_remove3);
+
+
+  
   
   release(to_remove);
 }

@@ -75,6 +75,7 @@ int main()
   struct cell *cell = allocate(sizeof(struct cell), cell_destructor);
   struct cell *cell2 = allocate(sizeof(struct cell), cell_destructor);
 
+  
   cleanup();
 
 
