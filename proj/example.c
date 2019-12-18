@@ -22,6 +22,7 @@ void cell_destructor(obj *c)
 
 int main()
 {
+  /*
   printf("cell size: %ld\n", sizeof(struct cell));
   printf("sizeof objectinfo_t: %ld\n", sizeof(objectInfo_t));
   printf("sizeof objectinfo_t*: %ld\n", sizeof(objectInfo_t*));
@@ -67,9 +68,14 @@ int main()
    
    c->cell->cell->cell->cell=NULL;
    release(c);
-   printf("casdadelimit in the end is %ld\n", cascade_limit);
+   printf("casdadelimit in the end is %ld\n \n \n", cascade_limit);
+  */
 
+   
+  struct cell *cell = allocate(sizeof(struct cell), cell_destructor);
+  struct cell *cell2 = allocate(sizeof(struct cell), cell_destructor);
 
+  cleanup();
 
 
   return 0;
