@@ -61,7 +61,7 @@ void retain(obj *c)
 {
   if(c == NULL){}
   else{
-    objectInfo_t *objectInfo = c+sizeof(c);
+    objectInfo_t *objectInfo = c+sizeof(c) + sizeof(objectInfo_t);
    
     objectInfo->rf = objectInfo->rf+1;
   }
@@ -69,7 +69,7 @@ void retain(obj *c)
 }
 
 void deallocate(obj *c){
-  objectInfo_t *objectInfo = c+sizeof(c);
+  objectInfo_t *objectInfo = c + sizeof(c) + sizeof(objectInfo_t) ;
   function1_t destructor = objectInfo->func;
   size_t temp = cascade_limit;
   printf("destructor dealloc:  %p \n", destructor);
@@ -128,7 +128,7 @@ size_t rc(obj *c)
     {
     return -1;
     }
-  objectInfo_t *objectInfo = c+sizeof(c);
+  objectInfo_t *objectInfo = c+sizeof(c) + sizeof(objectInfo_t);
   return objectInfo->rf;
 }
 

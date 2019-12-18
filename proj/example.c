@@ -32,15 +32,15 @@ int main()
   
   
   printf("rc = %zu\n",rc(c));
-  //assert(rc(c) == 0);
+  assert(rc(c) == 0);
   retain(c);
   printf("rc = %zu\n",rc(c));
-  //assert(rc(c) == 1);
+  assert(rc(c) == 1);
   get_cascade_limit(); //ta bort
   c->cell = allocate(sizeof(struct cell), cell_destructor);
-  //assert(rc(c->cell) == 0);
+  assert(rc(c->cell) == 0);
   retain(c->cell);
-  //assert(rc(c->cell) == 1);
+  assert(rc(c->cell) == 1);
 
   c->cell->cell = allocate(sizeof(struct cell), cell_destructor);
 
