@@ -24,8 +24,10 @@ struct objectInfo
 obj *allocate(size_t bytes, function1_t destructor)
 {
   obj *data = calloc(1, (sizeof(objectInfo_t) + bytes) );
-  objectInfo_t *objectToReturn = data + bytes;
 
+  objectInfo_t *objectToReturn = data;
+  data = data + sizeof(objectInfo_t);
+  
   printf("destructor alloc: %p \n", destructor);
   
   /*
@@ -46,7 +48,7 @@ obj *allocate(size_t bytes, function1_t destructor)
   }
   else
     {
-      objectInfo_t *last_obj_info = last_obj + sizeof(last_obj) - 1* sizeof(objectInfo_t) ;
+      objectInfo_t *last_obj_info = last_obj - sizeof(objectInfo_t) ;
       last_obj_info->next = data;
       last_obj = data;
     }
@@ -61,20 +63,22 @@ void retain(obj *c)
 {
   if(c == NULL){}
   else{
-    objectInfo_t *objectInfo = c+sizeof(c) + sizeof(objectInfo_t);
-   
+    objectInfo_t *objectInfo = c - sizeof(objectInfo_t);
     objectInfo->rf = objectInfo->rf+1;
   }
 
 }
 
 void deallocate(obj *c){
-  objectInfo_t *objectInfo = c + sizeof(c) + sizeof(objectInfo_t) ;
+  objectInfo_t *objectInfo = c  -  sizeof(objectInfo_t);
   function1_t destructor = objectInfo->func;
+  printf("%ld\n", sizeof(*c));
+  
   size_t temp = cascade_limit;
   printf("destructor dealloc:  %p \n", destructor);
   destructor(c);
-  free(c);
+  //free(c);
+  free(objectInfo);
   cascade_limit=temp+1;
   
 }
@@ -83,7 +87,7 @@ void release(obj *c)
 {
   if(c != NULL) 
     {
-      objectInfo_t *objectInfo = c+sizeof(c);
+      objectInfo_t *objectInfo = c  - sizeof(objectInfo_t);
       if(objectInfo->rf != 0)
         {
           objectInfo->rf--;
@@ -128,7 +132,7 @@ size_t rc(obj *c)
     {
     return -1;
     }
-  objectInfo_t *objectInfo = c+sizeof(c) + sizeof(objectInfo_t);
+  objectInfo_t *objectInfo = c+sizeof(*c) - sizeof(objectInfo_t);
   return objectInfo->rf;
 }
 

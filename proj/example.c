@@ -4,9 +4,13 @@
 struct cell
 {
   struct cell *cell;
-  int i;
+
   char *string;
   int k;
+  int s;
+  size_t mitocondria;
+  int i;
+  char *string2;
 };
 
 void cell_destructor(obj *c)
@@ -18,7 +22,7 @@ void cell_destructor(obj *c)
 
 int main()
 {
-
+  printf("cell size: %ld\n", sizeof(struct cell));
   printf("sizeof objectinfo_t: %ld\n", sizeof(objectInfo_t));
   printf("sizeof objectinfo_t*: %ld\n", sizeof(objectInfo_t*));
   printf("sizeof size_t: %ld\n", sizeof(size_t));
@@ -28,19 +32,32 @@ int main()
   
   set_cascade_limit(10);
   struct cell *c = allocate(sizeof(struct cell), cell_destructor);
+
   c->string = "hejsan";
+  c->i = 11;
+  c->k = 17;
+  printf("c_vals: %s, %d, %d\n", c->string, c->i, c->k);
   
   
   printf("rc = %zu\n",rc(c));
-  assert(rc(c) == 0);
+  //assert(rc(c) == 0);
   retain(c);
   printf("rc = %zu\n",rc(c));
-  assert(rc(c) == 1);
+  //assert(rc(c) == 1);
   get_cascade_limit(); //ta bort
+  struct cell *l;
   c->cell = allocate(sizeof(struct cell), cell_destructor);
-  assert(rc(c->cell) == 0);
+  l = c->cell;
+
+  l->string = "hejsan";
+  l->i = 11;
+  l->k = 17;
+  printf("l_vals: %s, %d, %d\n", l->string, l->i, l->k);
+  
+  
+  //assert(rc(c->cell) == 0);
   retain(c->cell);
-  assert(rc(c->cell) == 1);
+  //assert(rc(c->cell) == 1);
 
   c->cell->cell = allocate(sizeof(struct cell), cell_destructor);
 
@@ -51,6 +68,9 @@ int main()
    c->cell->cell->cell->cell=NULL;
    release(c);
    printf("casdadelimit in the end is %ld\n", cascade_limit);
-  
+
+
+
+
   return 0;
 }
