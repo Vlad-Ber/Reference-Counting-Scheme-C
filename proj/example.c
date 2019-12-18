@@ -15,7 +15,7 @@ struct cell
 
 void cell_destructor(obj *c)
 {
-  printf("cell destruct");
+  printf("cell destruct \n");
   release(((struct cell *) c)->cell);
 }
 
@@ -75,6 +75,9 @@ int main()
   struct cell *cell = allocate(sizeof(struct cell), cell_destructor);
   struct cell *cell2 = allocate(sizeof(struct cell), cell_destructor);
 
+  cell->i = 2;
+  cell2->i = 2;
+  
   
   cleanup();
 

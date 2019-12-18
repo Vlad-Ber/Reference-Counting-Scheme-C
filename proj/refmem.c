@@ -101,45 +101,13 @@ void release(obj *c)
 void remove_next_link(objectInfo_t *trav){
   objectInfo_t *to_remove_inf = trav->next;
   trav->next = trav->next->next;
-  printf("\n");
-  printf("destructor in remove1:  %p\n", to_remove_inf->func);
+  //printf("\n");
+  //printf("destructor in remove1:  %p\n", to_remove_inf->func);
 
-
-  printf("remove_inf:  %p\n", to_remove_inf);
-
-
-  
-  obj *to_remove = to_remove_inf + sizeof(objectInfo_t);
-
-  printf("to_remove: %p \n \n", to_remove);
-
-
-  
-  objectInfo_t *to_remove_inf2 = to_remove - sizeof(objectInfo_t);
-  
-  printf("destructor in remove2:  %p\n", to_remove_inf2->func);
-
-  obj *to_remove2 = to_remove_inf2 + sizeof(objectInfo_t);
-
-  printf(" to_remove2:  %p\n", to_remove2);
-
-
-
-
-
-
-  objectInfo_t *to_remove_inf3 = to_remove2 - sizeof(objectInfo_t);
-  
-  printf("destructor in remove3:  %p\n", to_remove_inf3->func);
-
-  obj *to_remove3 = to_remove_inf3 + sizeof(objectInfo_t);
-
-  printf(" to_remove3:  %p\n", to_remove3);
-
-
-  
-  
-  release(to_remove);
+   long long to_remove_inf_addr = (long long) to_remove_inf;
+   obj *to_remove = ((void *) to_remove_inf_addr + sizeof(objectInfo_t));
+    
+  deallocate(to_remove);
 }
 
 void cleanup(){
@@ -151,21 +119,32 @@ void cleanup(){
       return;
     }
   
-  while(trav->next != NULL)
+  while(trav->next != NULL) // Das ist die Schuld
     {
+      printf("---helklo \n");
       printf("rf in cleanup:  %ld\n",trav->next->rf);
       printf("destructor in cleanup:  %p\n", trav->next->func);
-    if(trav->next->rf == 0){
+
+      if(trav->next->rf == 0){
       remove_next_link(trav);
       
     }
-    trav = trav->next;
+      
+      //trav = trav->next;
+      printf("alive \n");
+      printf("trav at end of while: %p\n", trav);
+
+      printf("rf trav at end: %ld \n", trav->rf);
   }
   
   if(first_info->rf == 0){
+    
     objectInfo_t *new_first = first_info->next;
+    printf("new_first func:%p\n", new_first->func);
+    
     deallocate(first_info + sizeof(objectInfo_t));
     first_info = new_first;
+    
   }
 }
 
