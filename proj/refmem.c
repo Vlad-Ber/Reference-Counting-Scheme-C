@@ -7,8 +7,8 @@
 size_t cascade_limit= 10;
 obj *last_cascade = NULL;
 
-obj *first_obj = NULL;
-obj *last_obj = NULL;
+objectInfo_t *first_info = NULL;
+objectInfo_t *last_info = NULL;
 
 
 
@@ -30,27 +30,20 @@ obj *allocate(size_t bytes, function1_t destructor)
   
   printf("destructor alloc: %p \n", destructor);
   
-  /*
-  printf("sizeof data: %ld\n", sizeof(objectInfo_t) + bytes);
-  
-  printf("data p:%p\n", data);
-  printf("data + obj p: %p\n",objectToReturn);
-  printf("\n");
-  */
   objectToReturn->rf = 0;
   objectToReturn->func = destructor;
   printf("destructor alloc2: %p \n", objectToReturn->func);
 
   
-  if(first_obj == NULL){
-    first_obj = data;
-    last_obj = data;
-  }
+  if(first_info == NULL)
+    {
+      first_info = objectToReturn;
+      last_info = objectToReturn;
+    }
   else
     {
-      objectInfo_t *last_obj_info = last_obj - sizeof(objectInfo_t) ;
-      last_obj_info->next = data;
-      last_obj = data;
+      last_info->next = objectToReturn ;
+      last_info = objectToReturn;
     }
   
   
@@ -71,13 +64,10 @@ void retain(obj *c)
 
 void deallocate(obj *c){
   objectInfo_t *objectInfo = c  -  sizeof(objectInfo_t);
-  function1_t destructor = objectInfo->func;
-  printf("%ld\n", sizeof(*c));
-  
+  function1_t destructor = objectInfo->func;  
   size_t temp = cascade_limit;
   printf("destructor dealloc:  %p \n", destructor);
   destructor(c);
-  //free(c);
   free(objectInfo);
   cascade_limit=temp+1;
   
@@ -108,8 +98,45 @@ void release(obj *c)
     }
 }
 
-void cleanup(){
+void remove_next_link(objectInfo_t *trav){
+  objectInfo_t *to_remove_inf = trav->next;
+  trav->next = trav->next->next;
+
+  printf("destructor in remove:  %p\n", to_remove_inf->func);
+
   
+  obj *to_remove = to_remove_inf + sizeof(objectInfo_t);
+
+  printf("to_remove: %p \n", to_remove);
+  
+  release(to_remove);
+}
+
+void cleanup(){
+
+  objectInfo_t *trav = first_info;
+  
+  if(trav == NULL)
+    {
+      return;
+    }
+  
+  while(trav->next != NULL)
+    {
+      printf("rf in cleanup:  %ld\n",trav->next->rf);
+      printf("destructor in cleanup:  %p\n", trav->next->func);
+    if(trav->next->rf == 0){
+      remove_next_link(trav);
+      
+    }
+    trav = trav->next;
+  }
+  
+  if(first_info->rf == 0){
+    objectInfo_t *new_first = first_info->next;
+    deallocate(first_info + sizeof(objectInfo_t));
+    first_info = new_first;
+  }
 }
 
 
