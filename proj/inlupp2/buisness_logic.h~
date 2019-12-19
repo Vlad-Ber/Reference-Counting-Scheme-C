@@ -1,0 +1,48 @@
+#pragma once
+
+//#include <errno.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include "common.h"
+
+/// @brief return a pointer to the entry before the entry mapped to by key.
+/// @param ht the hash table operated upon.
+/// @param key key to lookup in the hashtable.
+/// @return a pointer to the previous entry;
+void replenish_stock(ioopm_db_t *database, elem_t merch_to_replenish, elem_t shelf_to_replenish, int no_items);
+
+/// @brief return a pointer to the entry before the entry mapped to by key.
+/// @param ht the hash table operated upon.
+/// @param key key to lookup in the hashtable.
+/// @return a pointer to the previous entry;
+void show_stock(ioopm_db_t *database);
+
+/// @brief return a pointer to the entry before the entry mapped to by key.
+/// @param ht the hash table operated upon.
+/// @param key key to lookup in the hashtable.
+/// @return a pointer to the previous entry;
+void edit_merch(ioopm_db_t *database, elem_t merch_to_edit);
+
+/// @brief return a pointer to the entry before the entry mapped to by key.
+/// @param ht the hash table operated upon.
+/// @param key key to lookup in the hashtable.
+/// @return a pointer to the previous entry;
+void remove_merch(ioopm_db_t *database, char *merch_to_remove);
+
+/// @brief return a pointer to the entry before the entry mapped to by key.
+/// @param ht the hash table operated upon.
+/// @param key key to lookup in the hashtable.
+/// @return a pointer to the previous entry;
+void add_merch(ioopm_db_t *database, ioopm_merch_t *new_merch);
+
+/// @brief return a pointer to the entry before the entry mapped to by key.
+/// @param ht the hash table operated upon.
+/// @param key key to lookup in the hashtable.
+/// @return a pointer to the previous entry;
+void ioopm_destroy_database(ioopm_db_t *db);
+
+/// @brief return a pointer to the entry before the entry mapped to by key.
+/// @param ht the hash table operated upon.
+/// @param key key to lookup in the hashtable.
+/// @return a pointer to the previous entry;
+ioopm_db_t *ioopm_database_create();
