@@ -1,0 +1,35 @@
+#pragma once
+
+#include "common.h"
+#include "buisness_logic.h"
+#include "utils.h"
+
+void add_merch_UI(ioopm_db_t *database)
+{
+  char *merch_name = ask_question_string("Name for the new merchandise?");
+  char *merch_description = ask_question_string("Description for the new merchandise?");
+  int merch_price = ask_question_int("Price for the new merchandise");
+  ioopm_merch_t *new_merch = create_merch(merch_name, merch_description, merch_price);
+  add_merch(database, new_merch);
+}
+
+void remove_merch_UI(ioopm_db_t *database)
+{
+  char *merch_to_remove = ask_question_string("What is the name of the ḿerch to remove?");
+  remove_merch(database, merch_to_remove);
+}
+
+void edit_merch_UI(ioopm_db_t *database)
+{
+  elem_t merch_to_edit = {.str_value = ask_question_string("Merch to edit:")};
+  edit_merch(database, merch_to_edit);
+}
+
+void replenish_stock_UI(ioopm_db_t *database)
+{
+  elem_t merch_to_replenish = {.str_value = ask_question_string("What merch do you want to replenish?:")};
+  int no_items = ask_question_int("Replenish stock by how much?:");
+  elem_t shelf_to_replenish = {.str_value = ask_question_shelf("On what shelf do you want to replenish?:")};
+  replenish_stock(database, merch_to_replenish, shelf_to_replenish, no_items);
+}
+

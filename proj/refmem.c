@@ -211,6 +211,18 @@ void cleanup(){
   }
 }
 
+void shutdown()
+{
+  objectInfo_t *current_info = first_info;
+
+  while(current_info != NULL)
+    {
+      objectInfo_t *next_info = first_info->next;
+      deallocate(current_info + sizeof(objectInfo_t));
+      current_info = next_info;
+    }
+}
+
 
 void set_cascade_limit(size_t size)
 {
