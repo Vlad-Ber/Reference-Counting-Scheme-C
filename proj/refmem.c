@@ -120,7 +120,7 @@ objectInfo_t *find_previous_link(objectInfo_t *this_link){
   }
   
 }
-
+// brehs this is radical
 void remove_this_link(objectInfo_t *info){
 
   if(info == first_info){
