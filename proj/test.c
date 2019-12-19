@@ -67,7 +67,7 @@ void test_retain()
   
  
   c1->cell->cell = allocate(sizeof(cell1_t), cell_destructor1);
-  c2->cell->cell = allocate(sizeof(cell1_t), cell_destructor2);
+  c2->cell->cell = allocate(sizeof(cell2_t), cell_destructor2);
   objectInfo_t *c1_nextNextInfo = ((obj *) c1->cell->cell - sizeof(objectInfo_t));
   objectInfo_t *c2_nextNextInfo = ((obj *) c2->cell->cell - sizeof(objectInfo_t));
   CU_ASSERT_TRUE(c1_nextNextInfo ->rf == 0);
@@ -113,8 +113,6 @@ void test_release()
   CU_ASSERT_TRUE(c2_nextInfo ->rf == 0);
   retain(c2->cell);
   CU_ASSERT_TRUE(c2_nextInfo ->rf == 1);
-  CU_ASSERT_TRUE(c2_Info->rf ==2);
-  CU_ASSERT_TRUE(c1_Info->rf==1);
   retain(c2->cell);
   CU_ASSERT_TRUE(c2_nextInfo ->rf == 2);
 
