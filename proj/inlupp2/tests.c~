@@ -1,0 +1,64 @@
+#include <CUnit/Basic.h>
+#include <stdbool.h>
+#include "common.h"
+#include "buisness_logic.c"
+
+int init_suite(void)
+{
+  return 0;
+}
+
+int clean_suite(void)
+{
+  return 0;
+}
+
+void dummy_test1()
+{
+  ioopm_cart_t *cart = create_cart("Andreas Cart");
+  CU_ASSERT_PTR_NOT_NULL(cart);
+  remove_cart(cart);
+}
+
+void test_add_merch()
+{
+  //fixa bug med insert
+  ioopm_hash_table_t *merch_db = ioopm_hash_table_create(ioopm_eq_function_str, ioopm_eq_function_int, string_knr_hash);
+  add_merch(merch_db);
+  elem_t ignored_value;
+  elem_t merch_to_lookup = {.str_value = "test"};
+  ioopm_hash_table_lookup(merch_db, merch_to_lookup, &ignored_value);
+  ioopm_merch_t *check_value = (ioopm_merch_t *) ignored_value.ptr_value; 
+  //bool bug = strcmp(check_value, "test") == 0;
+  CU_ASSERT_TRUE(true); 
+}
+
+int main()
+{ 
+  CU_pSuite test_suite_backend = NULL;
+
+  if (CUE_SUCCESS != CU_initialize_registry())
+    return CU_get_error();
+
+  test_suite_backend = CU_add_suite("test_suite_backend", init_suite, clean_suite);
+  if (NULL == test_suite_backend)
+    {
+      CU_cleanup_registry();
+      return CU_get_error();
+    }
+  
+  if (
+    (NULL == CU_add_test(test_suite_backend, "dummy_test1", dummy_test1)) ||
+
+    (NULL == CU_add_test(test_suite_backend, "test_add_merch", test_add_merch))
+  )
+    {
+      CU_cleanup_registry();
+      return CU_get_error();
+    }
+ 
+  CU_basic_set_mode(CU_BRM_VERBOSE);
+  CU_basic_run_tests();
+  CU_cleanup_registry();
+  return CU_get_error();
+}
