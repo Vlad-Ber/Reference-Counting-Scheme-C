@@ -255,17 +255,45 @@ void test_deallocate()
 
 void test_set_cascade_limit()
 {
+  set_cascade_limit(17);
+  CU_ASSERT_TRUE(17 == cascade_limit);
 
 }
 
 void test_get_cascade_limit()
 {
-
+  cascade_limit = 15;
+  CU_ASSERT_TRUE(15 == get_cascade_limit());
 }
 
 void test_cleanup()
 {
+  cell1_t *c0 = allocate(sizeof(cell1_t), cell_destructor1);
+  cell1_t *c1 = allocate(sizeof(cell1_t), cell_destructor1);
+  cell2_t *c2 = allocate(sizeof(cell2_t), cell_destructor2);
+  cell2_t *c3 = allocate(sizeof(cell2_t), cell_destructor2);
+  
+  c0->cell = allocate(sizeof(cell1_t), cell_destructor1);
+  c1->cell = allocate(sizeof(cell1_t), cell_destructor1);
+  c2->cell = allocate(sizeof(cell2_t), cell_destructor2);
+  c3->cell = allocate(sizeof(cell2_t), cell_destructor2);
 
+  
+  retain(c1);
+  retain(c2);
+
+  //TODO: FIX ME!!!
+  //retain(c1->cell);
+  //retain(c2->cell);
+
+  cleanup();
+
+  release(c1);
+  release(c2);
+  
+  //deallocate(c1);
+  //deallocate(c2);
+  
 }
 
 void test_shutdown()
