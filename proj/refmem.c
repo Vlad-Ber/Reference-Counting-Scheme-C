@@ -19,7 +19,20 @@ struct objectInfo
   objectInfo_t *next;
 };
 
-
+void insert(objectInfo_t *objectToInsert)
+{
+    if(first_info == NULL)
+    {
+      first_info = objectToInsert;
+      last_info = objectToInsert;
+    }
+  else
+    {
+      last_info->next = objectToInsert ;
+      last_info = objectToInsert;
+    }
+  
+}
 
 obj *allocate(size_t bytes, function1_t destructor)
 {
@@ -35,21 +48,24 @@ obj *allocate(size_t bytes, function1_t destructor)
   printf("destructor alloc2: %p \n", objectToReturn->func);
 
   
-  if(first_info == NULL)
-    {
-      first_info = objectToReturn;
-      last_info = objectToReturn;
-    }
-  else
-    {
-      last_info->next = objectToReturn ;
-      last_info = objectToReturn;
-    }
-  
+  insert(objectToReturn);
   
   return data;
 }
 
+
+obj *allocate_array(size_t elements, size_t elem_size, function1_t destructor)
+{
+  void *array = calloc(elements, sizeof(objectInfo_t) + elem_size);
+  for (int i=0; i<elements; i++)
+    {
+      objectInfo_t *objectInfo = array + (i*(sizeof(objectInfo_t)+elem_size));
+      objectInfo->rf = 0;
+      objectInfo->func = destructor;
+      insert(objectInfo);
+    }
+  return array+sizeof(objectInfo_t);
+}
 
 
 void retain(obj *c)
