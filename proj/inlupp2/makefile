@@ -6,7 +6,7 @@ CUNIT_LINK	= -lcunit
 %.o:	%.c
 	$(C_COMPILER) $(C_OPTIONS) $? -c
 
-comp: 	list_linked.o hash_table.o buisness_logic.o
+comp: 	list_linked.o hash_table.o buisness_logic.o ../refmem.o
 	$(C_COMPILER) $(C_OPTIONS) -c common.h iterator.h utils.c
 
 test: 	tests.o list_linked.o hash_table.o 
