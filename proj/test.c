@@ -47,8 +47,8 @@ void test_retain()
   retain(c2);
   CU_ASSERT_TRUE(c1_Info->rf == 1);
   CU_ASSERT_TRUE(c2_Info->rf == 2);
-  c2_Info->rf == 0;
-  c1_Info->rf == 0;
+  c2_Info->rf = 0;
+  c1_Info->rf = 0;
   
   c1->cell = allocate(sizeof(cell1_t), cell_destructor1);
   c2->cell = allocate(sizeof(cell2_t), cell_destructor2);
@@ -60,10 +60,9 @@ void test_retain()
   CU_ASSERT_TRUE(c2_nextInfo ->rf == 0);
   retain(c2->cell);
   CU_ASSERT_TRUE(c2_nextInfo ->rf == 1);
-  CU_ASSERT_TRUE(c1_Info->rf==1);
   retain(c2->cell);
-  c1_nextInfo->rf == 0;
-  c2_nextInfo->rf == 0;
+  c1_nextInfo->rf = 0;
+  c2_nextInfo->rf = 0;
   
  
   c1->cell->cell = allocate(sizeof(cell1_t), cell_destructor1);
@@ -78,12 +77,11 @@ void test_retain()
   retain(c1->cell->cell);
   CU_ASSERT_TRUE(c1_nextNextInfo ->rf == 3);
   CU_ASSERT_TRUE(c2_nextNextInfo ->rf == 0);
-  c1_nextNextInfo->rf == 0;
-  c2_nextNextInfo->rf == 0;
+  c1_nextNextInfo->rf = 0;
+  c2_nextNextInfo->rf = 0;
 
   deallocate(c1);
   deallocate(c2);
- 
 }
 void test_release()
 {
