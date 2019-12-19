@@ -1,11 +1,11 @@
-# ignore executables
+# ignore executables & emacs files
 
 a.out
 a.out.dSYM
 memory
 tests
-*.~
-'#refmem.c#'
+*~
+.\#*
 
 #ignoring coverage files
 *.c.gcov
