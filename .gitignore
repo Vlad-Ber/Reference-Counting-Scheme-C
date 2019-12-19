@@ -11,5 +11,3 @@ tests
 *.c.gcov
 *.gcno
 *.gcda
-
-
