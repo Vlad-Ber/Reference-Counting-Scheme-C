@@ -8,6 +8,8 @@
 #include "hash_table.h"
 #include "utils.h"
 #include "common.h"
+#include "../refmem.h"
+
 
 #define Free(ptr) {free(ptr); ptr = NULL;}
  
