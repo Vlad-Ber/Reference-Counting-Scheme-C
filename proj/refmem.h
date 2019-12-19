@@ -2,8 +2,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
-#include "hash_table.h"
-//#include "refmem.c"
+
 
 
 
@@ -23,3 +22,6 @@ void set_cascade_limit(size_t);
 size_t get_cascade_limit();
 void cleanup();
 void shutdown();
+
+void remove_next_link(objectInfo_t *info);
+void remove_this_link(objectInfo_t *info);
