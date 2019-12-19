@@ -22,7 +22,7 @@ void cell_destructor(obj *c)
 
 int main()
 {
-  /*
+  
   printf("cell size: %ld\n", sizeof(struct cell));
   printf("sizeof objectinfo_t: %ld\n", sizeof(objectInfo_t));
   printf("sizeof objectinfo_t*: %ld\n", sizeof(objectInfo_t*));
@@ -37,7 +37,7 @@ int main()
   c->string = "hejsan";
   c->i = 11;
   c->k = 17;
-  printf("c_vals: %s, %d, %d\n", c->string, c->i, c->k);
+  //printf("c_vals: %s, %d, %d\n", c->string, c->i, c->k);
   
   
   printf("rc = %zu\n",rc(c));
@@ -53,7 +53,7 @@ int main()
   l->string = "hejsan";
   l->i = 11;
   l->k = 17;
-  printf("l_vals: %s, %d, %d\n", l->string, l->i, l->k);
+  //printf("l_vals: %s, %d, %d\n", l->string, l->i, l->k);
   
   
   //assert(rc(c->cell) == 0);
@@ -69,7 +69,7 @@ int main()
    c->cell->cell->cell->cell=NULL;
    release(c);
    printf("casdadelimit in the end is %ld\n \n \n", cascade_limit);
-  */
+  
 
    
   struct cell *cell = allocate(sizeof(struct cell), cell_destructor);

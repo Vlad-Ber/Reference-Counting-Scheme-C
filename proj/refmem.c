@@ -67,7 +67,11 @@ void deallocate(obj *c){
   function1_t destructor = objectInfo->func;  
   size_t temp = cascade_limit;
   printf("destructor dealloc:  %p \n", destructor);
+   remove_this_link(objectInfo);
   destructor(c);
+  //fixa så att när vi delocatar att länken inte finns kvar
+  //vi måst komma åt den som e bakom right? wtf huuur?
+
   free(objectInfo);
   cascade_limit=temp+1;
   
@@ -98,20 +102,56 @@ void release(obj *c)
     }
 }
 
+//////////////////////////////////
+objectInfo_t *find_previous_link(objectInfo_t *this_link){
+  printf("find precvious link check \n");
+  // detta är ganska kefft men kommer nog funka iaf. dock långsamt.
+  objectInfo_t *search = first_info;
+  while(search->next != this_link && search->next != NULL){
+    printf("search->next : %p\n", search->next);
+    search = search->next;
+  }
+  printf("while done on find prev \n");
+  if(search->next == NULL){
+    return this_link; // vettefan vad som ska hända då tbh. den här funktionen ska ändå vara gömd för användaren.
+  }
+  else{
+    return search;
+  }
+  
+}
+
+void remove_this_link(objectInfo_t *info){
+
+  if(info == first_info){
+    first_info = info->next;
+    return;
+  }
+  
+  printf("remove this link check: %p\n", info);
+  // vi måste hitta länken bakom oss right? men det gårt ju inte.
+  // Scheiße. vi får srkiva en find previous link funcktion :(((
+  objectInfo_t *prev = find_previous_link(info);
+
+  prev->next = info->next;
+}
+///////////////////////////////////
+
+
+
 void remove_next_link(objectInfo_t *trav){
   objectInfo_t *to_remove_inf = trav->next;
-  trav->next = trav->next->next; // funkar den här som den ska tro?
+  trav->next = trav->next->next;
   
   printf("trav next: %p \n", trav->next);
 
-  
-  //printf("\n");
-  //printf("destructor in remove1:  %p\n", to_remove_inf->func);
-
    long long to_remove_inf_adr = (long long) to_remove_inf;  // xd
    obj *to_remove = ((void *) to_remove_inf_adr + sizeof(objectInfo_t));
-    
-  deallocate(to_remove);
+
+   to_remove_inf->func(to_remove);
+   free(to_remove_inf);
+   
+   //deallocate(to_remove);
 }
 
 void cleanup(){
@@ -151,9 +191,15 @@ void cleanup(){
     objectInfo_t *new_first = first_info->next;
      printf("first_info func:%p\n", first_info->func);
 
-     long long first_info_adr = (long long) first_info; // detta e så facking sjukt 
+     long long first_info_adr = (long long) first_info; // detta e så facking sjukt
+
+     obj *first_obj = ( (void *) first_info_adr + sizeof(objectInfo_t));
+
+     //mer eller mindre en deallocate, fast just nu struntar vi i cascade_limit
+     first_info->func(first_obj);
+     free(first_info);
     
-     deallocate( (void *) first_info_adr + sizeof(objectInfo_t));
+     
     
     first_info = new_first;
     
@@ -180,7 +226,7 @@ size_t rc(obj *c)
     {
     return -1;
     }
-  objectInfo_t *objectInfo = c+sizeof(*c) - sizeof(objectInfo_t);
+  objectInfo_t *objectInfo = c - sizeof(objectInfo_t);
   return objectInfo->rf;
 }
 
