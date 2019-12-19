@@ -3,6 +3,7 @@
 a.out
 a.out.dSYM
 memory
+tests
 *.c~
 *.h~
 '#refmem.c#'
