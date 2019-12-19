@@ -82,12 +82,8 @@ void deallocate(obj *c){
   objectInfo_t *objectInfo = c  -  sizeof(objectInfo_t);
   function1_t destructor = objectInfo->func;  
   size_t temp = cascade_limit;
-  printf("destructor dealloc:  %p \n", destructor);
-   remove_this_link(objectInfo);
   destructor(c);
-  //fixa så att när vi delocatar att länken inte finns kvar
-  //vi måst komma åt den som e bakom right? wtf huuur?
-
+  remove_this_link(objectInfo);
   free(objectInfo);
   cascade_limit=temp+1;
   
