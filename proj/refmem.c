@@ -177,23 +177,16 @@ void cleanup(){
   
   while(trav->next != NULL) 
     {
-      printf("---helklo \n");
-      printf("rf in cleanup:  %ld\n",trav->next->rf);
-      printf("destructor in cleanup:  %p\n", trav->next->func);
-
+      
       if(trav->next->rf == 0){
       remove_next_link(trav);
       
     }
-      printf("trav almost at end of while: %p\n", trav);
+      
       if(trav->next != NULL)
         {
       trav = trav->next;
         }
-      printf("alive \n");
-      printf("trav at end of while: %p\n", trav);
-
-      printf("rf trav at end: %ld \n", trav->rf);
   }
 
 

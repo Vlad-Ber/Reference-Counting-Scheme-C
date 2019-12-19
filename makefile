@@ -11,3 +11,12 @@ test: proj/test.c proj/refmem.h proj/hash_table.c proj/list_linked.h proj/common
 
 testValgrind: test
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./tests
+
+
+coverage: proj/test.c proj/refmem.h proj/hash_table.c proj/list_linked.h proj/common.h proj/iterator.h
+	gcc -ggdb -Wall -std=c11 -fprofile-arcs -ftest-coverage proj/test.c -o tests -lcunit -ftest-coverage	-o memory
+	./memory
+	gcov -b test.c
+
+prof_compile: proj/test.c proj/refmem.h proj/hash_table.c proj/list_linked.h proj/common.h proj/iterator.h
+	gcc -pg -Wall proj/test.c -o prof_output -lcunit
