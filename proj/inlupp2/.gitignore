@@ -1,0 +1,14 @@
+# ignore executables & emacs files
+
+a.out
+a.out.dSYM
+memory
+tests
+*~
+.\#*
+*.o
+
+#ignoring coverage files
+*.c.gcov
+*.gcno
+*.gcda
