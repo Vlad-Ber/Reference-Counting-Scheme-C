@@ -6,6 +6,7 @@ memory
 tests
 *~
 .\#*
+*.o
 
 #ignoring coverage files
 *.c.gcov
