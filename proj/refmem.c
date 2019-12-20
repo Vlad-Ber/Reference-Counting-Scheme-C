@@ -37,7 +37,7 @@ void insert(objectInfo_t *objectToInsert)
 }
 
 void default_destructor(obj *c){
-  
+  //generic comment
   printf("\n \n-----DEFAULT DESTRUCTOR \n \n");
   objectInfo_t *current_info = first_info;
   objectInfo_t *c_info = c - sizeof(objectInfo_t);
