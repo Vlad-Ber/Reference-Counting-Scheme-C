@@ -15,10 +15,8 @@ objectInfo_t *last_info = NULL;
 struct objectInfo
 {
   size_t rf;
-  
-  objectInfo_t *next;
-  size_t size;
   function1_t func;
+  objectInfo_t *next;
 };
 
 void insert(objectInfo_t *objectToInsert)
@@ -36,23 +34,6 @@ void insert(objectInfo_t *objectToInsert)
   
 }
 
-void default_destructor(obj *c){
-  objectInfo_t *current_info = first_info;
-  objectInfo_t *c_info = c - sizeof(objectInfo_t);
-  
-  for(size_t i=0; i< c_info->size ; i++){
-    printf("i: %ld \n", i);
-    while(current_info != NULL){
-      printf("current info: %p\n", current_info);
-      if(c+i == current_info+sizeof(objectInfo_t)){
-        printf("if == true \n");
-	release(c);
-      }
-      current_info = current_info->next;
-    }
-  }
-}
-
 obj *allocate(size_t bytes, function1_t destructor)
 {
   obj *data = calloc(1, (sizeof(objectInfo_t) + bytes) );
@@ -60,11 +41,11 @@ obj *allocate(size_t bytes, function1_t destructor)
   objectInfo_t *objectToReturn = data;
   data = data + sizeof(objectInfo_t);
   
-
+  printf("destructor alloc: %p \n", destructor);
+  
   objectToReturn->rf = 0;
   objectToReturn->func = destructor;
-  objectToReturn->size = bytes;
-
+  printf("destructor alloc2: %p \n", objectToReturn->func);
 
   
   insert(objectToReturn);
@@ -72,16 +53,18 @@ obj *allocate(size_t bytes, function1_t destructor)
   return data;
 }
 
+
 obj *allocate_array(size_t elements, size_t elem_size, function1_t destructor)
 {
-  void *data = calloc(elements, (sizeof(objectInfo_t) + elem_size));
-  objectInfo_t *objectToReturn = data;
-  data = data+sizeof(objectInfo_t);
-  objectToReturn->rf=0;
-  objectToReturn->func = destructor;
-  insert(objectToReturn);
-  
-  return data;
+  void *array = calloc(elements, sizeof(objectInfo_t) + elem_size);
+  for (int i=0; i<elements; i++)
+    {
+      objectInfo_t *objectInfo = array + (i*(sizeof(objectInfo_t)+elem_size));
+      objectInfo->rf = 0;
+      objectInfo->func = destructor;
+      insert(objectInfo);
+    }
+  return array+sizeof(objectInfo_t);
 }
 
 
@@ -97,20 +80,14 @@ void retain(obj *c)
 
 void deallocate(obj *c){
   objectInfo_t *objectInfo = c  -  sizeof(objectInfo_t);
-  function1_t destructor = objectInfo->func;
-  if(destructor == NULL)
-    {
-      default_destructor(c);
-    }
-  else{
-    destructor(c);
-  }
+  function1_t destructor = objectInfo->func;  
   size_t temp = cascade_limit;
+  destructor(c);
   remove_this_link(objectInfo);
   free(objectInfo);
   cascade_limit=temp+1;
+  
 }
-
 
 void release(obj *c)
 {
@@ -138,20 +115,17 @@ void release(obj *c)
 }
 
 //////////////////////////////////
-
-
-
 objectInfo_t *find_previous_link(objectInfo_t *this_link){
- 
-  // detta är dumt (skriv i deviation)
+  printf("find precvious link check \n");
+  // detta är ganska kefft men kommer nog funka iaf. dock långsamt.
   objectInfo_t *search = first_info;
   while(search->next != this_link && search->next != NULL){
-
+    printf("search->next : %p\n", search->next);
     search = search->next;
   }
-
+  printf("while done on find prev \n");
   if(search->next == NULL){
-    return this_link;
+    return this_link; // vettefan vad som ska hända då tbh. den här funktionen ska ändå vara gömd för användaren.
   }
   else{
     return search;
@@ -166,7 +140,7 @@ void remove_this_link(objectInfo_t *info){
     return;
   }
   
-
+  printf("remove this link check: %p\n", info);
   // vi måste hitta länken bakom oss right? men det gårt ju inte.
   // Scheiße. vi får srkiva en find previous link funcktion :(((
   objectInfo_t *prev = find_previous_link(info);
@@ -181,6 +155,7 @@ void remove_next_link(objectInfo_t *trav){
   objectInfo_t *to_remove_inf = trav->next;
   trav->next = trav->next->next;
   
+  printf("trav next: %p \n", trav->next);
 
    long long to_remove_inf_adr = (long long) to_remove_inf;  // xd
    obj *to_remove = ((void *) to_remove_inf_adr + sizeof(objectInfo_t));
@@ -202,16 +177,23 @@ void cleanup(){
   
   while(trav->next != NULL) 
     {
-      
+      printf("---helklo \n");
+      printf("rf in cleanup:  %ld\n",trav->next->rf);
+      printf("destructor in cleanup:  %p\n", trav->next->func);
+
       if(trav->next->rf == 0){
       remove_next_link(trav);
       
     }
-      
+      printf("trav almost at end of while: %p\n", trav);
       if(trav->next != NULL)
         {
       trav = trav->next;
         }
+      printf("alive \n");
+      printf("trav at end of while: %p\n", trav);
+
+      printf("rf trav at end: %ld \n", trav->rf);
   }
 
 
@@ -219,7 +201,7 @@ void cleanup(){
   if(first_info->rf == 0){
     
     objectInfo_t *new_first = first_info->next;
-  
+     printf("first_info func:%p\n", first_info->func);
 
      long long first_info_adr = (long long) first_info; // detta e så facking sjukt
 
@@ -242,11 +224,8 @@ void shutdown()
 
   while(current_info != NULL)
     {
-      
       objectInfo_t *next_info = first_info->next;
-      long long current_info_adr = (long long) current_info;
-      
-      deallocate( (void *) current_info_adr + sizeof(objectInfo_t));
+      deallocate(current_info + sizeof(objectInfo_t));
       current_info = next_info;
     }
 }

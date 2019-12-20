@@ -1,6 +1,18 @@
 #include "refmem.c"
 #include <assert.h>
 
+
+struct shell
+{
+  struct shell *shell;
+  char *string;
+  int k;
+  int s;
+  size_t mitocondria;
+  int i;
+  char *string2;
+};
+
 struct cell
 {
   struct cell *cell;
@@ -77,9 +89,16 @@ int main()
 
   cell->i = 2;
   cell2->i = 2;
-  
-  
-  cleanup();
+
+  shutdown();
+
+  struct shell *shell1 = allocate(sizeof(struct shell), NULL);
+  shell1->shell = allocate(sizeof(struct shell), NULL);
+  deallocate(shell1);
+
+  printf("sizeof shell: %ld \n",sizeof(struct shell));
+  //cleanup();
+  //  cleanup();
 
 
   return 0;

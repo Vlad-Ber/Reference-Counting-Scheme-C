@@ -8,6 +8,9 @@
 #include "hash_table.h"
 #include "utils.h"
 #include "common.h"
+#include "../refmem.h"
+#include "buisness_logic.c"
+
 
 #define Free(ptr) {free(ptr); ptr = NULL;}
  
@@ -57,9 +60,94 @@ static int string_knr_hash(elem_t str)
   return result;
 }
 
+static void apply_destroy_order(int ignored, elem_t *order, void *extra)
+{
+  free(order->order_value->merch_name);
+  free(order->order_value);
+}
+
+static void destroy_orders(ioopm_list_t *orders)
+{
+  ioopm_linked_apply_to_all(orders, apply_destroy_order, NULL);
+  ioopm_linked_list_destroy(orders);
+}
+
+static void apply_destroy_cart(int ignored, elem_t *cart, void *extra)
+{
+  destroy_orders(cart->cart_value->order);
+  free(cart->cart_value);
+}
+
+static void apply_destroy_shelfs(int ignored, elem_t *shelf, void *extra)
+{
+  free(shelf->shelf_value->shelf_name);
+  free(shelf->shelf_value);
+}
+
+static void apply_destroy_shelf_name(elem_t shelf_name, elem_t *value, void *extra)
+{
+  free(shelf_name.str_value);
+  free(value->str_value);
+}
+
+static void shelf_list_destroy(ioopm_list_t* shelfs)
+{
+  ioopm_linked_apply_to_all(shelfs, apply_destroy_shelfs, NULL); 
+}
+
+
+static void destroy_merch(ioopm_merch_t *merch_to_destroy)
+{
+  free(merch_to_destroy->name);
+  free(merch_to_destroy->description);
+  shelf_list_destroy(merch_to_destroy->shelf);
+  ioopm_linked_list_destroy(merch_to_destroy->shelf);
+  free(merch_to_destroy);
+}
+
+
+static void apply_destroy_merch(elem_t merch, elem_t *merch_info, void *extra)
+{
+  destroy_merch(merch_info->merch_value);
+}
+
+
+
+
+
+
+
+static void carts_destroy(ioopm_db_t *db)
+{
+  ioopm_linked_apply_to_all(db->carts, apply_destroy_cart, NULL);
+  ioopm_linked_list_destroy(db->carts);
+}
+
+
+static void merch_db_destroy(ioopm_db_t *database)
+{
+  ioopm_hash_table_apply_to_all(database->merch_db, apply_destroy_merch, NULL);
+  ioopm_hash_table_destroy(database->merch_db);
+}
+
+
+static void shelf_db_destroy(ioopm_db_t *database)
+{
+  ioopm_hash_table_apply_to_all(database->shelf_db, apply_destroy_shelf_name, NULL);
+  ioopm_hash_table_destroy(database->shelf_db);
+}
+
+void ioopm_destroy_database(void *db)
+{
+  merch_db_destroy((ioopm_db_t*)db);
+  shelf_db_destroy((ioopm_db_t*)db);
+  carts_destroy((ioopm_db_t*)db);
+  free((ioopm_db_t*)db);
+}
+
 ioopm_db_t *ioopm_database_create()
 {
-  ioopm_db_t *db = calloc (1, sizeof(ioopm_db_t));
+  ioopm_db_t *db = allocate(sizeof(ioopm_db_t), (void (*)(void *)) ioopm_destroy_database);
   db->merch_db = ioopm_hash_table_create(ioopm_eq_function_str, ioopm_eq_function_int, string_knr_hash);
   db->shelf_db = ioopm_hash_table_create(ioopm_eq_function_str, ioopm_eq_function_int, string_knr_hash);
   db->carts = ioopm_linked_list_create(ioopm_eq_function_str);
@@ -98,48 +186,9 @@ static bool merch_exists(ioopm_db_t *db, elem_t merch_to_lookup)
   return ioopm_hash_table_lookup(db->merch_db, merch_to_lookup, merch_information_ptr);
 }
 
-static void apply_destroy_shelfs(int ignored, elem_t *shelf, void *extra)
-{
-  free(shelf->shelf_value->shelf_name);
-  free(shelf->shelf_value);
-}
 
-static void shelf_list_destroy(ioopm_list_t* shelfs)
-{
-  ioopm_linked_apply_to_all(shelfs, apply_destroy_shelfs, NULL); 
-}
 
-static void destroy_merch(ioopm_merch_t *merch_to_destroy)
-{
-  free(merch_to_destroy->name);
-  free(merch_to_destroy->description);
-  shelf_list_destroy(merch_to_destroy->shelf);
-  ioopm_linked_list_destroy(merch_to_destroy->shelf);
-  free(merch_to_destroy);
-}
 
-static void apply_destroy_merch(elem_t merch, elem_t *merch_info, void *extra)
-{
-  destroy_merch(merch_info->merch_value);
-}
-
-static void merch_db_destroy(ioopm_db_t *database)
-{
-  ioopm_hash_table_apply_to_all(database->merch_db, apply_destroy_merch, NULL);
-  ioopm_hash_table_destroy(database->merch_db);
-}
-
-static void apply_destroy_shelf_name(elem_t shelf_name, elem_t *value, void *extra)
-{
-  free(shelf_name.str_value);
-  free(value->str_value);
-}
-
-static void shelf_db_destroy(ioopm_db_t *database)
-{
-  ioopm_hash_table_apply_to_all(database->shelf_db, apply_destroy_shelf_name, NULL);
-  ioopm_hash_table_destroy(database->shelf_db);
-}
 
 ioopm_merch_t *ioopm_create_merch(char *name, char *desc, int price)
 {
@@ -151,37 +200,8 @@ ioopm_merch_t *ioopm_create_merch(char *name, char *desc, int price)
   return new_merch;
 }
 
-static void apply_destroy_order(int ignored, elem_t *order, void *extra)
-{
-  free(order->order_value->merch_name);
-  free(order->order_value);
-}
 
-static void destroy_orders(ioopm_list_t *orders)
-{
-  ioopm_linked_apply_to_all(orders, apply_destroy_order, NULL);
-  ioopm_linked_list_destroy(orders);
-}
 
-static void apply_destroy_cart(int ignored, elem_t *cart, void *extra)
-{
-  destroy_orders(cart->cart_value->order);
-  free(cart->cart_value);
-}
-
-static void carts_destroy(ioopm_db_t *db)
-{
-  ioopm_linked_apply_to_all(db->carts, apply_destroy_cart, NULL);
-  ioopm_linked_list_destroy(db->carts);
-}
-
-void ioopm_destroy_database(ioopm_db_t *db)
-{
-  merch_db_destroy(db);
-  shelf_db_destroy(db);
-  carts_destroy(db);
-  free(db);
-}
 
 void ioopm_add_merch(ioopm_db_t *database, char *name, char *description, int price)
 {

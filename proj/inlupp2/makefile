@@ -6,10 +6,10 @@ CUNIT_LINK	= -lcunit
 %.o:	%.c
 	$(C_COMPILER) $(C_OPTIONS) $? -c
 
-comp: 	list_linked.o hash_table.o buisness_logic.o
+comp: 	list_linked.o hash_table.o buisness_logic.o ../refmem.o
 	$(C_COMPILER) $(C_OPTIONS) -c common.h iterator.h utils.c
 
-test: 	tests.o list_linked.o hash_table.o 
+test: 	tests.o list_linked.o hash_table.o ../refmem.o
 	$(C_COMPILER) $(C_OPTIONS) --coverage common.h iterator.h utils.c $? -o test $(CUNIT_LINK)
 
 test2:	hash_table.c list_linked.c utils.c tests.c 
@@ -24,7 +24,7 @@ lcov: memtest2
 lcov_gen: test
 	genhtml --rc genhtml_branch_coverage=1 . test2.info -o test2-lcov
 
-ui:	UI.o hash_table.o buisness_logic.o utils.o list_linked.o frontend.o
+ui:	UI.o hash_table.o buisness_logic.o utils.o list_linked.o frontend.o ../refmem.o
 	$(C_COMPILER) $(C_OPTIONS) common.h $? -o main
 
 run:	ui
