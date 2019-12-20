@@ -36,37 +36,16 @@ void insert(objectInfo_t *objectToInsert)
   
 }
 
- void default_destructor(obj *c){
-  objectInfo_t *c_info = c - sizeof(objectInfo_t);
-  size_t size = c_info->size;
-    
- 
-  for(size_t t = 1; t < size; t++){
-
-    obj *search_adress = c + t;
-    obj *list_obj = (void *) (long long) first_info + sizeof(objectInfo_t);
-    
-    while(search_adress != list_obj && list_obj != NULL){
-      objectInfo_t *list_obj_info = list_obj - sizeof(objectInfo_t);
-      list_obj_info = list_obj_info ->next;
-
-
-      list_obj = (void *)(long long) list_obj_info + sizeof(objectInfo_t);
-      if(list_obj_info == NULL){
-        break;
+void default_destructor(obj *c){
+  objectInfo_t *current_info = first_info;
+  for(size_t i=0; i<sizeof(c); i++){
+    while(current_info != NULL){
+      if(c+i == current_info+sizeof(objectInfo_t)){
+	release(c);
       }
+      current_info = current_info->next;
     }
-
-    if(list_obj == search_adress){
-      printf("\n list_obj == search_obj \n");
-      
-      release(list_obj);
-      break;
-      
-    }
-    
   }
-    
 }
 
 obj *allocate(size_t bytes, function1_t destructor)
@@ -157,6 +136,8 @@ void release(obj *c)
 }
 
 //////////////////////////////////
+
+
 
 objectInfo_t *find_previous_link(objectInfo_t *this_link){
   printf("find precvious link check \n");
