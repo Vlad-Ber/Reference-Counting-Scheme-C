@@ -41,11 +41,10 @@ obj *allocate(size_t bytes, function1_t destructor)
   objectInfo_t *objectToReturn = data;
   data = data + sizeof(objectInfo_t);
   
-  printf("destructor alloc: %p \n", destructor);
-  
+
   objectToReturn->rf = 0;
   objectToReturn->func = destructor;
-  printf("destructor alloc2: %p \n", objectToReturn->func);
+  
 
   
   insert(objectToReturn);
@@ -53,18 +52,16 @@ obj *allocate(size_t bytes, function1_t destructor)
   return data;
 }
 
-
 obj *allocate_array(size_t elements, size_t elem_size, function1_t destructor)
 {
-  void *array = calloc(elements, sizeof(objectInfo_t) + elem_size);
-  for (int i=0; i<elements; i++)
-    {
-      objectInfo_t *objectInfo = array + (i*(sizeof(objectInfo_t)+elem_size));
-      objectInfo->rf = 0;
-      objectInfo->func = destructor;
-      insert(objectInfo);
-    }
-  return array+sizeof(objectInfo_t);
+  void *data = calloc(elements, (sizeof(objectInfo_t) + elem_size));
+  objectInfo_t *objectToReturn = data;
+  data = data+sizeof(objectInfo_t);
+  objectToReturn->rf=0;
+  objectToReturn->func = destructor;
+  insert(objectToReturn);
+  
+  return data;
 }
 
 
@@ -116,16 +113,16 @@ void release(obj *c)
 
 //////////////////////////////////
 objectInfo_t *find_previous_link(objectInfo_t *this_link){
-  printf("find precvious link check \n");
-  // detta är ganska kefft men kommer nog funka iaf. dock långsamt.
+ 
+  // detta är dumt (skriv i deviation)
   objectInfo_t *search = first_info;
   while(search->next != this_link && search->next != NULL){
-    printf("search->next : %p\n", search->next);
+
     search = search->next;
   }
-  printf("while done on find prev \n");
+
   if(search->next == NULL){
-    return this_link; // vettefan vad som ska hända då tbh. den här funktionen ska ändå vara gömd för användaren.
+    return this_link;
   }
   else{
     return search;
@@ -140,7 +137,7 @@ void remove_this_link(objectInfo_t *info){
     return;
   }
   
-  printf("remove this link check: %p\n", info);
+
   // vi måste hitta länken bakom oss right? men det gårt ju inte.
   // Scheiße. vi får srkiva en find previous link funcktion :(((
   objectInfo_t *prev = find_previous_link(info);
@@ -155,7 +152,6 @@ void remove_next_link(objectInfo_t *trav){
   objectInfo_t *to_remove_inf = trav->next;
   trav->next = trav->next->next;
   
-  printf("trav next: %p \n", trav->next);
 
    long long to_remove_inf_adr = (long long) to_remove_inf;  // xd
    obj *to_remove = ((void *) to_remove_inf_adr + sizeof(objectInfo_t));
@@ -194,7 +190,7 @@ void cleanup(){
   if(first_info->rf == 0){
     
     objectInfo_t *new_first = first_info->next;
-     printf("first_info func:%p\n", first_info->func);
+  
 
      long long first_info_adr = (long long) first_info; // detta e så facking sjukt
 

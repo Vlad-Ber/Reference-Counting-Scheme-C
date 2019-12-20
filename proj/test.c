@@ -103,7 +103,6 @@ void test_release()
   CU_ASSERT_TRUE(c1_Info ->rf == 3);
   CU_ASSERT_TRUE(c2_Info ->rf == 1);
   release(c1);
-  //Denna borde deallocata c2, vi allocerar en ny under release(c2)
   release(c2);
   CU_ASSERT_TRUE(c1_Info ->rf == 2);
   c2 = allocate(sizeof(cell1_t), cell_destructor1);
@@ -226,13 +225,17 @@ void test_allocate()
   objectInfo_t *c1_Info = ((obj *) c1 - sizeof(objectInfo_t));
   objectInfo_t *c2_Info = ((obj *) c2 - sizeof(objectInfo_t));
 
-  CU_ASSERT_TRUE(c1 != c2);
+  void *c1Pointer = c1;
+  void *c2Pointer = c2;
+  CU_ASSERT_TRUE(c1Pointer != c2Pointer);
   CU_ASSERT_TRUE(c1_Info != c2_Info);
 
   c1->cell = allocate(sizeof(cell1_t), cell_destructor1);
   c2->cell = allocate(sizeof(cell2_t), cell_destructor2);
 
-  CU_ASSERT_TRUE(c1->cell != c2->cell);
+  void *c1NextPointer = c1->cell;
+  void*c2NextPointer = c2->cell;
+  CU_ASSERT_TRUE(c1NextPointer != c2NextPointer);
   
   c1->cell->cell = allocate(sizeof(cell1_t), cell_destructor1);
   c2->cell->cell = allocate(sizeof(cell2_t), cell_destructor2);
@@ -245,12 +248,42 @@ void test_allocate()
 
 void test_allocate_array()
 {
+   //IFALL VALGRIND INTE KLAGAR PÅ NÅGOT HÄR FUNKAR allocate_array
+  cell1_t *c1 = allocate_array(5, sizeof(cell1_t), cell_destructor1);
+  cell1_t *c2 = allocate_array(3,sizeof(cell2_t), cell_destructor2);
+  cell1_t *c3 = allocate_array(7, sizeof(cell1_t), cell_destructor1);
+  cell1_t *c4 = allocate_array(10,sizeof(cell2_t), cell_destructor2);
 
+
+  cell1_t *c1Next = c1+sizeof(cell1_t)+sizeof(objectInfo_t);
+
+  retain(c1Next);
+  retain(c1Next->cell);
+  retain(c1);
+  retain(c2);
+
+  deallocate(c1);
+  deallocate(c2);
+  deallocate(c3);
+  deallocate(c4);
+  
+  
 }
 
-void test_deallocate()
-{
+void test_deallocate(){
+  //IFALL VALGRIND INTE KLAGAR PÅ NÅGOT HÄR FUNKAR DEALLOCATE
+  
+  cell1_t *c1 = allocate(sizeof(cell1_t), cell_destructor1);
+  cell2_t *c2 = allocate(sizeof(cell2_t), cell_destructor2);
+  
+  c1->cell = allocate(sizeof(cell1_t), cell_destructor1);
+  c2->cell = allocate(sizeof(cell2_t), cell_destructor2);
+  
+  c1->cell->cell = allocate(sizeof(cell1_t), cell_destructor1);
+  c2->cell->cell = allocate(sizeof(cell2_t), cell_destructor2);
 
+  deallocate(c1);
+  deallocate(c2);
 }
 
 void test_set_cascade_limit()
@@ -282,23 +315,46 @@ void test_cleanup()
   retain(c1);
   retain(c2);
 
-  //TODO: FIX ME!!!
-  //retain(c1->cell);
-  //retain(c2->cell);
+  //TODO: FIX ME!!! (Eller lägg till i deviations)
+  //När vi kör cleanup kommer vi kalla free på c1->cell  då c1->cell==0.
+  //Sen när vi kör release c1 kallas free på c1->cell igen.
+  retain(c1->cell);
+  retain(c2->cell);
 
-  cleanup();
 
   release(c1);
   release(c2);
-  
-  //deallocate(c1);
-  //deallocate(c2);
-  
+
+  cleanup();
 }
 
 void test_shutdown()
-{
 
+{
+  /*
+  cell1_t *c0 = allocate(sizeof(cell1_t), cell_destructor1);
+  cell1_t *c1 = allocate(sizeof(cell1_t), cell_destructor1);
+  cell2_t *c2 = allocate(sizeof(cell2_t), cell_destructor2);
+  cell2_t *c3 = allocate(sizeof(cell2_t), cell_destructor2);
+  
+  c0->cell = allocate(sizeof(cell1_t), cell_destructor1);
+  c1->cell = allocate(sizeof(cell1_t), cell_destructor1);
+  c2->cell = allocate(sizeof(cell2_t), cell_destructor2);
+  c3->cell = allocate(sizeof(cell2_t), cell_destructor2);
+
+  //Vi testar 4 olika scenarion.
+  //c0 == 0, c0->cell = 0
+  //c1 == 1, c1->cell = 1
+  //c2 == 1, c2->cell = 0
+  //c3 == 0, c3->cell = 1
+  retain(c1);
+  retain(c2);
+  retain(c1->cell);
+  retain(c3->cell);
+
+  shutdown();
+  */
+  
 }
 
 
