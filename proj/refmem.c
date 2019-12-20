@@ -15,7 +15,7 @@ objectInfo_t *last_info = NULL;
 struct objectInfo
 {
   size_t rf;
-
+  
   objectInfo_t *next;
   size_t size;
   function1_t func;
@@ -38,9 +38,14 @@ void insert(objectInfo_t *objectToInsert)
 
 void default_destructor(obj *c){
   objectInfo_t *current_info = first_info;
-  for(size_t i=0; i<sizeof(c); i++){
+  objectInfo_t *c_info = c - sizeof(objectInfo_t);
+  
+  for(size_t i=0; i< c_info->size ; i++){
+    printf("i: %ld \n", i);
     while(current_info != NULL){
+      printf("current info: %p\n", current_info);
       if(c+i == current_info+sizeof(objectInfo_t)){
+        printf("if == true \n");
 	release(c);
       }
       current_info = current_info->next;

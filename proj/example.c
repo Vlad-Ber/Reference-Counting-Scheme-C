@@ -95,7 +95,8 @@ int main()
   struct shell *shell1 = allocate(sizeof(struct shell), NULL);
   shell1->shell = allocate(sizeof(struct shell), NULL);
   deallocate(shell1);
-  
+
+  printf("sizeof shell: %ld \n",sizeof(struct shell));
   //cleanup();
   //  cleanup();
 
