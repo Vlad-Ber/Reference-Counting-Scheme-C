@@ -15,8 +15,10 @@ objectInfo_t *last_info = NULL;
 struct objectInfo
 {
   size_t rf;
-  function1_t func;
+
   objectInfo_t *next;
+  size_t size;
+  function1_t func;
 };
 
 void insert(objectInfo_t *objectToInsert)
@@ -34,6 +36,39 @@ void insert(objectInfo_t *objectToInsert)
   
 }
 
+ void default_destructor(obj *c){
+  objectInfo_t *c_info = c - sizeof(objectInfo_t);
+  size_t size = c_info->size;
+    
+ 
+  for(size_t t = 1; t < size; t++){
+
+    obj *search_adress = c + t;
+    obj *list_obj = (void *) (long long) first_info + sizeof(objectInfo_t);
+    
+    while(search_adress != list_obj && list_obj != NULL){
+      objectInfo_t *list_obj_info = list_obj - sizeof(objectInfo_t);
+      list_obj_info = list_obj_info ->next;
+
+
+      list_obj = (void *)(long long) list_obj_info + sizeof(objectInfo_t);
+      if(list_obj_info == NULL){
+        break;
+      }
+    }
+
+    if(list_obj == search_adress){
+      printf("\n list_obj == search_obj \n");
+      
+      release(list_obj);
+      break;
+      
+    }
+    
+  }
+    
+}
+
 obj *allocate(size_t bytes, function1_t destructor)
 {
   obj *data = calloc(1, (sizeof(objectInfo_t) + bytes) );
@@ -45,6 +80,7 @@ obj *allocate(size_t bytes, function1_t destructor)
   
   objectToReturn->rf = 0;
   objectToReturn->func = destructor;
+  objectToReturn->size = bytes;
   printf("destructor alloc2: %p \n", objectToReturn->func);
 
   
@@ -80,14 +116,20 @@ void retain(obj *c)
 
 void deallocate(obj *c){
   objectInfo_t *objectInfo = c  -  sizeof(objectInfo_t);
-  function1_t destructor = objectInfo->func;  
+  function1_t destructor = objectInfo->func;
+  if(destructor == NULL)
+    {
+      default_destructor(c);
+    }
+  else{
+    destructor(c);
+  }
   size_t temp = cascade_limit;
-  destructor(c);
   remove_this_link(objectInfo);
   free(objectInfo);
   cascade_limit=temp+1;
-  
 }
+
 
 void release(obj *c)
 {
@@ -115,6 +157,7 @@ void release(obj *c)
 }
 
 //////////////////////////////////
+
 objectInfo_t *find_previous_link(objectInfo_t *this_link){
   printf("find precvious link check \n");
   // detta är ganska kefft men kommer nog funka iaf. dock långsamt.
@@ -224,8 +267,11 @@ void shutdown()
 
   while(current_info != NULL)
     {
+      
       objectInfo_t *next_info = first_info->next;
-      deallocate(current_info + sizeof(objectInfo_t));
+      long long current_info_adr = (long long) current_info;
+      
+      deallocate( (void *) current_info_adr + sizeof(objectInfo_t));
       current_info = next_info;
     }
 }
