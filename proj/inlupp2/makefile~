@@ -1,0 +1,2 @@
+test: test.c
+	gcc -Wall -g -pedantic tests.c -o test -lcunit
