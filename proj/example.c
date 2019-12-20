@@ -5,12 +5,12 @@
 struct shell
 {
   struct shell *shell;
-  char *string;
+  //  char *string;
   int k;
-  int s;
-  size_t mitocondria;
-  int i;
-  char *string2;
+  //int s;
+  //size_t mitocondria;
+  //int i;
+  //char *string2;
 };
 
 struct cell
@@ -94,9 +94,12 @@ int main()
 
   struct shell *shell1 = allocate(sizeof(struct shell), NULL);
   shell1->shell = allocate(sizeof(struct shell), NULL);
+  shell1->shell->shell = allocate(sizeof(struct shell), NULL);
+  shell1->shell->shell->shell = allocate(sizeof(struct shell), NULL);
+  shell1->shell->shell->shell->shell = allocate(sizeof(struct shell), NULL);
   deallocate(shell1);
 
-  printf("sizeof shell: %ld \n",sizeof(struct shell));
+  //printf("sizeof shell: %ld \n",sizeof(struct shell));
   //cleanup();
   //  cleanup();
 
