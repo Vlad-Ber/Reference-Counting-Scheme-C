@@ -98,7 +98,7 @@ int main()
 
   printf("sizeof shell: %ld \n",sizeof(struct shell));
   //cleanup();
-  //  cleanup();
+  //cleanup();
 
 
   return 0;

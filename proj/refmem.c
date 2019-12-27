@@ -75,13 +75,15 @@ obj *allocate(size_t bytes, function1_t destructor)
 obj *allocate_array(size_t elements, size_t elem_size, function1_t destructor)
 {
   void *data = calloc(elements, (sizeof(objectInfo_t) + elem_size));
-  objectInfo_t *objectToReturn = data;
-  data = data+sizeof(objectInfo_t);
-  objectToReturn->rf=0;
-  objectToReturn->func = destructor;
-  insert(objectToReturn);
   
-  return data;
+  for(int i = 0; i < elements; i++)
+    {
+      objectInfo_t *objectToReturn = data + (i*(sizeof(objectInfo_t)+elem_size));
+      objectToReturn->rf=0;
+      objectToReturn->func = destructor;
+      insert(objectToReturn);
+    }
+  return data+sizeof(objectInfo_t);
 }
 
 
