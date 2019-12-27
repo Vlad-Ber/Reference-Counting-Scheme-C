@@ -254,7 +254,7 @@ void test_allocate_array()
 
   //TODO: Fixa så att detta inte får valgrindfel
   
-  cell1_t *secondCell = c1+sizeof(cell1_t);
+  cell1_t *secondCell = c1+1;
   //c1Next->cell = allocate(sizeof(cell1_t), cell_destructor1);
   secondCell -> k = 5;
 

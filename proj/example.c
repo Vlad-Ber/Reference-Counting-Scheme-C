@@ -104,5 +104,28 @@ int main()
   //cleanup();
 
 
+  struct cell  *arr1 = allocate_array(2, sizeof(struct cell),NULL );
+  retain(arr1);
+  
+  objectInfo_t *arr1_info = (void *) (long long) arr1-sizeof(objectInfo_t);
+
+  struct cell *cello1 = arr1;
+  
+  struct cell *cello2 = arr1 +1;
+  cello2->k = 15;
+  
+
+
+  size_t size_cell =   sizeof(struct cell);
+
+  struct cell *cello2_maybe = (void *) (long long) arr1 + size_cell;
+
+  printf("k val: %d \n ", cello2_maybe->k); 
+  printf("arr1 rc: %ld\n", arr1_info->rf);
+
+  release(arr1);
+  
+  
+  
   return 0;
 }
