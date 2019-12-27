@@ -254,10 +254,13 @@ void test_allocate_array()
 
   //TODO: Fixa så att detta inte får valgrindfel
   
-  cell1_t *c1Next = c1+sizeof(cell1_t)+sizeof(objectInfo_t);
+  cell1_t *secondCell = c1+sizeof(cell1_t);
   //c1Next->cell = allocate(sizeof(cell1_t), cell_destructor1);
+  secondCell -> k = 5;
+
+  CU_ASSERT_TRUE(secondCell-> k == 5);
   
-  retain(c1Next);
+  //retain(secondCell);
   //retain(c1Next->cell);
   
   
