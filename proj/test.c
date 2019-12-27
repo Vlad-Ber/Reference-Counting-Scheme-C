@@ -247,32 +247,35 @@ void test_allocate_array()
 {
    //IFALL VALGRIND INTE KLAGAR PÅ NÅGOT HÄR FUNKAR allocate_array
   cell1_t *c1 = allocate_array(5, sizeof(cell1_t), cell_destructor1);
-  cell1_t *c2 = allocate_array(3,sizeof(cell2_t), cell_destructor2);
-  cell1_t *c3 = allocate_array(7, sizeof(cell1_t), cell_destructor1);
-  cell1_t *c4 = allocate_array(10,sizeof(cell2_t), cell_destructor2);
+  //cell1_t *c2 = allocate_array(3,sizeof(cell2_t), cell_destructor2);
+  //cell1_t *c3 = allocate_array(7, sizeof(cell1_t), cell_destructor1);
+  //cell1_t *c4 = allocate_array(10,sizeof(cell2_t), cell_destructor2);
 
 
   //TODO: Fixa så att detta inte får valgrindfel
-  /*
+  
   cell1_t *c1Next = c1+sizeof(cell1_t)+sizeof(objectInfo_t);
-  c1Next->cell = allocate_array(1,sizeof(cell1_t), cell_destructor1);
+  //c1Next->cell = allocate(sizeof(cell1_t), cell_destructor1);
   
   retain(c1Next);
-  retain(c1Next->cell);
-  */
+  //retain(c1Next->cell);
+  
   
   retain(c1);
-  retain(c2);
+  //release(c1Next->cell);
+  //retain(c2);
 
-  shutdown();
+  //shutdown();
   
-  /*
+  
   deallocate(c1);
+  /*
   deallocate(c2);
   deallocate(c3);
   deallocate(c4);
-  
   */
+  
+  
 }
 
 void test_deallocate(){
