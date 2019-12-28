@@ -1,5 +1,5 @@
 C_COMPILER	= gcc
-C_OPTIONS	= -g -Wall -pedantic -std=c11
+C_OPTIONS	= -g -Wall -std=c11
 VALGRIND	= valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes
 CUNIT_LINK	= -lcunit
 COVERAGE       = -fprofile-arcs -ftest-coverage --coverage

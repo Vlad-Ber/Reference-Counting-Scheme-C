@@ -4,6 +4,8 @@
 #include "list_linked.h"
 #include "refmem.c"
 #include "iterator.h"
+#include <stdio.h>
+#include <string.h>
 
 typedef struct cell1 cell1_t;
 typedef struct cell2 cell2_t;
@@ -11,7 +13,7 @@ typedef struct cell2 cell2_t;
 
 struct cell1
 {
-  struct cell1 *cell;
+  cell1_t *cell;
 
   char *string;
   int k;
@@ -23,14 +25,14 @@ struct cell1
 
 struct cell2
 {
-  struct cell2 *cell;
+  cell2_t *cell;
   char *string;
   int k;
 };
 
 //Destructor funktioner för cell1 och cell2
-void cell_destructor1(obj *c){release(((struct cell1 *) c)->cell);}
-void cell_destructor2(obj *c){release(((struct cell2 *) c)->cell);}
+void cell_destructor1(obj *c){release(((cell1_t *) c)->cell);}
+void cell_destructor2(obj *c){release(((cell2_t *) c)->cell);}
 
 void test_retain()
 {
@@ -247,38 +249,34 @@ void test_allocate_array()
 {
    //IFALL VALGRIND INTE KLAGAR PÅ NÅGOT HÄR FUNKAR allocate_array
   cell1_t *c1 = allocate_array(5, sizeof(cell1_t), cell_destructor1);
-  //cell1_t *c2 = allocate_array(3,sizeof(cell2_t), cell_destructor2);
-  //cell1_t *c3 = allocate_array(7, sizeof(cell1_t), cell_destructor1);
-  //cell1_t *c4 = allocate_array(10,sizeof(cell2_t), cell_destructor2);
+  cell2_t *c2 = allocate_array(3,sizeof(cell2_t), cell_destructor2);
+  cell1_t *c3 = allocate_array(7, sizeof(cell1_t), cell_destructor1);
+  cell2_t *c4 = allocate_array(10,sizeof(cell2_t), cell_destructor2);
 
 
   //TODO: Fixa så att detta inte får valgrindfel
+  cell1_t *secondCellc1 = c1+1;
+  cell1_t *thirdCellc1 = c1+2;
+  cell2_t *secondCellc2 = c2+1;
+  cell1_t *fifthCellc3 = c3+4;
+  cell2_t *tenthCellc4 = c4+9;
   
-  cell1_t *secondCell = c1+1;
-  //c1Next->cell = allocate(sizeof(cell1_t), cell_destructor1);
-  secondCell -> k = 5;
-
-  CU_ASSERT_TRUE(secondCell-> k == 5);
+  secondCellc1 -> k = 5;
+  thirdCellc1 -> k = 10;
+  secondCellc2 -> k = 4;
+  fifthCellc3 ->k = 7;
+  tenthCellc4 ->k = 4;
+  tenthCellc4 ->string = "hej";
+    
   
-  //retain(secondCell);
-  //retain(c1Next->cell);
-  
-  
+  CU_ASSERT_TRUE(secondCellc1-> k == 5);
+  CU_ASSERT_TRUE(thirdCellc1-> k == 10);
+  CU_ASSERT_TRUE(secondCellc2-> k == 4);
+  CU_ASSERT_TRUE(fifthCellc3-> k == 7);
+  CU_ASSERT_TRUE(tenthCellc4-> k == 4);
+  CU_ASSERT_EQUAL(strcmp(tenthCellc4-> string, "hej"), 0);
   retain(c1);
-  //release(c1Next->cell);
-  //retain(c2);
-
-  //shutdown();
-  
-  
-  deallocate(c1);
-  /*
-  deallocate(c2);
-  deallocate(c3);
-  deallocate(c4);
-  */
-  
-  
+  shutdown();    
 }
 
 void test_deallocate(){
@@ -344,7 +342,7 @@ void test_cleanup()
 void test_shutdown()
 
 {
-  /*
+  
   first_info = NULL;
   last_info = NULL;
   
@@ -364,14 +362,13 @@ void test_shutdown()
   //c1 == 1, c1->cell = 1
   //c2 == 1, c2->cell = 0
   //c3 == 0, c3->cell = 1
+  
   retain(c1);
   retain(c2);
   retain(c1->cell);
   retain(c3->cell);
-
-  //shutdown();
   
-  */
+  shutdown();
 }
 
 
