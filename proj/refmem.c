@@ -261,14 +261,21 @@ void shutdown()
 {
   objectInfo_t *current_info = first_info;
 
-  while(current_info != NULL)
+  while(current_info->next != NULL)
     {
-      
-      objectInfo_t *next_info = first_info->next;
+      objectInfo_t *next_info = current_info->next;
       long long current_info_adr = (long long) current_info;
+      if(next_info->next==NULL)
+	{
+	  deallocate( (void *) current_info_adr + sizeof(objectInfo_t));
+	  break;
+	}
+      else{
+	deallocate( (void *) current_info_adr + sizeof(objectInfo_t));
       
-      deallocate( (void *) current_info_adr + sizeof(objectInfo_t));
-      current_info = next_info;
+	current_info = next_info;
+      }
+ 
     }
 }
 

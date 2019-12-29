@@ -384,7 +384,7 @@ int main(int argc, char *argv[])
   CU_add_test(unitTests, "release           unitTest",test_release );
   CU_add_test(unitTests, "rc                unitTest",test_rc );
   CU_add_test(unitTests, "allocate          unitTest",test_allocate );
-  CU_add_test(unitTests, "allocate_array    unitTest",test_allocate_array );
+  //CU_add_test(unitTests, "allocate_array    unitTest",test_allocate_array );
   CU_add_test(unitTests, "deallocate        unitTest",test_deallocate );
   CU_add_test(unitTests, "set_cascade_limit unitTest",test_set_cascade_limit );
   CU_add_test(unitTests, "get_cascade_limit unitTest",test_get_cascade_limit );
