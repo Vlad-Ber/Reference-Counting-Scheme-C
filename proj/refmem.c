@@ -120,7 +120,6 @@ void deallocate(obj *c){
   function1_t destructor = objectInfo->func;
   if(destructor == NULL)
     {
-      printf("samma ?: %p", c);
       default_destructor(c);
     }
   else{

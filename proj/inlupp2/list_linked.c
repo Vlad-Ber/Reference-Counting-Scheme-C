@@ -2,6 +2,7 @@
 #include "iterator.h"
 #include "common.h" 
 #include <stdlib.h>
+#include "refmem.h"
 
 
 bool ioopm_int_eq(elem_t x, elem_t y) { return x.int_value == y.int_value; }
@@ -46,10 +47,22 @@ struct iter
   ioopm_list_t *list;
 };
 
-        
+void ioopm_linked_list_destroy(ioopm_list_t *list)
+{
+  ioopm_link_t *cursor = list->first;
+  while (cursor != NULL)
+    {
+      ioopm_link_t *tmp = cursor;
+      cursor = cursor->next;
+      free(tmp);
+      tmp = NULL;
+    }
+  free (list);
+}
+    
 static ioopm_link_t *link_create(ioopm_link_t *next, elem_t value)
 {
-  ioopm_link_t *link = calloc(1, sizeof(ioopm_link_t));
+  ioopm_link_t *link = allocate(sizeof(ioopm_link_t),(void (*)(void *)) NULL );
   link->value = value;
   link->next = next;
   return link;
@@ -57,7 +70,7 @@ static ioopm_link_t *link_create(ioopm_link_t *next, elem_t value)
 
 ioopm_list_t *ioopm_linked_list_create(ioopm_eq_function eq)
 {
-  ioopm_list_t *list = calloc(1, sizeof(ioopm_list_t));
+  ioopm_list_t *list = allocate(sizeof(ioopm_list_t), (void (*)(void *)) ioopm_linked_list_destroy);
   list->last = NULL;
   ioopm_link_t *first = link_create(list->last, (elem_t){ .ptr_value = NULL });
   list->first = first;
@@ -83,18 +96,6 @@ void ioopm_linked_list_shelf_destroy(ioopm_list_t *list)
   free (list);
 }
 
-void ioopm_linked_list_destroy(ioopm_list_t *list)
-{
-  ioopm_link_t *cursor = list->first;
-  while (cursor != NULL)
-    {
-      ioopm_link_t *tmp = cursor;
-      cursor = cursor->next;
-      free(tmp);
-      tmp = NULL;
-    }
-  free (list);
-}
 
 
 

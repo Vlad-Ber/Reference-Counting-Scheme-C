@@ -3,6 +3,7 @@
 #include <CUnit/CUnit.h>
 #include <string.h>
 #include <assert.h>
+#include "refmem.h"
 
 #define Free(ptr) {free(ptr); ptr = NULL;}
 
@@ -43,15 +44,6 @@ void clear_dummys(ioopm_hash_table_t *ht)
     }
 }
 
-static entry_t *entry_create(elem_t key, elem_t value, entry_t *nextvalue)
-{
-  entry_t *new_entry = calloc(1, sizeof(entry_t));
-  new_entry -> key = key;
-  new_entry -> value = value;
-  new_entry -> next = nextvalue;
-  return new_entry;
-}
-
 //TODO denna ändrad från orginal, anpassad för att fria merch. Möjligt att göra en ny funktion för att förstöra databaser.
 static void entry_destroy(entry_t *entry)
 {
@@ -59,6 +51,16 @@ static void entry_destroy(entry_t *entry)
   //free(entry->value.str_value);
   free(entry);
 }
+
+static entry_t *entry_create(elem_t key, elem_t value, entry_t *nextvalue)
+{
+  entry_t *new_entry = allocate(sizeof(entry_t), (void (*)(void *))entry_destroy);
+  new_entry -> key = key;
+  new_entry -> value = value;
+  new_entry -> next = nextvalue;
+  return new_entry;
+}
+
 
 
 
@@ -98,9 +100,42 @@ static void initialise_dummys(ioopm_hash_table_t *ht)
     }
 }
 
+void ioopm_hash_table_clear(ioopm_hash_table_t *ht)
+{
+  entry_t *entry;
+  entry_t *tempentry;
+  entry_t *dummy; 
+  for(int index = 0; index < ht->no_buckets; index++)
+    {
+      entry = ht->buckets[index];
+
+      if(entry -> next != NULL)
+	{
+	  dummy = entry;
+	  entry = entry->next;
+	  dummy->next= NULL;
+	  while(entry -> next != NULL)
+	    {
+	      tempentry = entry -> next;
+	      entry_destroy(entry);		
+	      entry = tempentry;
+	    }
+	  entry_destroy(entry);
+	}
+    }
+  ht->filled_buckets = 0;
+}
+void ioopm_hash_table_destroy(ioopm_hash_table_t *ht)
+{
+  ioopm_hash_table_clear(ht);
+  clear_dummys(ht);
+  free(ht->buckets);
+  Free(ht);
+}
+
 ioopm_hash_table_t *ioopm_hash_table_create_with_load_factor(ioopm_eq_function compare_key, ioopm_eq_function compare_value, ioopm_hash_function hash_fun, float load_factor, size_t no_buckets)
 {
-  ioopm_hash_table_t *ht = (ioopm_hash_table_t *) calloc(1, sizeof(ioopm_hash_table_t));
+  ioopm_hash_table_t *ht = (ioopm_hash_table_t *)allocate(sizeof(ioopm_hash_table_t),(void (*)(void *)) ioopm_hash_table_destroy);
   ht->compare_key = compare_key;
   ht->compare_value = compare_value;
   if(hash_fun == NULL)
@@ -221,13 +256,7 @@ void ioopm_hash_table_insert(ioopm_hash_table_t *ht, elem_t key, elem_t value)
     }
 }
 
-void ioopm_hash_table_destroy(ioopm_hash_table_t *ht)
-{
-  ioopm_hash_table_clear(ht);
-  clear_dummys(ht);
-  free(ht->buckets);
-  Free(ht);
-}
+
 
 bool ioopm_hash_table_lookup(ioopm_hash_table_t *ht, elem_t key, elem_t *value)
 {
@@ -328,31 +357,7 @@ bool ioopm_hash_table_is_empty(ioopm_hash_table_t *ht)
   return true;
 }
 
-void ioopm_hash_table_clear(ioopm_hash_table_t *ht)
-{
-  entry_t *entry;
-  entry_t *tempentry;
-  entry_t *dummy; 
-  for(int index = 0; index < ht->no_buckets; index++)
-    {
-      entry = ht->buckets[index];
 
-      if(entry -> next != NULL)
-	{
-	  dummy = entry;
-	  entry = entry->next;
-	  dummy->next= NULL;
-	  while(entry -> next != NULL)
-	    {
-	      tempentry = entry -> next;
-	      entry_destroy(entry);		
-	      entry = tempentry;
-	    }
-	  entry_destroy(entry);
-	}
-    }
-  ht->filled_buckets = 0;
-}
 
 
 static ioopm_list_t *create_keys_or_values_list(ioopm_hash_table_t *ht, bool is_key)

@@ -48,17 +48,6 @@ struct database
   int number_of_carts;
 };
 
-static int string_knr_hash(elem_t str)
-{
-  int result = 0;
-  do
-    {
-      result = result * 31 + *str.str_value;
-    }
-  while (*++str.str_value != '\0');
-  if(result < 0) result = -result;
-  return result;
-}
 
 static void apply_destroy_order(int ignored, elem_t *order, void *extra)
 {
@@ -94,17 +83,16 @@ static void shelf_list_destroy(ioopm_list_t* shelfs)
 {
   ioopm_linked_apply_to_all(shelfs, apply_destroy_shelfs, NULL); 
 }
-
-
 static void destroy_merch(ioopm_merch_t *merch_to_destroy)
 {
+  puts("print");
   free(merch_to_destroy->name);
   free(merch_to_destroy->description);
   shelf_list_destroy(merch_to_destroy->shelf);
   ioopm_linked_list_destroy(merch_to_destroy->shelf);
   free(merch_to_destroy);
+  puts("destroy_merch done");
 }
-
 
 static void apply_destroy_merch(elem_t merch, elem_t *merch_info, void *extra)
 {
@@ -145,6 +133,46 @@ void ioopm_destroy_database(void *db)
   free((ioopm_db_t*)db);
 }
 
+static int string_knr_hash(elem_t str)
+{
+  int result = 0;
+  do
+    {
+      result = result * 31 + *str.str_value;
+    }
+  while (*++str.str_value != '\0');
+  if(result < 0) result = -result;
+  return result;
+}
+static elem_t get_value_for_merch(ioopm_db_t *database, elem_t merch)
+{
+  elem_t merch_information;
+  elem_t *merch_information_ptr = &merch_information;
+  ioopm_hash_table_lookup(database->merch_db, merch, merch_information_ptr);
+  return merch_information;
+}
+
+static void remove_specific_merch(ioopm_db_t *database, elem_t merch)
+{
+  elem_t value = get_value_for_merch(database, merch);
+  ioopm_hash_table_remove(database->merch_db, merch);
+  destroy_merch(value.merch_value);
+}
+
+
+
+void ioopm_remove_merch(ioopm_db_t *database, char *merch_to_remove)
+{
+  elem_t key = {.str_value = merch_to_remove};
+  elem_t merch;
+  elem_t *merch_ptr = &merch;
+  if(ioopm_hash_table_lookup(database->merch_db, key, merch_ptr))
+    {
+      remove_specific_merch(database, key);
+    }
+}
+
+
 ioopm_db_t *ioopm_database_create()
 {
   ioopm_db_t *db = allocate(sizeof(ioopm_db_t), (void (*)(void *)) ioopm_destroy_database);
@@ -155,13 +183,6 @@ ioopm_db_t *ioopm_database_create()
   return db;
 }
 
-static elem_t get_value_for_merch(ioopm_db_t *database, elem_t merch)
-{
-  elem_t merch_information;
-  elem_t *merch_information_ptr = &merch_information;
-  ioopm_hash_table_lookup(database->merch_db, merch, merch_information_ptr);
-  return merch_information;
-}
 
 static int get_quantity_for_merch(ioopm_db_t *database, elem_t merch)
 {
@@ -192,7 +213,7 @@ static bool merch_exists(ioopm_db_t *db, elem_t merch_to_lookup)
 
 ioopm_merch_t *ioopm_create_merch(char *name, char *desc, int price)
 {
-  ioopm_merch_t *new_merch = calloc(1, sizeof(ioopm_merch_t));
+  ioopm_merch_t *new_merch = allocate(sizeof(ioopm_merch_t), (void (*)(void *)) ioopm_remove_merch);
   new_merch->shelf = ioopm_linked_list_create(ioopm_eq_function_str);
   new_merch->name = name;
   new_merch->description = desc;
@@ -205,42 +226,19 @@ ioopm_merch_t *ioopm_create_merch(char *name, char *desc, int price)
 
 void ioopm_add_merch(ioopm_db_t *database, char *name, char *description, int price)
 {
-  ioopm_merch_t *new_merch = ioopm_create_merch(name, description, price);
-  elem_t merch_information = {.merch_value = new_merch};
-  elem_t merch_key = {.str_value = new_merch->name};
+  elem_t merch_key = {.str_value = name};
   elem_t ignored_value;
   if(!ioopm_hash_table_lookup(database->merch_db, merch_key, &ignored_value))
     {
+      ioopm_merch_t *new_merch = ioopm_create_merch(name, description, price);
+      elem_t merch_information = {.merch_value = new_merch};
       ioopm_hash_table_insert(database->merch_db, merch_key, merch_information);
     }
-  else
-    {
-      destroy_merch(new_merch);
-    }
 }
 
 
 
 
-static void remove_specific_merch(ioopm_db_t *database, elem_t merch)
-{
-  elem_t value = get_value_for_merch(database, merch);
-  ioopm_hash_table_remove(database->merch_db, merch);
-  destroy_merch(value.merch_value);
-}
-
-
-
-void ioopm_remove_merch(ioopm_db_t *database, char *merch_to_remove)
-{
-  elem_t key = {.str_value = merch_to_remove};
-  elem_t merch;
-  elem_t *merch_ptr = &merch;
-  if(ioopm_hash_table_lookup(database->merch_db, key, merch_ptr))
-    {
-      remove_specific_merch(database, key);
-    }
-}
 
 static void insert_merch(ioopm_db_t *database, ioopm_merch_t *new_merch)
 {

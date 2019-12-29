@@ -28,7 +28,8 @@ void test_add_merch()
   char *desc2 = "a1";
   ioopm_add_merch(db, strdup(name2), strdup(desc2), price);
   CU_ASSERT_TRUE(ioopm_hash_table_size(db->merch_db) == 2);
-  ioopm_destroy_database(db);
+  shutdown();
+  //ioopm_destroy_database(db);
 }
 
 void test_remove_merch()
@@ -267,7 +268,7 @@ int main()
     }
   
   if (
-      (NULL == CU_add_test(test_suite_backend, "add_merch", test_add_merch)) ||
+      (NULL == CU_add_test(test_suite_backend, "add_merch", test_add_merch)) /* ||
       (NULL == CU_add_test(test_suite_backend, "test_remove_merch", test_remove_merch))||
       (NULL == CU_add_test(test_suite_backend, "test_replenish", test_replenish))||
       (NULL == CU_add_test(test_suite_backend, "test_edit_merch", test_edit_merch))||
@@ -277,7 +278,9 @@ int main()
       (NULL == CU_add_test(test_suite_backend, "test_calculate_cost", test_calculate_cost))||
       (NULL == CU_add_test(test_suite_backend, "test_checkout", test_checkout))||
       (NULL == CU_add_test(test_suite_backend, "test_checkout_possible", test_checkout_possible))
+									     */
       )
+									     
     {
       CU_cleanup_registry();
       return CU_get_error();
