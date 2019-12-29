@@ -62,7 +62,7 @@ void ioopm_linked_list_destroy(ioopm_list_t *list)
     
 static ioopm_link_t *link_create(ioopm_link_t *next, elem_t value)
 {
-  ioopm_link_t *link = allocate(sizeof(ioopm_link_t),(void (*)(void *)) NULL );
+  ioopm_link_t *link = allocate( sizeof(ioopm_link_t), (void (*) (void *)) NULL);
   link->value = value;
   link->next = next;
   return link;
