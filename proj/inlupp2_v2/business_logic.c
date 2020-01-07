@@ -305,7 +305,7 @@ static void warehouse_destroy_aux(ioopm_hash_table_t *warehouse, ioopm_hash_tabl
     free(merch_to_remove->name);
     free(merch_to_remove->description);
     //free the struct
-    deallocate(merch_to_remove);
+    release(merch_to_remove);
     //free the linked list of keys 
   }
 }

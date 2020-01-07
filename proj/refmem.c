@@ -21,6 +21,8 @@ struct objectInfo
   function1_t func;
 };
 
+void doNothing(obj *c){}
+
 void insert(objectInfo_t *objectToInsert)
 {
     if(first_info == NULL)

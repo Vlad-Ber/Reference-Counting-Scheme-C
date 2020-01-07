@@ -22,9 +22,9 @@ void test_add_merch()
   char *Solros = strdup("Solros");char *Gul = strdup ("Gul");
 
   //ADD merchendise to warehouse
-  //warehouse_add_merch_with_fields(warehouse, Boll, Rund, 1, NULL);
-  //warehouse_add_merch_with_fields(warehouse, space, Varm, 200, NULL);
-  /*
+  warehouse_add_merch_with_fields(warehouse, Boll, Rund, 1, NULL);
+  warehouse_add_merch_with_fields(warehouse, space, Varm, 200, NULL);
+  
   warehouse_add_merch_with_fields(warehouse, Skog, Trad, 50, NULL);
   warehouse_add_merch_with_fields(warehouse, Leksak, Rod, 54, NULL);
   warehouse_add_merch_with_fields(warehouse, Solros, Gul, 5, NULL);
@@ -48,7 +48,7 @@ void test_add_merch()
   desc = merch_getdesc(warehouse, "Solros");
   CU_ASSERT_STRING_EQUAL("Gul", desc);
 
-  */
+  
   warehouse_destroy(warehouse, NULL, NULL);
 }
 
