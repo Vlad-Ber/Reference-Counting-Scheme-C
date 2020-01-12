@@ -786,9 +786,10 @@ int main()
   
   CU_pSuite suite_base = CU_add_suite("Base functions", NULL, NULL);
   CU_add_test(suite_base, "add_merch", test_add_merch);
-  /*
   CU_add_test(suite_base, "remove merch", test_remove_merch);
+  
   CU_add_test(suite_base, "replenish merch", test_replenish_merch);
+  
   CU_add_test(suite_base, "edit merch", test_edit_merch);
   CU_add_test(suite_base, "add to cart", test_add_to_cart);
   CU_add_test(suite_base, "calculate cost", test_calculate_cost);
@@ -804,7 +805,7 @@ int main()
   // CU_add_test(suite_static, "remove cart_merch_with index", test_remove_cart_merch_with_index);
 
   //CU_add_test(suite_static, "get_cart_index", test_get_cart_index);
-  CU_add_test(suite_static, "remove w/ cart", test_remove_with_cart);*/
+  CU_add_test(suite_static, "remove w/ cart", test_remove_with_cart);
     
   
   CU_basic_run_tests();

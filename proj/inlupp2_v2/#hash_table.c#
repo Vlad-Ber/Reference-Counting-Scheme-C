@@ -15,6 +15,7 @@ typedef bool(*bucket_pred)(ioopm_hash_table_t *ht, entry_t *cursor, elem_t eleme
 // --------------------------
 // STRUCTS
 
+
 struct entry
 {
   elem_t key;       // holds the key
@@ -35,6 +36,7 @@ struct hash_table
 
 // --------------------------
 // STATIC FUNCTIONS
+static void doNothing(obj *c){}
 
 static bool key_in_bucket(ioopm_hash_table_t *ht, entry_t *cursor, elem_t key)
 {
@@ -67,7 +69,7 @@ static bool has_aux(ioopm_hash_table_t *ht, elem_t element, bucket_pred predicat
   for(size_t i = 0; i < ht->nr_of_buckets && !pred_result; ++i)
   {
     dummy = &ht->buckets[i];
-    cursor = dummy->next;
+    cursor = dummy->next;d
 
     pred_result = predicate(ht, cursor, element);
   }
@@ -98,7 +100,8 @@ static entry_t *find_previous_entry_for_key(ioopm_hash_table_t *ht, entry_t *cur
 static entry_t *entry_create(elem_t key, elem_t value, entry_t *next)
 {
   //add values to new entry and allocate space for it
-  entry_t *new_entry = allocate(sizeof(entry_t), NULL);
+  entry_t *new_entry = allocate(sizeof(entry_t), doNothing);
+  retain(new_entry);
   new_entry->key = key;
   new_entry->value = value;
   new_entry->next = next;
@@ -110,7 +113,7 @@ static entry_t *entry_create(elem_t key, elem_t value, entry_t *next)
 //Deallocates an entry from the heap
 static void entry_destroy(entry_t *entry)
 {
-  deallocate(entry);
+  release(entry);
 }
 
 static void clear_entry_chain(entry_t *cursor)
@@ -118,7 +121,7 @@ static void clear_entry_chain(entry_t *cursor)
   if(cursor)
   {
     entry_t *next = cursor->next;
-    deallocate(cursor);
+    release(cursor);
     clear_entry_chain(next);
   }
 }
@@ -230,7 +233,8 @@ ioopm_hash_table_t *ioopm_hash_table_create(ioopm_hash_function hash_func, ioopm
   assert(value_eq_func);
   
   // Allocate and initialize the hash table
-  ioopm_hash_table_t *result = allocate(sizeof(ioopm_hash_table_t), NULL);
+  ioopm_hash_table_t *result = allocate(sizeof(ioopm_hash_table_t), doNothing);
+  retain(result);
   result->nr_of_buckets = NR_BUCKETS_INITIAL;
   result->buckets = calloc(NR_BUCKETS_INITIAL, sizeof(entry_t));
   result->hash_func = hash_func;
@@ -310,7 +314,7 @@ void ioopm_hash_table_destroy(ioopm_hash_table_t *ht)
   {
     ioopm_hash_table_clear(ht);
     free(ht->buckets);
-    deallocate(ht);
+    release(ht);
   }
 }
 

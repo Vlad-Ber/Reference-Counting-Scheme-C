@@ -63,7 +63,7 @@ static bool str_compare(elem_t elem1, elem_t elem2)
 
 static elem_t create_stock(char *shelf, int amount)
 {
-  stock_t *stock_information = allocate(sizeof(stock_t), NULL);
+  stock_t *stock_information = allocate(sizeof(stock_t), doNothing);
   stock_information->location = shelf;
   stock_information->amount = amount;
   elem_t stock_p;
@@ -314,7 +314,7 @@ void warehouse_add_merch_with_fields(ioopm_hash_table_t *warehouse, char *name, 
 {
   
   //Allocate space for the merch struct
-  merch_t *merch_to_add = allocate(sizeof(merch_t), NULL);
+  merch_t *merch_to_add = allocate(sizeof(merch_t), doNothing);
   
   //Set user inputs as fields of merch
   merch_to_add->name = name;
@@ -549,7 +549,7 @@ void warehouse_list_locations(ioopm_hash_table_t *warehouse, elem_t key)
 
 void warehouse_add_cart(ioopm_list_t *list_of_carts)
 {
-  cart_t *cart = allocate(sizeof(cart_t), NULL);
+  cart_t *cart = allocate(sizeof(cart_t), doNothing);
 
   int index_of_cart = get_next_cart_index();
   cart->index = index_of_cart;
@@ -621,7 +621,7 @@ void add_merchandise_to_cart_with_index(ioopm_hash_table_t *warehouse, \
 
   if(!cart_item_exists(list_of_merch, name_of_merch, index, user_amount))
     {
-      cart_item_t *cart_item = allocate(sizeof(cart_item_t), NULL);
+      cart_item_t *cart_item = allocate(sizeof(cart_item_t), doNothing);
   
       cart_item->merch = merch_to_insert;
       cart_item->amount = user_amount;

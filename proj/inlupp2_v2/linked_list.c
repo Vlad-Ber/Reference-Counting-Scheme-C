@@ -20,7 +20,7 @@ struct link
   link_t *next;     //points to next link
 };
 
-
+static void doNothing(obj *c){}
 int ioopm_list_size(ioopm_list_t *list)
 {
   return(list->size);
@@ -29,8 +29,8 @@ int ioopm_list_size(ioopm_list_t *list)
 
 ioopm_list_t *ioopm_linked_list_create(ioopm_eq_function equal) 
 {
-  ioopm_list_t *list = allocate(sizeof(ioopm_list_t), NULL);
-  link_t *dummy = allocate(sizeof(link_t), NULL);
+  ioopm_list_t *list = allocate(sizeof(ioopm_list_t), doNothing);
+  link_t *dummy = allocate(sizeof(link_t), doNothing);
   list->equals = equal;
   list->head = dummy;
   list->tail = dummy;
@@ -40,7 +40,7 @@ ioopm_list_t *ioopm_linked_list_create(ioopm_eq_function equal)
 
 static link_t *link_create(elem_t val, link_t *next) 
 {
-  link_t *link = allocate(sizeof(link_t),NULL);
+  link_t *link = allocate(sizeof(link_t), doNothing);
   link->val = val;
   link->next = next;
   return link;

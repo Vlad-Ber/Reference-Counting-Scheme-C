@@ -122,10 +122,10 @@ void deallocate(obj *c){
   function1_t destructor = objectInfo->func;
   if(destructor == NULL)
     {
-      default_destructor(c);
+      //default_destructor(c);
     }
   else{
-    destructor(c);
+    //destructor(c);
   }
   size_t temp = cascade_limit;
   remove_this_link(objectInfo);

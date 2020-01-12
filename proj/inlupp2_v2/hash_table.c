@@ -36,7 +36,7 @@ struct hash_table
 
 // --------------------------
 // STATIC FUNCTIONS
-static void doNothing(obj *c){}
+void doNothing(obj *c){}
 
 static bool key_in_bucket(ioopm_hash_table_t *ht, entry_t *cursor, elem_t key)
 {

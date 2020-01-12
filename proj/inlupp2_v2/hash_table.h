@@ -26,11 +26,13 @@
  * @see http://wrigstad.com/ioopm19/assignments/assignment1.html
  */
 
+typedef void obj;
 typedef struct hash_table ioopm_hash_table_t;
 typedef bool(*ioopm_hash_predicate)(elem_t key, elem_t value, void *extra);
 typedef void(*ioopm_hash_apply_function)(elem_t key, elem_t *value, void *extra);
 typedef size_t(*ioopm_hash_function)(elem_t key); 
 
+void doNothing(obj *c);
 /// @brief Create a new hash table
 /// @param hash_func The hash function to be used on each key
 /// @param key_eq_func The function to compare keys for equality
