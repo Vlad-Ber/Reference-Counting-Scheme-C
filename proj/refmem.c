@@ -4,7 +4,7 @@
 #include "refmem.h"
 #include <assert.h>
 
-size_t cascade_limit= 10;
+size_t cascade_limit= 20;
 obj *last_cascade = NULL;
 
 objectInfo_t *first_info = NULL;
@@ -85,7 +85,7 @@ obj *allocate(size_t bytes, function1_t destructor)
   objectToReturn->size = bytes;
 
 
-  
+    //c3 == 0, c3->cell = 1
   insert(objectToReturn);
   
   return data;
@@ -93,17 +93,20 @@ obj *allocate(size_t bytes, function1_t destructor)
 
 obj *allocate_array(size_t elements, size_t elem_size, function1_t destructor)
 {
-  void *data = calloc(elements, ((sizeof(objectInfo_t)/elements) +1 + elem_size));
+  obj *data = calloc(elements, ((sizeof(objectInfo_t)/elements) +1 + elem_size));
 
   objectInfo_t *objectToReturn = data;
+  data = data + sizeof(objectInfo_t);
+  
   objectToReturn->func = destructor;
   objectToReturn->size = elem_size*elements;
-  objectToReturn->rf=0;
-  insert(objectToReturn);
+  objectToReturn->rf = 0;
 
 
   
-  return data+sizeof(objectInfo_t);
+  insert(objectToReturn);
+  
+  return data;
 }
 
 
@@ -184,10 +187,13 @@ objectInfo_t *find_previous_link(objectInfo_t *this_link){
 void remove_this_link(objectInfo_t *info){
 
   if(info == first_info){
-    first_info = info->next;
+    first_info = first_info->next;
     return;
   }
-  
+  if(info == last_info && first_info == NULL){
+    last_info = NULL;
+    return;
+  }
 
   // vi måste hitta länken bakom oss right? men det gårt ju inte.
   // Scheiße. vi får srkiva en find previous link funcktion :(((
@@ -261,23 +267,22 @@ void cleanup(){
 void shutdown()
 {
   objectInfo_t *current_info = first_info;
-
-  while(current_info->next != NULL)
-    {
-      objectInfo_t *next_info = current_info->next;
-      long long current_info_adr = (long long) current_info;
-      if(next_info->next==NULL)
-	{
-	  deallocate( (void *) current_info_adr + sizeof(objectInfo_t));
-	  break;
-	}
-      else{
-	deallocate( (void *) current_info_adr + sizeof(objectInfo_t));
-      
-	current_info = next_info;
+  
+  while(current_info->next != NULL){
+    objectInfo_t *next = current_info->next;
+    long long current_info_adr = (long long) current_info;
+    deallocate( (void *) current_info_adr + sizeof(objectInfo_t));
+    current_info = next;
+    if(first_info == NULL)
+      {
+	break;
       }
- 
+    if (current_info->next == NULL){
+      current_info_adr = (long long) current_info;
+      deallocate( (void *) current_info_adr + sizeof(objectInfo_t));
+      break;
     }
+  }
 }
 
 
