@@ -30,7 +30,9 @@ int ioopm_list_size(ioopm_list_t *list)
 ioopm_list_t *ioopm_linked_list_create(ioopm_eq_function equal) 
 {
   ioopm_list_t *list = allocate(sizeof(ioopm_list_t), doNothing);
+  retain(list);
   link_t *dummy = allocate(sizeof(link_t), doNothing);
+  retain(dummy);
   list->equals = equal;
   list->head = dummy;
   list->tail = dummy;
@@ -41,6 +43,7 @@ ioopm_list_t *ioopm_linked_list_create(ioopm_eq_function equal)
 static link_t *link_create(elem_t val, link_t *next) 
 {
   link_t *link = allocate(sizeof(link_t), doNothing);
+  retain(link);
   link->val = val;
   link->next = next;
   return link;
@@ -70,14 +73,14 @@ void ioopm_linked_list_prepend(ioopm_list_t *list, elem_t val)
 
 static void link_destroy(link_t *link)
 {
-  deallocate(link);
+  release(link);
 }
 
 void ioopm_linked_list_destroy(ioopm_list_t *list)
 {
   ioopm_linked_list_clear(list);
-  deallocate(list->head);
-  deallocate(list);
+  release(list->head);
+  release(list);
 }
 
 void ioopm_linked_list_clear(ioopm_list_t *list)

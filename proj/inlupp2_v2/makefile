@@ -23,7 +23,7 @@ WAREHOUSE_DEPS		= utils.h user_interface.h business_logic.h main.c $(HASH_TABLE_
 WAREHOUSE_OBJS		= $(HASH_TABLE_DEPS) user_interface.o business_logic.o utils.o hash_table.o linked_list.o
 WAREHOUSE_TOBJS 	= hash_table.o linked_list.o test_warehouse.o user_interface.o business_logic.o utils.o $(HASH_TABLE_DEPS)
 
-PROF_OBJS		= freq_count.o hash_table.o linked_list.o
+PROF_OBJS		= refmem.c business_logic.o hash_table.o linked_list.o
 
 FREQ_DEFAULT_ARG	= 16k-words.txt
 
@@ -83,5 +83,19 @@ memcheck: compile
 	valgrind --leak-check=full ./warehouse
 
 mem: test_warehouse
-	valgrind --leak-check=yes -v ./test_warehouse
+	valgrind --leak-check=yes ./test_warehouse
+
+
+#---------
+# Profiling
+
+prof_objs: $(WAREHOUSE_TOBJS) iterator.h common.h
+	$(C_COMPILER) $(C_OPTIONS) $(WAREHOUSE_TOBJS) -pg -o $@ $(CUNIT_LINK)
+
+prof: prof_objs
+	rm -f gmon.out
+	./prof_objs
+	gprof gmon.out prof_objs > profile.txt
+	more profile.txt
+
 

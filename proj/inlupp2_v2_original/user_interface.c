@@ -167,7 +167,7 @@ static char **print_names_of_merch(ioopm_list_t *list_of_values, size_t nr_of_va
 }
 
 
-static char *ask_question_shelf(char *question)
+char *ask_question_shelf(char *question)
 {
   char *user_input;
   bool right_format_shelf = false;

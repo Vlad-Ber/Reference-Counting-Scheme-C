@@ -1,182 +1,261 @@
-#include <stdlib.h>
+#include "utils.h"
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
 #include <ctype.h>
-#include "utils.h"
+#include <stdlib.h>
 
-extern char* strdup(const char*);
 
-void swap(int *a, int *b)
-{
-  int temp = *a;
-  *a = *b;
-  *b = temp;
-}
 
-void clear_input_buffer()
-{
-  int c;
+answer_t ask_question(char *question, check_func check, convert_func convert){
+
+  int str_siz = 255;
+  char str[str_siz];
+  int conversions = 0;
   do
     {
-      c = getchar();
-    } while (c != '\n' && c != EOF);
+      printf("%s", question);
+      read_string(str, 255);
+      conversions = check(str);
+    }
+  while (!conversions);
+
+  return convert(str);
 }
 
-int read_string(char* buf, int buf_size)
+bool not_empty(char *str)
 {
-  int counter = 0;
-  char tmp = getchar();
-  bool bufferFull;
-
-  while(tmp != '\n' && tmp != EOF && !bufferFull)
-  {
-    buf[counter] = tmp;
-    ++counter;
-    bufferFull = (counter >= buf_size-1);
-    tmp = getchar();
-  }
-
-  buf[counter] = '\0'; //Add null terminator
-  
-  if(bufferFull)
-    clear_input_buffer();
-  
-  return counter;
+  if (strlen(str) >0)
+    {
+      return true;
+    }
+  return false;
 }
 
-bool is_number(char* str)
-{
-  bool isNumber = true;
-  int strLength = strlen(str);
 
-  for(int i = 1; i < strLength && isNumber; ++i)
-    isNumber = isdigit(str[i]);
+int read_string(char *buf, int buf_siz){
+  int i = 0;
+  char mychar;
+
   
-  return isNumber && (str[0] == '-' || isdigit(str[0]));
-}
-
-int foldl_int_int(int numbers[], int numbers_size, int_fold_func f)
-{
-  int result = 0;
-
-  for(int i = 0; i < numbers_size; ++i)
-  {
-    result = f(result, numbers[i]);
+  do {
+    if (i < buf_siz -1) {
+      mychar = getchar();
+      buf[i] = mychar;
+      i++;
+      }
+    
   }
   
-  return result;
+  while(mychar != '\n'); 
+    buf[i -1] = '\0';
+
+    
+    return i -1;  
 }
 
-int fib(int num)
-{
-  switch(num)
-  {
-  case 0:
-    return 0;
-  case 1:
-    return 1;
-  default:
-    return fib(num-1) + fib(num-2);
-  }
-}
 
-long rec_sum(int numbers[], int numbers_size, int index)
-{
-  if (index < numbers_size)
-    return numbers[index] + rec_sum(numbers, numbers_size, index+1);
-  else
-    return 0;
-}
 
-int add(int a, int b)
-{
-  return a + b;
-}
-
-long sum(int numbers[], int numbers_size)
-{
-  return foldl_int_int(numbers, numbers_size, add);
-}
-
-answer_t ask_question(char* question, check_func check, convert_func convert)
-{
-  int bufferSize = 255;
-  int sizeOfInput; //Unused for now
-  char buffer[bufferSize];
-  answer_t answer;
-
-  do
-  {
-    printf("%s\n",question);
-    sizeOfInput = read_string(buffer, bufferSize);
-  } while(!check(buffer) && sizeOfInput > 0);
-
-  //Convert the input
-  answer = convert(buffer);
+bool is_p_number(char *str){
   
-  return answer;
+  int length= strlen(str);
+  bool number = true;
+  if(isdigit(str[0])) {
+  for(int i=1; i < length; i++){
+    int x = isdigit(str[i]);
+    if(x==0)  {
+      number = false;
+    }
+   }
+  }
+  else {
+    number = false;
+  }
+  if(!number) {printf("Enter a positive number \n");}  
+  return number;
 }
 
-int ask_question_int(char* question)
+
+int ask_question_int(char *question)
 {
-  answer_t answer = ask_question(question, is_number, (convert_func) atoi);
-  return answer.int_value;
+  answer_t answer = ask_question(question, is_p_number, (convert_func) atoi);
+  return answer.int_value; // svaret som ett heltal
 }
 
-char* ask_question_string(char* question)
+
+
+
+
+/*
+char *ask_question_string(char *question, char *buf, int buf_siz){
+
+  int i = 0;
+  while(i == 0){
+    printf("%s", question);
+    i = read_string(buf, buf_siz);
+    
+    
+  }
+  return buf;
+}
+*/
+
+
+
+
+bool is_number(char *str)
 {
+  
+  int length= strlen(str);
+  bool number = true;
+
+  if(str[0]=='-' || isdigit(str[0])) {
+  
+  for(int i=1; i < length; i++){
+    int x = isdigit(str[i]);
+
+    if(x==0)  {
+      number = false;
+
+    }
+   }
+  }
+  else {
+    number = false;
+
+  
+  }
+  if(!number) {printf("inte en int \n");}
+
+  
+  return number;
+}
+
+
+
+
+
+
+bool is_float(char *str)
+{
+  
+  int length= strlen(str);
+  bool floatnum = true;
+
+  if(str[0]=='-' || isdigit(str[0])) {
+  
+  for(int i=1; i < length; i++){
+    int x = isdigit(str[i]);
+
+    if(x==0 && (str[i]))  {
+      floatnum = false;}
+   }
+  }
+  else {
+    floatnum = false;
+
+  
+  }
+  if(!floatnum) {printf("inte en float \n");}
+
+  
+  return floatnum;
+  
+  
+}
+
+
+
+answer_t make_float(char *str)
+{
+  return (answer_t) { .float_value = atof(str) };
+}
+
+double ask_question_float(char *question)
+{
+  return ask_question(question, is_float, make_float).float_value;
+}
+
+
+
+char *ask_question_string(char *question) {
+  
+
   return ask_question(question, not_empty, (convert_func) strdup).string_value;
 }
 
-bool not_empty(char* str)
-{
-  return strlen(str) > 0;
-}
 
-void print(char *str)
-{
-  while(*str != '\0')
-  {
-    putchar(*str);
-    str++;
-  }
-}
+bool is_shelf(char *str){
+  bool shelf = true;
+  int length = strlen(str);
 
-void println(char *str)
-{
-  while(*str != '\0')
-  {
-    putchar(*str);
-    str++;
-  }
-  putchar('\n');
-}
-
-char *trim(char *str)
-{
-  char *start = str;
-  char *end = start + strlen(str)-1;
-
-  while (isspace(*start)) ++start;
-  while (isspace(*end)) --end;
-
-  char *cursor = str;
-  for(; start <= end; ++start, ++cursor)
-  {
-    *cursor = *start;
-  }
-  *cursor = '\0';
   
-  return str;
+  if (isupper(str[0] ) && length >= 3){
+    for(int i=1; i < length; i++){
+      if (!(isdigit(str[i]))) shelf = false; 
+    }
+  }
+  else {
+    shelf = false;
+  }
+ 
+  if (shelf==false){
+    printf("Enter a shelf. \n");
+  }
+  return shelf;
+}
+
+/*char *ask_question_shelf(char *question){
+  return ask_question(question, is_shelf, (convert_func) strdup).string_value;
+}
+*/
+
+bool is_menu(char *str){
+  if (strlen(str)>1) {
+    printf("inte ett alternativ");
+    return false;
+  }
+    char input = toupper(*str);
+  if(input == 'L' || input == 'T' ||input == 'R' ||input == 'G' ||input == 'H' ||input == 'A') {
+    return true;
+      }
+  else {
+    printf("inte ett alternativ");
+    return false;
+  }
 }
 
 /*
-int main()
+int main(void)
 {
-  char myStr[] = {'R','O','F','L','\0'};
-  print(myStr);
-  println(myStr);
   
+  int tal;
+  
+  tal = ask_question_int("Första talet:");
+  printf("Du skrev '%d'\n", tal);
+
+  tal = ask_question_int("Andra talet:");
+  printf("Du skrev '%d'\n", tal);
+  
+
+  int buf_siz = 255;
+  int read = 0;
+  char buf[buf_siz];
+
+  
+  puts("Läs in en sträng:");
+  read = read_string(buf, buf_siz);
+  printf("'%s' (%d tecken)\n", buf, read);
+
+  puts("Läs in en sträng till:");
+  read = read_string(buf, buf_siz);
+  printf("'%s' (%d tecken)\n", buf, read);
+  
+
+  strcpy(buf, ask_question_string("skriv nåt \n"));
+ printf("%s \n",buf);
   return 0;
-}*/
+}
+
+
+*/

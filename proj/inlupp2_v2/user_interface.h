@@ -11,6 +11,7 @@
  * @brief User interface module for inventory manager
 */
 
+char *ask_question_shelf(char *question);
 /// @brief Prints the menu for the user and is the running loop of the program
 /// @param warehouse hash table used to store merch
 /// @param shelf_db hash table used to store merch name

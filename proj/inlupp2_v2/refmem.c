@@ -30,10 +30,9 @@ void insert(objectInfo_t *objectToInsert)
     }
   else
     {
-      last_info->next = objectToInsert ;
+      last_info->next = objectToInsert;
       last_info = objectToInsert;
     }
-  
 }
 
 void default_destructor(obj *c){
@@ -123,7 +122,7 @@ void deallocate(obj *c){
       default_destructor(c);
     }
   else{
-    destructor(c);
+     destructor(c);
   }
   size_t temp = cascade_limit;
   remove_this_link(objectInfo);
@@ -185,15 +184,16 @@ void remove_this_link(objectInfo_t *info){
     first_info = info->next;
     return;
   }
-  
-
-  // vi måste hitta länken bakom oss right? men det gårt ju inte.
-  // Scheiße. vi får srkiva en find previous link funcktion :(((
   objectInfo_t *prev = find_previous_linkk(info);
-
+  if(info == last_info){
+    prev->next = NULL;
+    last_info = prev;
+    return;
+  }
+  
   prev->next = info->next;
 }
-///////////////////////////////////
+
 
 
 
