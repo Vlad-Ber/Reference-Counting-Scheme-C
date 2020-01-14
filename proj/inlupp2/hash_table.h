@@ -45,7 +45,7 @@ ioopm_hash_table_t *ioopm_hash_table_create_with_load_factor(ioopm_eq_function c
 
 /// @brief add key => value entry in hash table ht, if the key exist the value is replased by the new value.
 /// @param ht hash table operated upon
-/// @param key key to insert. If int_value of key is less than 0 errno is set to EINVAL. 
+/// @param key key to insert. If int_value of key is less than 0 errno is set to EINVAL.
 /// @param value value to insert, can't be the empty string ("").
 void ioopm_hash_table_insert(ioopm_hash_table_t *ht, elem_t key, elem_t value);
 

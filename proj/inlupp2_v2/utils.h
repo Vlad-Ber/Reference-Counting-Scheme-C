@@ -5,10 +5,11 @@
 
 
 
-typedef union { 
-  int   int_value;
-  float float_value;
-  char *string_value;
+typedef union
+{
+    int   int_value;
+    float float_value;
+    char *string_value;
 } answer_t;
 
 typedef bool(*check_func)(char *str);

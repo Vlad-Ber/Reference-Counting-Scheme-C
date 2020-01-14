@@ -6,10 +6,10 @@
 
 /**
  * @file refmem.h
- * @authors Adam Axelsson, Vlad Bertilsson,  Carl Hasselberg, Ellinor Hallmén, 
+ * @authors Adam Axelsson, Vlad Bertilsson,  Carl Hasselberg, Ellinor Hallmén,
 Ali Hoseini, Erik Junghahn, Miranda Kiss-Deáki
  * @date 200114
- * @brief Functions for allocating and deallocating data, by keeping 
+ * @brief Functions for allocating and deallocating data, by keeping
  * track of pointers and manually managing memory with pointer arithmatics.
  *
  * @see http://wrigstad.com/ioopm19/projects/project1.html
@@ -39,8 +39,8 @@ void release(obj *);
 size_t rc(obj *);
 
 /// @brief allocates memory for an object and its objectInfo, which contains rf 0, a destructor function and the size
-/// @param bytes the size of the object in size_t 
-/// @param destructor the object's destroy function 
+/// @param bytes the size of the object in size_t
+/// @param destructor the object's destroy function
 /// @return an obj* pointer to the object
 obj *allocate(size_t bytes, function1_t destructor);
 
@@ -59,7 +59,7 @@ void deallocate(obj *);
 /// @param limit size_t of chosen limit
 void set_cascade_limit(size_t limit);
 
-/// @brief gets the value of current cascade limit 
+/// @brief gets the value of current cascade limit
 /// @return size_t cascade limit
 size_t get_cascade_limit();
 

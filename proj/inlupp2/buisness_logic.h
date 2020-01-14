@@ -37,7 +37,7 @@ void ioopm_create_cart(ioopm_db_t *database);
 /// @sideeffect Frees the memory for the cart removed.
 /// @param database the database to be operated upon.
 /// @param cart_id, the id of the cart to remove.
-void ioopm_remove_cart(ioopm_db_t *database, int cart_id);  
+void ioopm_remove_cart(ioopm_db_t *database, int cart_id);
 
 /// @brief Edit an existing merch's name, description and price.
 /// @sideeffect Frees the memory for the merch edited and allocates memory for the result of the editing.
@@ -96,7 +96,7 @@ void ioopm_remove_from_cart(ioopm_db_t *database, int cart_id, char *merch_name,
 int ioopm_calculate_cost(ioopm_db_t *database, int cart_id);
 
 /// @brief Checkout a given cart, and update the stock accordingly.
-/// @sideeffect Frees the memory for the cart. 
+/// @sideeffect Frees the memory for the cart.
 /// @param database the database to be operated upon.
 /// @param cart_id, the id of the cart to checkout.
 void ioopm_checkout(ioopm_db_t *database, int cart_id);

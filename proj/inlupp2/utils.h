@@ -19,11 +19,12 @@
  * @see http://wrigstad.com/ioopm19/assignments/assignment1.html
  */
 
-typedef union { 
-  int   int_value;
-  float float_value;
-  char *string_value;
-  char char_value;
+typedef union
+{
+    int   int_value;
+    float float_value;
+    char *string_value;
+    char char_value;
 } answer_t;
 
 typedef bool(*check_func)(char *);

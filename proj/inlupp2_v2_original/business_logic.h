@@ -8,7 +8,7 @@
  * @file business_logic.h
  * @author Simon Sandbom, Vladislav Bertilsson
  * @date 9 okt 2019
- * @brief All non-user interface logic that concerns the warehouse program, 
+ * @brief All non-user interface logic that concerns the warehouse program,
  * e.g. shopping carts, merchandise, adding and removing items from the “database”
 
  * Naming standard used is that public functions start with warehouse followed by

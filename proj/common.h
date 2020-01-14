@@ -7,13 +7,13 @@ typedef union elem elem_t;
 
 union elem
 {
-  /// TODO: update the names of the fields to something better?
-  int i;
-  unsigned int u;
-  bool b;
-  float f;
-  void *p;
-  /// other choices certainly possible
+    /// TODO: update the names of the fields to something better?
+    int i;
+    unsigned int u;
+    bool b;
+    float f;
+    void *p;
+    /// other choices certainly possible
 };
 
 // TODO: We have assumed that return type would be int. What consequenses does it have?

@@ -22,17 +22,17 @@ typedef void(*ioopm_apply_function)(elem_t key, elem_t *value, void *extra);
 /// @brief Create a new hash table
 /// @return A new empty hash table
 ioopm_hash_table_t *ioopm_hash_table_create(cmp_fun_t compare_func,
-                                            hash_fun_t hash_function,
-                                            ioopm_eq_function key_eq_function,
-					    ioopm_eq_function value_eq_function);
+        hash_fun_t hash_function,
+        ioopm_eq_function key_eq_function,
+        ioopm_eq_function value_eq_function);
 
 /// @brief Create a new hash table with specified load factor
 /// @return A new empty hash table
 ioopm_hash_table_t *ioopm_hash_table_create_load_factor(cmp_fun_t compare_func,
-                                                        hash_fun_t hash_function,
-                                                        ioopm_eq_function key_eq_function,
-                                                        ioopm_eq_function value_eq_function,
-                                                        double load_factor);
+        hash_fun_t hash_function,
+        ioopm_eq_function key_eq_function,
+        ioopm_eq_function value_eq_function,
+        double load_factor);
 /// @brief Delete a hash table and free its memory
 /// param ht a hash table to be deleted
 void ioopm_hash_table_destroy(ioopm_hash_table_t *ht);

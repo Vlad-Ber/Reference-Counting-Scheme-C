@@ -13,15 +13,15 @@
  * @date 4 Okt 2019
  * @brief Simple hash table that maps keys to values.
  *
- * Hash table that maps generic keys to generic values. Any elem_t value can be used as 
+ * Hash table that maps generic keys to generic values. Any elem_t value can be used as
  * key or value. A hashtable has two parameters that affect its performance,
  * initial capacity and load factor. The inital capacity is the nr of buckets at hash-table
  * creation and load factor is the measure on how full the hash table may get before resizing
- * it and thus increasing it's capacity. The default load factor is generally set as 0.75  
+ * it and thus increasing it's capacity. The default load factor is generally set as 0.75
  * as higher values decrease the space overhead but increase the time cost to lookup an entry.
- * 
+ *
  * Note that the hash table is open: In the case of a hash collision, a single bucket can
- * store several entries, which must be searched sequentially. 
+ * store several entries, which must be searched sequentially.
  *
  * @see http://wrigstad.com/ioopm19/assignments/assignment1.html
  */
@@ -30,7 +30,7 @@ typedef void obj;
 typedef struct hash_table ioopm_hash_table_t;
 typedef bool(*ioopm_hash_predicate)(elem_t key, elem_t value, void *extra);
 typedef void(*ioopm_hash_apply_function)(elem_t key, elem_t *value, void *extra);
-typedef size_t(*ioopm_hash_function)(elem_t key); 
+typedef size_t(*ioopm_hash_function)(elem_t key);
 
 void doNothing(obj *c);
 /// @brief Create a new hash table
