@@ -49,20 +49,11 @@ void default_destructor(obj *c){
     void **possible_pointer = c + i;
     
     current_info = first_info;
-    //  printf("i: %ld\n", i);
-    while(current_info != NULL){
-     
-      //  printf("current info: %p ,", current_info);
-      //printf("c+i: %p: \n", c+i);
-       obj *current_obj = (void *) (long long) current_info + sizeof(objectInfo_t);
 
-       //printf("current_obj and pp: (%p, %p) \n", current_obj, possible_pointer);
-       //  printf("diff: %ld", current_obj - possible_pointer );
-       
-      //printf(" c+i and current_obj diff: %ld \n",  (c+i) - current_obj );
+    while(current_info != NULL){
+
+       obj *current_obj = (void *) (long long) current_info + sizeof(objectInfo_t);
        if( possible_pointer == current_obj ) {
-         // printf("if == true \n");
-         //printf("c+i och current_obj: (%p , %p) \n", possible_pointer, current_obj);
         release(*possible_pointer);
         break;
       }

@@ -388,7 +388,19 @@ void test_shutdown()
   shutdown();
 }
 
+void test_cascade()
+{
+  set_cascade_limit(3);
+  CU_ASSERT_TRUE(3 == get_cascade_limit());
 
+  cell1_t *c0 = allocate(sizeof(cell1_t), cell_destructor1);
+  c0->cell = allocate(sizeof(cell1_t), cell_destructor1);
+  c0->cell->cell = allocate(sizeof(cell1_t), cell_destructor1);
+  cell1_t *temp = c0->cell->cell;
+  
+  release(c0);
+  deallocate(temp);
+}
 
 
 int main(int argc, char *argv[])
@@ -400,16 +412,24 @@ int main(int argc, char *argv[])
   CU_add_test(unitTests, "retain            unitTest",test_retain );
   CU_add_test(unitTests, "release           unitTest",test_release );
   CU_add_test(unitTests, "rc                unitTest",test_rc );
-  CU_add_test(unitTests, "allocate          unitTest",test_allocate );
-  CU_add_test(unitTests, "allocate_array    unitTest",test_allocate_array );
-  CU_add_test(unitTests, "deallocate        unitTest",test_deallocate );
-  CU_add_test(unitTests, "set_cascade_limit unitTest",test_set_cascade_limit );
-  CU_add_test(unitTests, "get_cascade_limit unitTest",test_get_cascade_limit );
-  CU_add_test(unitTests, "cleanup           unitTest",test_cleanup );
-  CU_add_test(unitTests, "shutDown          unitTest",test_shutdown );
+  
+ 
+
+  CU_pSuite memTests = CU_add_suite("Enhetstester för funktioner där memleak ej ska finnas", NULL, NULL);
+  
+  CU_add_test(memTests, "allocate          unitTest",test_allocate );
+  CU_add_test(memTests, "allocate_array    unitTest",test_allocate_array );
+  CU_add_test(memTests, "deallocate        unitTest",test_deallocate );
+  CU_add_test(memTests, "cleanup           unitTest",test_cleanup );
+  CU_add_test(memTests, "shutdown          unitTest",test_shutdown );
+
+  CU_pSuite cascadeTests = CU_add_suite("Tests testing cascadelimit", NULL, NULL);
+  CU_add_test(cascadeTests, "set_cascade_limit unitTest",test_set_cascade_limit );
+  CU_add_test(cascadeTests, "get_cascade_limit unitTest",test_get_cascade_limit );
+  CU_add_test(cascadeTests, "test cascadeLimit functionality", test_cascade);
+
   
   CU_basic_run_tests();
-  
   CU_cleanup_registry();
 
   return 0;
