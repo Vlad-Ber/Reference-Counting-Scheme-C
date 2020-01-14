@@ -21,6 +21,68 @@ struct objectInfo
     function1_t func;
 };
 
+
+
+objectInfo_t *find_previous_linkk(objectInfo_t *this_link)
+{
+
+    // detta är dumt (skriv i deviation)
+    objectInfo_t *search = first_info;
+    while(search->next != this_link && search->next != NULL)
+    {
+
+        search = search->next;
+    }
+
+    if(search->next == NULL)
+    {
+        return this_link;
+    }
+    else
+    {
+        return search;
+    }
+
+}
+// brehs this is radical
+static void remove_this_link(objectInfo_t *info)
+{
+
+    if(info == first_info)
+    {
+        first_info = info->next;
+        return;
+    }
+    objectInfo_t *prev = find_previous_linkk(info);
+    if(info == last_info)
+    {
+        prev->next = NULL;
+        last_info = prev;
+        return;
+    }
+
+    prev->next = info->next;
+}
+
+
+
+
+static void remove_next_link(objectInfo_t *trav)
+{
+    objectInfo_t *to_remove_inf = trav->next;
+    trav->next = trav->next->next;
+
+
+    long long to_remove_inf_adr = (long long) to_remove_inf;  // xd
+    obj *to_remove = ((void *) to_remove_inf_adr + sizeof(objectInfo_t));
+
+    to_remove_inf->func(to_remove);
+    free(to_remove_inf);
+
+
+}
+
+
 void insert(objectInfo_t *objectToInsert)
 {
     if(first_info == NULL)
@@ -165,66 +227,6 @@ void release(obj *c)
 
 //////////////////////////////////
 
-
-
-objectInfo_t *find_previous_linkk(objectInfo_t *this_link)
-{
-
-    // detta är dumt (skriv i deviation)
-    objectInfo_t *search = first_info;
-    while(search->next != this_link && search->next != NULL)
-    {
-
-        search = search->next;
-    }
-
-    if(search->next == NULL)
-    {
-        return this_link;
-    }
-    else
-    {
-        return search;
-    }
-
-}
-// brehs this is radical
-static void remove_this_link(objectInfo_t *info)
-{
-
-    if(info == first_info)
-    {
-        first_info = info->next;
-        return;
-    }
-    objectInfo_t *prev = find_previous_linkk(info);
-    if(info == last_info)
-    {
-        prev->next = NULL;
-        last_info = prev;
-        return;
-    }
-
-    prev->next = info->next;
-}
-
-
-
-
-static void remove_next_link(objectInfo_t *trav)
-{
-    objectInfo_t *to_remove_inf = trav->next;
-    trav->next = trav->next->next;
-
-
-    long long to_remove_inf_adr = (long long) to_remove_inf;  // xd
-    obj *to_remove = ((void *) to_remove_inf_adr + sizeof(objectInfo_t));
-
-    to_remove_inf->func(to_remove);
-    free(to_remove_inf);
-
-
-}
 
 void cleanup()
 {
