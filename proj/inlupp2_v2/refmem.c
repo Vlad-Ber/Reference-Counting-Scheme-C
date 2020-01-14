@@ -259,7 +259,10 @@ void cleanup(){
 void shutdown()
 {
   objectInfo_t *current_info = first_info;
-
+  if (current_info == NULL){
+    return;
+  }
+  
   while(current_info->next != NULL)
     {
       objectInfo_t *next_info = current_info->next;

@@ -36,6 +36,9 @@ void cell_destructor2(obj *c){release(((cell2_t *) c)->cell);}
 
 void test_retain()
 {
+  first_info = NULL;
+  last_info = NULL;
+  
   cell1_t *c1 = allocate(sizeof(cell1_t), cell_destructor1);
   cell2_t *c2 = allocate(sizeof(cell2_t), cell_destructor2);
   objectInfo_t *c1_Info = ((obj *) c1 - sizeof(objectInfo_t));
@@ -87,7 +90,9 @@ void test_retain()
 }
 void test_release()
 {
-
+  first_info = NULL;
+  last_info = NULL;
+  
   cell1_t *c1 = allocate(sizeof(cell1_t), cell_destructor1);
   cell2_t *c2 = allocate(sizeof(cell2_t), cell_destructor2);
   objectInfo_t *c1_Info = ((obj *) c1 - sizeof(objectInfo_t));
@@ -163,6 +168,9 @@ void test_release()
 }
 void test_rc()
 {
+  first_info = NULL;
+  last_info = NULL;
+  
   cell1_t *c1 = allocate(sizeof(cell1_t), cell_destructor1);
   cell2_t *c2 = allocate(sizeof(cell2_t), cell_destructor2);
   objectInfo_t *c1_Info = ((obj *) c1 - sizeof(objectInfo_t));
@@ -219,6 +227,9 @@ void test_rc()
 
 void test_allocate()
 {
+  first_info = NULL;
+  last_info = NULL;
+  
   cell1_t *c1 = allocate(sizeof(cell1_t), cell_destructor1);
   cell2_t *c2 = allocate(sizeof(cell2_t), cell_destructor2);
   objectInfo_t *c1_Info = ((obj *) c1 - sizeof(objectInfo_t));
@@ -242,13 +253,16 @@ void test_allocate()
   deallocate(c1);
   deallocate(c2);
   
-  
 }
 
 void test_allocate_array()
 {
-   //IFALL VALGRIND INTE KLAGAR PÅ NÅGOT HÄR FUNKAR allocate_array
+  first_info = NULL;
+  last_info = NULL;
+  
+  //IFALL VALGRIND INTE KLAGAR PÅ NÅGOT HÄR FUNKAR allocate_array
   cell1_t *c1 = allocate_array(5, sizeof(cell1_t), cell_destructor1);
+  
   cell2_t *c2 = allocate_array(3,sizeof(cell2_t), cell_destructor2);
   cell1_t *c3 = allocate_array(7, sizeof(cell1_t), cell_destructor1);
   cell2_t *c4 = allocate_array(10,sizeof(cell2_t), cell_destructor2);
@@ -275,12 +289,15 @@ void test_allocate_array()
   CU_ASSERT_TRUE(fifthCellc3-> k == 7);
   CU_ASSERT_TRUE(tenthCellc4-> k == 4);
   CU_ASSERT_EQUAL(strcmp(tenthCellc4-> string, "hej"), 0);
+  
   retain(c1);
-  shutdown();    
+  shutdown();
 }
 
 void test_deallocate(){
   //IFALL VALGRIND INTE KLAGAR PÅ NÅGOT HÄR FUNKAR DEALLOCATE
+  first_info = NULL;
+  last_info = NULL;
   
   cell1_t *c1 = allocate(sizeof(cell1_t), cell_destructor1);
   cell2_t *c2 = allocate(sizeof(cell2_t), cell_destructor2);
@@ -357,21 +374,33 @@ void test_shutdown()
   c3->cell = allocate(sizeof(cell2_t), cell_destructor2);
   
 
-  //Vi testar 4 olika scenarion.
+  //Vi testar 3 olika scenarion.
   //c0 == 0, c0->cell = 0
   //c1 == 1, c1->cell = 1
   //c2 == 1, c2->cell = 0
   //c3 == 0, c3->cell = 1
   
-  retain(c1);
-  retain(c2);
-  retain(c1->cell);
-  retain(c3->cell);
+  //retain(c1);
+  //retain(c2);
+  //retain(c1->cell);
+  //retain(c3->cell);
   
   shutdown();
 }
 
+void test_cascade()
+{
+  set_cascade_limit(3);
+  CU_ASSERT_TRUE(3 == get_cascade_limit());
 
+  cell1_t *c0 = allocate(sizeof(cell1_t), cell_destructor1);
+  c0->cell = allocate(sizeof(cell1_t), cell_destructor1);
+  c0->cell->cell = allocate(sizeof(cell1_t), cell_destructor1);
+  cell1_t *temp = c0->cell->cell;
+  
+  release(c0);
+  deallocate(temp);
+}
 
 
 int main(int argc, char *argv[])
@@ -383,13 +412,22 @@ int main(int argc, char *argv[])
   CU_add_test(unitTests, "retain            unitTest",test_retain );
   CU_add_test(unitTests, "release           unitTest",test_release );
   CU_add_test(unitTests, "rc                unitTest",test_rc );
-  CU_add_test(unitTests, "allocate          unitTest",test_allocate );
-  //CU_add_test(unitTests, "allocate_array    unitTest",test_allocate_array );
-  CU_add_test(unitTests, "deallocate        unitTest",test_deallocate );
-  CU_add_test(unitTests, "set_cascade_limit unitTest",test_set_cascade_limit );
-  CU_add_test(unitTests, "get_cascade_limit unitTest",test_get_cascade_limit );
-  CU_add_test(unitTests, "cleanup           unitTest",test_cleanup );
-  CU_add_test(unitTests, "shutDown          unitTest",test_shutdown );
+  
+ 
+
+  CU_pSuite memTests = CU_add_suite("Enhetstester för funktioner där memleak ej ska finnas", NULL, NULL);
+  
+  CU_add_test(memTests, "allocate          unitTest",test_allocate );
+  CU_add_test(memTests, "allocate_array    unitTest",test_allocate_array );
+  CU_add_test(memTests, "deallocate        unitTest",test_deallocate );
+  CU_add_test(memTests, "cleanup           unitTest",test_cleanup );
+  CU_add_test(memTests, "shutdown          unitTest",test_shutdown );
+
+  CU_pSuite cascadeTests = CU_add_suite("Tests testing cascadelimit", NULL, NULL);
+  CU_add_test(cascadeTests, "set_cascade_limit unitTest",test_set_cascade_limit );
+  CU_add_test(cascadeTests, "get_cascade_limit unitTest",test_get_cascade_limit );
+  CU_add_test(cascadeTests, "test cascadeLimit functionality", test_cascade);
+
   
   CU_basic_run_tests();
   CU_cleanup_registry();

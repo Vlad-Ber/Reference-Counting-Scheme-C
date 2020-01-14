@@ -50,6 +50,7 @@ void test_add_merch()
 
   
   warehouse_destroy(warehouse, NULL, NULL);
+  //shutdown();
 }
 
 
