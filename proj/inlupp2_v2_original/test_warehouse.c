@@ -776,6 +776,8 @@ void test_remove_with_cart()
 
 int main()
 {
+  for (int i = 0; i < 100000; i++)
+    {
   //Init testing
   CU_initialize_registry();
   
@@ -800,8 +802,9 @@ int main()
   //CU_add_test(suite_static, "get_cart_index", test_get_cart_index);
   CU_add_test(suite_static, "remove w/ cart", test_remove_with_cart);
     
-  
   CU_basic_run_tests();
   CU_cleanup_registry();
+    }
   return 0;
+    
 }

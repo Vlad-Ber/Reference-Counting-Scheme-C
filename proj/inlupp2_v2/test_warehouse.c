@@ -781,6 +781,8 @@ void test_remove_with_cart()
 
 int main()
 {
+  for (int i = 0; i < 10000; i++)
+    {
   //Init testing
   CU_initialize_registry();
   
@@ -810,5 +812,6 @@ int main()
   
   CU_basic_run_tests();
   CU_cleanup_registry();
+    }
   return 0;
 }
