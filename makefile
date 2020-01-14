@@ -28,17 +28,18 @@ profiling: test
 	$(C_COMPILER) $(C_OPTIONS) $(PROFILE) proj/test.c -o prof_output $(CUNIT_LINK)
 
 
-prof_compile_org:
+prof_org:
 	gcc -pg -Wall proj/inlupp2_v2_original/test_warehouse.c proj/inlupp2_v2_original/user_interface.c proj/inlupp2_v2_original/business_logic.c 	proj/inlupp2_v2_original/utils.c proj/inlupp2_v2_original/hash_table.c proj/inlupp2_v2_original/linked_list.c proj/inlupp2_v2_original/iterator.h proj/inlupp2_v2_original/common.h -o prof_inlupp2_org -lcunit
 	
 	./prof_inlupp2_org
 	gprof prof_inlupp2_org > analys_old.txt
-	rm -gmon.out
+	rm gmon.out
 
-prof_compile_v2:
+prof_v2:
 	gcc -pg -Wall proj/inlupp2_v2/test_warehouse.c proj/inlupp2_v2/user_interface.c proj/inlupp2_v2/business_logic.c 	proj/inlupp2_v2/utils.c proj/inlupp2_v2/hash_table.c proj/inlupp2_v2/linked_list.c proj/inlupp2_v2/iterator.h proj/inlupp2_v2/common.h -o prof_inlupp2_v2 -lcunit
 	
-	./prof_inlupp2_org
+	./prof_inlupp2_v2
 	gprof prof_inlupp2_v2 > analys.txt
-
+	rm gmon.out
+	
 

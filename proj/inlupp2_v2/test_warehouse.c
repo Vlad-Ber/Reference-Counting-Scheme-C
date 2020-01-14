@@ -1180,37 +1180,37 @@ void test_remove_with_cart()
 
 int main()
 {
-    for (int i = 0; i < 10000; i++)
+  for (int i = 0; i < 100000; i++)
     {
-        //Init testing
-        CU_initialize_registry();
+  //Init testing
+  CU_initialize_registry();
+  
+  CU_pSuite suite_base = CU_add_suite("Base functions", NULL, NULL);
+  CU_add_test(suite_base, "add_merch", test_add_merch);
+  CU_add_test(suite_base, "remove merch", test_remove_merch);
+  
+  CU_add_test(suite_base, "replenish merch", test_replenish_merch);
+  
+  CU_add_test(suite_base, "edit merch", test_edit_merch);
+  CU_add_test(suite_base, "add to cart", test_add_to_cart);
+  CU_add_test(suite_base, "calculate cost", test_calculate_cost);
+  CU_add_test(suite_base, "checkout", test_checkout);
 
-        CU_pSuite suite_base = CU_add_suite("Base functions", NULL, NULL);
-        CU_add_test(suite_base, "add_merch", test_add_merch);
-        CU_add_test(suite_base, "remove merch", test_remove_merch);
+  CU_pSuite suite_static = CU_add_suite("Static functions", NULL, NULL);
+  CU_add_test(suite_static, "warehouse_key_has_locations", test_key_has_locations);
+  CU_add_test(suite_static, "is_shelf_available", test_shelf_available);
+  CU_add_test(suite_static, "amount_to_add_available", test_amount_add_available);
+  CU_add_test(suite_static, "is_merch_stocked", test_is_merch_stocked);
+  CU_add_test(suite_static, "size_of_cart", test_size_of_cart);
+  CU_add_test(suite_static, "is cart empty", test_is_cart_empty);
+  // CU_add_test(suite_static, "remove cart_merch_with index", test_remove_cart_merch_with_index);
 
-        CU_add_test(suite_base, "replenish merch", test_replenish_merch);
-
-        CU_add_test(suite_base, "edit merch", test_edit_merch);
-        CU_add_test(suite_base, "add to cart", test_add_to_cart);
-        CU_add_test(suite_base, "calculate cost", test_calculate_cost);
-        CU_add_test(suite_base, "checkout", test_checkout);
-
-        CU_pSuite suite_static = CU_add_suite("Static functions", NULL, NULL);
-        CU_add_test(suite_static, "warehouse_key_has_locations", test_key_has_locations);
-        CU_add_test(suite_static, "is_shelf_available", test_shelf_available);
-        CU_add_test(suite_static, "amount_to_add_available", test_amount_add_available);
-        CU_add_test(suite_static, "is_merch_stocked", test_is_merch_stocked);
-        CU_add_test(suite_static, "size_of_cart", test_size_of_cart);
-        CU_add_test(suite_static, "is cart empty", test_is_cart_empty);
-        // CU_add_test(suite_static, "remove cart_merch_with index", test_remove_cart_merch_with_index);
-
-        //CU_add_test(suite_static, "get_cart_index", test_get_cart_index);
-        CU_add_test(suite_static, "remove w/ cart", test_remove_with_cart);
-
-
-        CU_basic_run_tests();
-        CU_cleanup_registry();
+  //CU_add_test(suite_static, "get_cart_index", test_get_cart_index);
+  CU_add_test(suite_static, "remove w/ cart", test_remove_with_cart);
+    
+  
+  CU_basic_run_tests();
+  CU_cleanup_registry();
     }
     return 0;
 }
