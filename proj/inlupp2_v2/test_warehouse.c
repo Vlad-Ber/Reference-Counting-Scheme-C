@@ -782,7 +782,7 @@ void test_remove_with_cart()
 
 int main()
 {
-  for (int i = 0; i < 10000; i++)
+  for (int i = 0; i < 100000; i++)
     {
   //Init testing
   CU_initialize_registry();
