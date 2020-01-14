@@ -5,6 +5,7 @@ CUNIT_LINK	= -lcunit
 COVERAGE       = -fprofile-arcs -ftest-coverage --coverage
 PROFILE        = -pg
 
+
 run: proj/refmem.c
 	$(C_COMPILER) -g -Wall proj/example.c -o memory
 	./memory
@@ -24,9 +25,6 @@ coverage: test
 	./memory
 	gcov -b test.c
 
-profiling: test
-	$(C_COMPILER) $(C_OPTIONS) $(PROFILE) proj/test.c -o prof_output $(CUNIT_LINK)
-
 
 prof_org:
 	gcc -pg -Wall proj/inlupp2_v2_original/test_warehouse.c proj/inlupp2_v2_original/user_interface.c proj/inlupp2_v2_original/business_logic.c 	proj/inlupp2_v2_original/utils.c proj/inlupp2_v2_original/hash_table.c proj/inlupp2_v2_original/linked_list.c proj/inlupp2_v2_original/iterator.h proj/inlupp2_v2_original/common.h -o prof_inlupp2_org -lcunit
@@ -41,5 +39,8 @@ prof_v2:
 	./prof_inlupp2_v2
 	gprof prof_inlupp2_v2 > analys.txt
 	rm gmon.out
-	
+
+clean:
+	rm -f *.o *.gch *.gcov *.info linked_list_tests hash_table_tests main business_logic user_interface utils linked_list_cov hash_table_cov
+
 
