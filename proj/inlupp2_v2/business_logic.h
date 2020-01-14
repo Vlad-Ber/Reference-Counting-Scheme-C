@@ -4,7 +4,7 @@
 #include "hash_table.h"
 
 
-/*
+/**
  * @file business_logic.h
  * @author Simon Sandbom, Vladislav Bertilsson
  * @date 9 okt 2019
