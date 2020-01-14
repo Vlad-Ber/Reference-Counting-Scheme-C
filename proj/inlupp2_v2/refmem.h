@@ -6,20 +6,22 @@
 
 /**
  * @file refmem.h
- * @author 
- * @date
- * @brief Simple hash table that maps integer keys to string values.
- *
- * 
- * 
- * 
+ * @authors Adam Axelsson, Vlad Bertilsson,  Carl Hasselberg, Ellinor Hallmén, 
+Ali Hoseini, Erik Junghahn, Miranda Kiss-Deáki
+ * @date 200114
+ * @brief Functions for allocating and deallocating data, by keeping 
+ * track of pointers and manually managing memory with pointer arithmatics.
  *
  * @see http://wrigstad.com/ioopm19/projects/project1.html
  */
 
-
+/// @biref object, for instance a hashtable or a cell
 typedef void obj;
+
+/// @brief destroy functions that applied to objects
 typedef void(*function1_t)(obj *);
+
+/// @brief information about object: number of pointers, size of object and destroy function
 typedef struct objectInfo objectInfo_t;
 
 
@@ -42,10 +44,11 @@ size_t rc(obj *);
 /// @return an obj* pointer to the object
 obj *allocate(size_t bytes, function1_t destructor);
 
-/// @brief 
-/// @param
-/// @param
-/// @return
+/// @brief allocates an array for all objectInfos
+/// @param elements amount of objectInfos
+/// @param elem_size size of one element
+/// @param destructor destroy funtion
+/// @return an obj* pointer to array
 obj *allocate_array(size_t elements, size_t elem_size, function1_t destructor);
 
 /// @brief frees the memory used by an object and its objectInfo
@@ -60,26 +63,8 @@ void set_cascade_limit(size_t limit);
 /// @return size_t cascade limit
 size_t get_cascade_limit();
 
-/// @brief 
-/// @param
-/// @param
-/// @return
+/// @brief sets all rfs to 0 and
 void cleanup();
 
-/// @brief 
-/// @param
-/// @param
-/// @return
+/// @brief deallocates everything with one call
 void shutdown();
-
-/// @brief 
-/// @param
-/// @param
-/// @return
-void remove_next_link(objectInfo_t *info);
-
-/// @brief 
-/// @param
-/// @param
-/// @return
-void remove_this_link(objectInfo_t *info);
