@@ -21,7 +21,34 @@ struct objectInfo
   function1_t func;
 };
 
-void doNothing(obj *c){}
+
+static objectInfo_t *find_previous_link(objectInfo_t *this_link){
+ 
+  // detta är dumt (skriv i deviation)
+  objectInfo_t *search = first_info;
+  while(search->next != this_link && search->next != NULL){
+
+    search = search->next;
+  }
+  return search;
+  
+  
+}
+
+static void remove_this_link(objectInfo_t *info){
+
+  if(info == first_info){
+    first_info = first_info->next;
+    return;
+  }
+  
+
+
+  objectInfo_t *prev = find_previous_link(info);
+
+  prev->next = info->next;
+}
+
 
 void insert(objectInfo_t *objectToInsert)
 {
@@ -39,8 +66,6 @@ void insert(objectInfo_t *objectToInsert)
 }
 
 void default_destructor(obj *c){
-  //generic comment
-  printf("\n \n-----DEFAULT DESTRUCTOR \n \n");
   objectInfo_t *current_info = first_info;
   objectInfo_t *c_info = c - sizeof(objectInfo_t);
   
@@ -152,48 +177,6 @@ void release(obj *c)
         }
     }
 }
-
-//////////////////////////////////
-
-
-
-objectInfo_t *find_previous_link(objectInfo_t *this_link){
- 
-  // detta är dumt (skriv i deviation)
-  objectInfo_t *search = first_info;
-  while(search->next != this_link && search->next != NULL){
-
-    search = search->next;
-  }
-
-  if(search->next == NULL){
-    return this_link;
-  }
-  else{
-    return search;
-  }
-  
-}
-// brehs this is radical
-void remove_this_link(objectInfo_t *info){
-
-  if(info == first_info){
-    first_info = first_info->next;
-    return;
-  }
-  if(info == last_info && first_info == NULL){
-    last_info = NULL;
-    return;
-  }
-
-  // vi måste hitta länken bakom oss right? men det gårt ju inte.
-  // Scheiße. vi får srkiva en find previous link funcktion :(((
-  objectInfo_t *prev = find_previous_link(info);
-
-  prev->next = info->next;
-}
-///////////////////////////////////
-
 
 
 void remove_next_link(objectInfo_t *trav){

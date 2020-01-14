@@ -80,7 +80,7 @@ cov_warehouse:
 # VALGRIND
 
 memcheck: compile
-	valgrind --leak-check=full ./warehouse
+	valgrind --leak-check=full ./warehouse < test_inputs.txt
 
 mem: test_warehouse
 	valgrind --leak-check=yes ./test_warehouse

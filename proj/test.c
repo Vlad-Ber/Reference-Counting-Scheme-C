@@ -402,6 +402,27 @@ void test_cascade()
   deallocate(temp);
 }
 
+void test_default_destructor(){
+  
+  cell1_t *c0 = allocate(sizeof(cell1_t), NULL);
+  cell2_t *c2 = allocate(sizeof(cell2_t), NULL);
+
+  c0->cell = allocate(sizeof(cell1_t), NULL);
+  c2->cell = allocate(sizeof(cell2_t), NULL);
+
+  shutdown();
+
+  
+}
+
+
+void test_empty_cleanup(){
+  cleanup();
+}
+
+void test_rc_with_null(){
+  rc(NULL);
+}
 
 int main(int argc, char *argv[])
 {
@@ -422,11 +443,17 @@ int main(int argc, char *argv[])
   CU_add_test(memTests, "deallocate        unitTest",test_deallocate );
   CU_add_test(memTests, "cleanup           unitTest",test_cleanup );
   CU_add_test(memTests, "shutdown          unitTest",test_shutdown );
+  CU_add_test(memTests, "default destructorunitTest", test_default_destructor);
 
   CU_pSuite cascadeTests = CU_add_suite("Tests testing cascadelimit", NULL, NULL);
   CU_add_test(cascadeTests, "set_cascade_limit unitTest",test_set_cascade_limit );
   CU_add_test(cascadeTests, "get_cascade_limit unitTest",test_get_cascade_limit );
   CU_add_test(cascadeTests, "test cascadeLimit functionality", test_cascade);
+
+  CU_pSuite edgeCases = CU_add_suite("Testing edge cases for gcov", NULL, NULL);
+  CU_add_test(edgeCases, "empty Cleanup", test_empty_cleanup);
+  CU_add_test(edgeCases, "rc with null", test_rc_with_null);
+  
 
   
   CU_basic_run_tests();

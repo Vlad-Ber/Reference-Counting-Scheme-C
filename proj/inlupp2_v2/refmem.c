@@ -178,7 +178,7 @@ objectInfo_t *find_previous_linkk(objectInfo_t *this_link){
   
 }
 // brehs this is radical
-void remove_this_link(objectInfo_t *info){
+static void remove_this_link(objectInfo_t *info){
 
   if(info == first_info){
     first_info = info->next;
@@ -197,7 +197,7 @@ void remove_this_link(objectInfo_t *info){
 
 
 
-void remove_next_link(objectInfo_t *trav){
+static void remove_next_link(objectInfo_t *trav){
   objectInfo_t *to_remove_inf = trav->next;
   trav->next = trav->next->next;
   
@@ -224,15 +224,15 @@ void cleanup(){
     {
       
       if(trav->next->rf == 0){
-      remove_next_link(trav);
+	remove_next_link(trav);
       
-    }
+      }
       
       if(trav->next != NULL)
         {
-      trav = trav->next;
+	  trav = trav->next;
         }
-  }
+    }
 
 
   
@@ -241,13 +241,13 @@ void cleanup(){
     objectInfo_t *new_first = first_info->next;
   
 
-     long long first_info_adr = (long long) first_info; // detta e så facking sjukt
+    long long first_info_adr = (long long) first_info; // detta e så facking sjukt
 
-     obj *first_obj = ( (void *) first_info_adr + sizeof(objectInfo_t));
+    obj *first_obj = ( (void *) first_info_adr + sizeof(objectInfo_t));
 
-     //mer eller mindre en deallocate, fast just nu struntar vi i cascade_limit
-     first_info->func(first_obj);
-     free(first_info);
+    //mer eller mindre en deallocate, fast just nu struntar vi i cascade_limit
+    first_info->func(first_obj);
+    free(first_info);
     
      
     
