@@ -15,11 +15,11 @@ objectInfo_t *last_info = NULL;
 
 struct objectInfo
 {
-    size_t rf;
-
-    objectInfo_t *next;
-    size_t size;
-    function1_t func;
+  
+  function1_t func;
+  objectInfo_t *next;
+  size_t size;
+  size_t rf;
 };
 
 
