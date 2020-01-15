@@ -10,6 +10,7 @@ run: src/refmem.c
 	$(C_COMPILER) -g -Wall test/example.c -o memory
 	./memory
 
+
 valgrind: run
 	$(VALGRIND) ./memory
 
