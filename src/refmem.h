@@ -66,5 +66,12 @@ size_t get_cascade_limit();
 /// @brief sets all rfs to 0 and
 void cleanup();
 
+
+//void remove_next_link(objectInfo_t *info);
+//void remove_this_link(objectInfo_t *info);
+
+
+
 /// @brief deallocates everything with one call
 void shutdown();
+

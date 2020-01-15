@@ -6,22 +6,23 @@ COVERAGE       = -fprofile-arcs -ftest-coverage --coverage
 PROFILE        = -pg
 
 
-run: proj/refmem.c
-	$(C_COMPILER) -g -Wall proj/example.c -o memory
+run: src/refmem.c
+	$(C_COMPILER) -g -Wall test/example.c -o memory
 	./memory
+
 
 valgrind: run
 	$(VALGRIND) ./memory
 
-test: proj/test.c src/refmem.h 
-	$(C_COMPILER) $(C_OPTIONS) proj/test.c -o tests $(CUNIT_LINK)
+test: test/test.c src/refmem.h 
+	$(C_COMPILER) $(C_OPTIONS) test/test.c -o tests $(CUNIT_LINK)
 	./tests
 
 testValgrind: test
 	$(VALGRIND) ./tests
 
 coverage: test
-	$(C_COMPILER) $(C_OPTIONS) $(COVERAGE) proj/test.c $(CUNIT_LINK) -o memory
+	$(C_COMPILER) $(C_OPTIONS) $(COVERAGE) test/test.c $(CUNIT_LINK) -o memory
 	./memory
 	gcov -b test.c
 
@@ -56,8 +57,19 @@ demo_o = $(demo: .c = .o)
 test_files_o = $(test_files: .c = .o) 
 
 
-demo_build: $(demo_o) 
-	$(C_COMPILER) $(C_OPTIONS) -pedantic $^ -lcunit -o $@
+demo_build: $(demo_o) $(src_o)
+	$(C_COMPILER) $(C_OPTIONS)  $(demo_o) -lcunit -o $@
 
-demo_run: demo_build
+demo_tests: demo_build
 	valgrind --leak-check=full ./demo_build
+
+
+# Compile and link warehouse(main), business_logic, user_interface, hash_table, linked_list & utils
+compile_main: demo/inlupp2_v2/main.o demo/inlupp2_v2/user_interface.o demo/inlupp2_v2/business_logic.o demo/inlupp2_v2/utils.o demo/inlupp2_v2/hash_table.o demo/inlupp2_v2/linked_list.o src/refmem.o $(src_o)
+	$(C_COMPILER) $(C_OPTIONS) demo/inlupp2_v2/main.o demo/inlupp2_v2/user_interface.o demo/inlupp2_v2/business_logic.o demo/inlupp2_v2/utils.o demo/inlupp2_v2/hash_table.o demo/inlupp2_v2/linked_list.o  -o main
+
+main: compile_main
+	valgrind --leak-check=full ./main
+
+#run: compile
+#	./warehouse
