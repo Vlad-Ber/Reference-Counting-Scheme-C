@@ -4,12 +4,6 @@ a.out
 a.out.dSYM
 memory
 tests
-test
-prof_output
-<<<<<<< HEAD
-=======
-
->>>>>>> master
 *~
 .\#*
 *.o
