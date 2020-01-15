@@ -23,7 +23,7 @@ struct objectInfo
 };
 
 
-static objectInfo_t *find_previous_link(objectInfo_t *this_link)
+objectInfo_t *find_previous_linkk(objectInfo_t *this_link)
 {
 
     // detta är dumt (skriv i deviation)
@@ -33,22 +33,38 @@ static objectInfo_t *find_previous_link(objectInfo_t *this_link)
 
         search = search->next;
     }
-    return search;
 
+    if(search->next == NULL)
+    {
+        return this_link;
+    }
+    else
+    {
+        return search;
+    }
 
 }
 
+// brehs this is radical
 static void remove_this_link(objectInfo_t *info)
 {
+
     if(info == first_info)
     {
-        first_info = first_info->next;
+        first_info = info->next;
+        return;
+    }
+    objectInfo_t *prev = find_previous_linkk(info);
+    if(info == last_info)
+    {
+        prev->next = NULL;
+        last_info = prev;
         return;
     }
 
-    objectInfo_t *prev = find_previous_link(info);
     prev->next = info->next;
 }
+
 
 
 void insert(objectInfo_t *objectToInsert)
@@ -171,7 +187,7 @@ void deallocate(obj *c)
 
 void release(obj *c)
 {
-  printf("release\n");
+  //  printf("release\n");
     if(c != NULL)
     {
         objectInfo_t *objectInfo = c  - sizeof(objectInfo_t);
@@ -185,8 +201,8 @@ void release(obj *c)
             
             if( cascade_limit != 0)
             {
-                 printf("calling for dealloc in release \n");
-                 printf("cascade limit: %ld\n", cascade_limit);
+              // printf("calling for dealloc in release \n");
+              // printf("cascade limit: %ld\n", cascade_limit);
                  deallocate(c);
             }
             else
@@ -243,7 +259,7 @@ void cleanup()
         first_info = next;
       }else{
         // the find prev link is actually bad for the speed but its make it work much better. which is good.
-        objectInfo_t *prev = find_previous_link(trav);
+        objectInfo_t *prev = find_previous_linkk(trav);
         prev->next = next;
       }
       

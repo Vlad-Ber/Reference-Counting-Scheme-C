@@ -57,7 +57,7 @@ test_files_o = $(test_files: .c = .o)
 
 
 demo_build: $(demo_o) 
-	$(C_COMPILER) $(C_OPTIONS) $^ -lcunit -o $@
+	$(C_COMPILER) $(C_OPTIONS) -pedantic $^ -lcunit -o $@
 
 demo_run: demo_build
 	valgrind --leak-check=full ./demo_build
