@@ -16,7 +16,7 @@ answer_t ask_question(char *question, check_func check, convert_func convert)
     int conversions = 0;
     do
     {
-        printf("%s", question);
+        printf("%s\n", question);
         read_string(str, 255);
         conversions = check(str);
     }
