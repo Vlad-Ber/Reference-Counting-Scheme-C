@@ -13,7 +13,7 @@ run: proj/refmem.c
 valgrind: run
 	$(VALGRIND) ./memory
 
-test: proj/test.c proj/refmem.h proj/hash_table.c proj/list_linked.h proj/common.h proj/iterator.h
+test: proj/test.c src/refmem.h 
 	$(C_COMPILER) $(C_OPTIONS) proj/test.c -o tests $(CUNIT_LINK)
 	./tests
 
@@ -27,14 +27,14 @@ coverage: test
 
 
 prof_org:
-	gcc -pg -Wall proj/inlupp2_v2_original/test_warehouse.c proj/inlupp2_v2_original/user_interface.c proj/inlupp2_v2_original/business_logic.c 	proj/inlupp2_v2_original/utils.c proj/inlupp2_v2_original/hash_table.c proj/inlupp2_v2_original/linked_list.c proj/inlupp2_v2_original/iterator.h proj/inlupp2_v2_original/common.h -o prof_inlupp2_org -lcunit
+	gcc -pg -Wall demo/inlupp2_v2_original/test_warehouse.c demo/inlupp2_v2_original/user_interface.c demo/inlupp2_v2_original/business_logic.c 	demo/inlupp2_v2_original/utils.c demo/inlupp2_v2_original/hash_table.c demo/inlupp2_v2_original/linked_list.c demo/inlupp2_v2_original/iterator.h demo/inlupp2_v2_original/common.h -o prof_inlupp2_org -lcunit
 
 	./prof_inlupp2_org
 	gprof prof_inlupp2_org > analys_old.txt
 	rm gmon.out
 
 prof_v2:
-	gcc -pg -Wall proj/inlupp2_v2/test_warehouse.c proj/inlupp2_v2/user_interface.c proj/inlupp2_v2/business_logic.c 	proj/inlupp2_v2/utils.c proj/inlupp2_v2/hash_table.c proj/inlupp2_v2/linked_list.c proj/inlupp2_v2/iterator.h proj/inlupp2_v2/common.h -o prof_inlupp2_v2 -lcunit
+	gcc -pg -Wall demo/inlupp2_v2/test_warehouse.c demo/inlupp2_v2/user_interface.c demo/inlupp2_v2/business_logic.c 	demo/inlupp2_v2/utils.c demo/inlupp2_v2/hash_table.c demo/inlupp2_v2/linked_list.c demo/inlupp2_v2/iterator.h demo/inlupp2_v2/common.h -o prof_inlupp2_v2 -lcunit
 
 	./prof_inlupp2_v2
 	gprof prof_inlupp2_v2 > analys.txt

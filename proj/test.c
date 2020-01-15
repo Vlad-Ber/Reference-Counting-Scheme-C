@@ -1,9 +1,9 @@
 #include "CUnit/Basic.h"
 #include <stdbool.h>
-#include "hash_table.h"
-#include "list_linked.h"
-#include "refmem.c"
-#include "iterator.h"
+//#include "hash_table.h"
+//#include "list_linked.h"
+#include "../src/refmem.c"
+//#include "iterator.h"
 #include <stdio.h>
 #include <string.h>
 

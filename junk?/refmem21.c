@@ -4,7 +4,7 @@
 #include "refmem.h"
 #include <assert.h>
 
-size_t cascade_limit= 10;
+size_t cascade_limit= 20;
 obj *last_cascade = NULL;
 
 objectInfo_t *first_info = NULL;
@@ -20,6 +20,39 @@ struct objectInfo
     size_t size;
     function1_t func;
 };
+
+
+static objectInfo_t *find_previous_link(objectInfo_t *this_link)
+{
+
+    // detta är dumt (skriv i deviation)
+    objectInfo_t *search = first_info;
+    while(search->next != this_link && search->next != NULL)
+    {
+
+        search = search->next;
+    }
+    return search;
+
+
+}
+
+static void remove_this_link(objectInfo_t *info)
+{
+
+    if(info == first_info)
+    {
+        first_info = first_info->next;
+        return;
+    }
+
+
+
+    objectInfo_t *prev = find_previous_link(info);
+
+    prev->next = info->next;
+}
+
 
 void insert(objectInfo_t *objectToInsert)
 {
@@ -38,8 +71,6 @@ void insert(objectInfo_t *objectToInsert)
 
 void default_destructor(obj *c)
 {
-    //generic comment
-    printf("\n \n-----DEFAULT DESTRUCTOR \n \n");
     objectInfo_t *current_info = first_info;
     objectInfo_t *c_info = c - sizeof(objectInfo_t);
 
@@ -49,22 +80,13 @@ void default_destructor(obj *c)
         void **possible_pointer = c + i;
 
         current_info = first_info;
-        //  printf("i: %ld\n", i);
+
         while(current_info != NULL)
         {
 
-            //  printf("current info: %p ,", current_info);
-            //printf("c+i: %p: \n", c+i);
             obj *current_obj = (void *) (long long) current_info + sizeof(objectInfo_t);
-
-            //printf("current_obj and pp: (%p, %p) \n", current_obj, possible_pointer);
-            //  printf("diff: %ld", current_obj - possible_pointer );
-
-            //printf(" c+i and current_obj diff: %ld \n",  (c+i) - current_obj );
             if( possible_pointer == current_obj )
             {
-                // printf("if == true \n");
-                //printf("c+i och current_obj: (%p , %p) \n", possible_pointer, current_obj);
                 release(*possible_pointer);
                 break;
             }
@@ -87,7 +109,7 @@ obj *allocate(size_t bytes, function1_t destructor)
     objectToReturn->size = bytes;
 
 
-
+    //c3 == 0, c3->cell = 1
     insert(objectToReturn);
 
     return data;
@@ -95,17 +117,20 @@ obj *allocate(size_t bytes, function1_t destructor)
 
 obj *allocate_array(size_t elements, size_t elem_size, function1_t destructor)
 {
-    void *data = calloc(elements, ((sizeof(objectInfo_t)/elements) +1 + elem_size));
+    obj *data = calloc(elements, ((sizeof(objectInfo_t)/elements) +1 + elem_size));
 
     objectInfo_t *objectToReturn = data;
+    data = data + sizeof(objectInfo_t);
+
     objectToReturn->func = destructor;
     objectToReturn->size = elem_size*elements;
-    objectToReturn->rf=0;
+    objectToReturn->rf = 0;
+
+
+
     insert(objectToReturn);
 
-
-
-    return data+sizeof(objectInfo_t);
+    return data;
 }
 
 
@@ -157,57 +182,13 @@ void release(obj *c)
                 deallocate(c);
             }
             else
-            {
+              {
+                printf("last cascade nådd\n");
                 last_cascade = c;
             }
         }
     }
 }
-
-//////////////////////////////////
-
-
-
-objectInfo_t *find_previous_link(objectInfo_t *this_link)
-{
-
-    // detta är dumt (skriv i deviation)
-    objectInfo_t *search = first_info;
-    while(search->next != this_link && search->next != NULL)
-    {
-
-        search = search->next;
-    }
-
-    if(search->next == NULL)
-    {
-        return this_link;
-    }
-    else
-    {
-        return search;
-    }
-
-}
-// brehs this is radical
-void remove_this_link(objectInfo_t *info)
-{
-
-    if(info == first_info)
-    {
-        first_info = info->next;
-        return;
-    }
-
-
-    // vi måste hitta länken bakom oss right? men det gårt ju inte.
-    // Scheiße. vi får srkiva en find previous link funcktion :(((
-    objectInfo_t *prev = find_previous_link(info);
-
-    prev->next = info->next;
-}
-///////////////////////////////////
-
 
 
 void remove_next_link(objectInfo_t *trav)
@@ -279,26 +260,28 @@ void shutdown()
 
     while(current_info->next != NULL)
     {
-        objectInfo_t *next_info = current_info->next;
+        objectInfo_t *next = current_info->next;
         long long current_info_adr = (long long) current_info;
-        if(next_info->next==NULL)
+        deallocate( (void *) current_info_adr + sizeof(objectInfo_t));
+        current_info = next;
+        if(first_info == NULL)
         {
+            break;
+        }
+        if (current_info->next == NULL)
+        {
+            current_info_adr = (long long) current_info;
             deallocate( (void *) current_info_adr + sizeof(objectInfo_t));
             break;
         }
-        else
-        {
-            deallocate( (void *) current_info_adr + sizeof(objectInfo_t));
-
-            current_info = next_info;
-        }
-
     }
 }
 
 
 void set_cascade_limit(size_t size)
 {
+    printf(" SRC FILEN SOM KÖRS \n");
+    
     cascade_limit = size;
 }
 

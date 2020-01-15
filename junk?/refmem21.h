@@ -23,5 +23,5 @@ size_t get_cascade_limit();
 void cleanup();
 void shutdown();
 
-void remove_next_link(objectInfo_t *info);
-void remove_this_link(objectInfo_t *info);
+//void remove_next_link(objectInfo_t *info);
+//void remove_this_link(objectInfo_t *info);
