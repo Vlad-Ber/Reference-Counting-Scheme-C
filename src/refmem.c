@@ -5,7 +5,6 @@
 #include <assert.h>
 
 size_t cascade_limit= 20;
-size_t true_cascade_limit = 20;
 obj *last_cascade = NULL;
 
 objectInfo_t *first_info = NULL;
@@ -40,13 +39,17 @@ static objectInfo_t *find_previous_link(objectInfo_t *this_link)
 
 static void remove_this_link(objectInfo_t *info)
 {
+
     if(info == first_info)
     {
         first_info = first_info->next;
         return;
     }
 
+
+
     objectInfo_t *prev = find_previous_link(info);
+
     prev->next = info->next;
 }
 
@@ -144,7 +147,6 @@ void retain(obj *c)
 
 void deallocate(obj *c)
 {
-    
     objectInfo_t *objectInfo = c  -  sizeof(objectInfo_t);
     function1_t destructor = objectInfo->func;
     if(destructor == NULL)
@@ -155,23 +157,15 @@ void deallocate(obj *c)
     {
         destructor(c);
     }
-    //size_t temp = cascade_limit;
+    size_t temp = cascade_limit;
     remove_this_link(objectInfo);
     free(objectInfo);
-    //cascade_limit=temp+1;
-
-    if(cascade_limit > 0)
-    {
-      last_cascade = NULL;
-    }
-
-      cascade_limit=true_cascade_limit;
+    cascade_limit=temp+1;
 }
 
 
 void release(obj *c)
 {
-  printf("release\n");
     if(c != NULL)
     {
         objectInfo_t *objectInfo = c  - sizeof(objectInfo_t);
@@ -182,18 +176,15 @@ void release(obj *c)
         if(objectInfo->rf == 0)
         {
             cascade_limit = cascade_limit - 1;
-            
-            if( cascade_limit != 0)
+
+            if(cascade_limit > 0)
             {
-                 printf("calling for dealloc in release \n");
-                 printf("cascade limit: %ld\n", cascade_limit);
-                 deallocate(c);
+                deallocate(c);
             }
             else
-            {
-              printf("last cascade nådd\n");
+              {
+                printf("last cascade nådd\n");
                 last_cascade = c;
-                cascade_limit = true_cascade_limit;
             }
         }
     }
@@ -217,44 +208,7 @@ void remove_next_link(objectInfo_t *trav)
 
 void cleanup()
 {
-  
-  objectInfo_t *trav = first_info;
 
-  while(trav != NULL){
-    
-
-    objectInfo_t *next = trav->next;
-    if(trav->rf == 0){
-
-      //doing complete purge of object using its destroy function. i think this is unecessary. thats why its commented out.
-      /*       
-      obj *trav_obj = trav + 1; // 1 is maybe the size of one (objectinfo according to the compiler)
-      //trav->func(trav_obj);
-      while(last_cascade != NULL){
-        printf("---------------!!!!!last cascade är inte null\n");
-        objectInfo_t *last_cascade_info = last_cascade - sizeof(objectInfo_t);
-        last_cascade_info->func(last_cascade);
-      }
-      */
-
-
-      //redirection list
-      if(trav == first_info){
-        first_info = next;
-      }else{
-        // the find prev link is actually bad for the speed but its make it work much better. which is good.
-        objectInfo_t *prev = find_previous_link(trav);
-        prev->next = next;
-      }
-      
-      free(trav);
-
-    }
-    trav = next;
-    
-  }
-  // code for cleanup that is unused ////////////////////////////////
-  /*
     objectInfo_t *trav = first_info;
 
     if(trav == NULL)
@@ -298,8 +252,6 @@ void cleanup()
         first_info = new_first;
 
     }
-  */
-  // OLD CODE ^^^^^^^^ /////////////////////////////// 
 }
 
 void shutdown()
@@ -328,8 +280,9 @@ void shutdown()
 
 void set_cascade_limit(size_t size)
 {
-  true_cascade_limit = size;
-  cascade_limit = size;
+    printf(" SRC FILEN SOM KÖRS \n");
+    
+    cascade_limit = size;
 }
 
 size_t get_cascade_limit()
@@ -337,9 +290,6 @@ size_t get_cascade_limit()
     return cascade_limit;
 }
 
-void *get_last_cascade(){
-  return last_cascade;
-}
 
 
 

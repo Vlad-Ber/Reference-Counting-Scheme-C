@@ -44,3 +44,20 @@ clean:
 	rm -f *.o *.gch *.gcov *.info linked_list_tests hash_table_tests main business_logic user_interface utils linked_list_cov hash_table_cov
 
 
+
+demo  = demo/inlupp2_v2/test_warehouse.c demo/inlupp2_v2/user_interface.c demo/inlupp2_v2/business_logic.c 	demo/inlupp2_v2/utils.c demo/inlupp2_v2/hash_table.c demo/inlupp2_v2/linked_list.c demo/inlupp2_v2/iterator.h demo/inlupp2_v2/common.h
+
+src = $(wildcard src/*.c)
+#demo = $(wildcard demo/inlupp2_v2/*.c)
+test_files = $(wildcard test/*.c)
+
+src_o = $(src:.c = .o)
+demo_o = $(demo: .c = .o)
+test_files_o = $(test_files: .c = .o) 
+
+
+demo_build: $(demo_o) 
+	$(C_COMPILER) $(C_OPTIONS) $^ -lcunit -o $@
+
+demo_run: demo_build
+	valgrind --leak-check=full ./demo_build
