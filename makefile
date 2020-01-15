@@ -10,14 +10,11 @@ run: proj/refmem.c
 	$(C_COMPILER) -g -Wall proj/example.c -o memory
 	./memory
 
-valgrind: run
-	$(VALGRIND) ./memory
-
 test: proj/test.c src/refmem.h 
 	$(C_COMPILER) $(C_OPTIONS) proj/test.c -o tests $(CUNIT_LINK)
 	./tests
 
-testValgrind: test
+valgrind: test
 	$(VALGRIND) ./tests
 
 coverage: test
