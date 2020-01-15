@@ -1,0 +1,128 @@
+#ifndef BUSINESS_LOGIC_H
+#define BUSINESS_LOGIC_H
+
+#include "hash_table.h"
+
+
+/*
+ * @file business_logic.h
+ * @author Simon Sandbom, Vladislav Bertilsson
+ * @date 9 okt 2019
+ * @brief All non-user interface logic that concerns the warehouse program, 
+ * e.g. shopping carts, merchandise, adding and removing items from the “database”
+
+ * Naming standard used is that public functions start with warehouse followed by
+ * what action they perform, such as warehouse_add_item that adds an item to the
+ * warehouse
+*/
+
+typedef struct merch merch_t;
+typedef struct stock stock_t;
+typedef struct cart cart_t;
+typedef struct cart_item cart_item_t;
+
+/// @brief Initializes the hash table that stores the item-information with name as key
+/// @return Returns the newly created hash table
+ioopm_hash_table_t *warehouse_create();
+
+/// @brief Initializes the hash table that stores the item-information and amount with
+/// shelf as key
+/// @return Returns the newly created hash table
+ioopm_hash_table_t *shelf_db_create();
+
+/// @brief Adds a merch item to the hash table databases
+/// @param warehouse hash table is used to find merch info based on merch name
+/// name is name of merch to add, description is description of merch, price is price of merch
+/// linked list of locations is all locations merch is stored at
+/// shelf_db hash table is to find merch info and amount based on merch location
+void warehouse_add_merch_with_fields(ioopm_hash_table_t *warehouse, char *name, char *description, int price, ioopm_list_t *locations);
+
+/// @brief Removes an existing entry from the hash tables
+/// @param warehouse hash table to store merchandise with name = key and db_shelf to store
+/// merchandise with shelf = key
+/// @return Return the name of the merchandise removed
+void warehouse_remove_merch_with_key(ioopm_hash_table_t *warehouse, ioopm_hash_table_t *db_shelf, elem_t key_to_remove);
+
+/// @brief Edits an existing merchandises name, description and price
+/// @param warehouse hash table to store merchandise with name = key and db_shelf to store
+/// merchandise with shelf = key
+void warehouse_edit_merchandise_with_fields(ioopm_hash_table_t *warehouse, ioopm_hash_table_t *shelf_db, char *name, char *description, int price, elem_t key_to_edit);
+
+/// @brief Tearsdown all hash tables and linked lists and frees all allocated memory
+/// @param warehouse hash table to store merchandise with name = key and db_shelf to store
+/// merchandise with shelf = key
+void warehouse_destroy(ioopm_hash_table_t *warehouse, ioopm_hash_table_t *shelf_db, ioopm_list_t *list_of_carts);
+
+///@brief Checks if a certain merchandise is already stored at any locations
+///@param warehouse hash table to store merchandise with name = key, key to merchandise
+///@return true if merch is stored anywhere, false otherwise
+bool warehouse_key_has_locations(ioopm_hash_table_t *warehouse, elem_t key);
+
+/// @brief stores a merchandise at a shelf and nr of merchandise stored = amount
+/// @param warehouse hash table to store merchandise with name = key and db_shelf to store
+/// merchandise with shelf = key, shelf is shelf to check if available, key is key
+/// to merchandise trying to add to and amount is the amount to add at location
+void warehouse_store_location(ioopm_hash_table_t *warehouse, ioopm_hash_table_t *shelf_db, char *shelf, elem_t name_of_merch, int amount);
+
+/// @brief Lists all locations of a certain merchandise
+/// @param warehouse hash table to store merchandise, key = key to find merch
+void warehouse_list_locations(ioopm_hash_table_t *warehouse, elem_t key);
+
+/// @brief Checks if a certain shelf is available
+/// @param warehouse hash table to store merchandise with name = key and db_shelf to store
+/// merchandise with shelf = key, shelf is shelf to check if available, key is key
+/// to merchandise trying to add to
+/// @return true if the shelf is not busy, return false if the shelf is used by
+/// some other merchandise
+bool is_shelf_available(ioopm_hash_table_t *warehouse, ioopm_hash_table_t *shelf_db, char *shelf, elem_t key);
+
+/// @brief Creates a linked list that stores all carts in the warehouse
+/// @return returns the created linked list
+ioopm_list_t *create_list_of_carts();
+
+/// @brief adds a cart to the list of carts linked list
+/// @param linked list of all carts and index of specific cart to be removed
+void warehouse_add_cart(ioopm_list_t *list_of_carts);
+
+/// @brief Deletes a cart with index, index
+/// @param linked list of all carts and index of specific cart to be removed
+void warehouse_delete_cart_with_index(ioopm_list_t *list_of_carts, int index);
+
+/// @brief Finds index-struct parameter of a cart based on its index in list
+/// @param linked list of all carts and index of specific cart to be removed
+/// @return returns the index of a cart
+int get_cart_index(ioopm_list_t *list_of_carts, int index);
+
+/// @brief Desroys all carts in the list of carts linked list
+/// @param linked list of all carts and index of specific cart to be removed
+void warehouse_destroy_carts(ioopm_list_t *list_of_carts);
+
+void add_merchandise_to_cart_with_index(ioopm_hash_table_t *warehouse, ioopm_list_t *list_of_carts, int index, elem_t name_of_merch, int user_amount);
+
+
+void warehouse_list_cart_merch(ioopm_list_t *list_of_carts, int index);
+
+void remove_cart_merch_with_index(ioopm_list_t *list_of_carts, int cart_index, int merch_index, int amount_to_remove);
+
+size_t warehouse_total_cost_of_cart_with_index(ioopm_list_t *list_of_carts, int index);
+
+bool amount_to_add_available(ioopm_hash_table_t *warehouse, elem_t key, int amount_to_add);
+
+bool is_merch_stocked(ioopm_hash_table_t *warehouse, elem_t key);
+
+size_t warehouse_size_of_cart(ioopm_list_t *list_of_carts, int index);
+
+void warehouse_checkout_cart_aux(ioopm_list_t *list_of_carts, int index, ioopm_hash_table_t *shelf_db);
+
+bool is_cart_empty(ioopm_list_t *list_of_carts, int index);
+
+//AUX FUNCTIONS FOR TESTING
+
+char *merchCartName(ioopm_list_t *list_of_carts);
+
+char *merch_getdesc(ioopm_hash_table_t *warehouse, char *name);
+
+int getAmountSingel(ioopm_hash_table_t *warehouse, char *name, int index);
+
+
+#endif

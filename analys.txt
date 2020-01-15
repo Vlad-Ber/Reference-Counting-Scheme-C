@@ -1,0 +1,755 @@
+Flat profile:
+
+Each sample counts as 0.01 seconds.
+ no time accumulated
+
+  %   cumulative   self              self     total           
+ time   seconds   seconds    calls  Ts/call  Ts/call  name    
+  0.00      0.00     0.00     5490     0.00     0.00  allocate
+  0.00      0.00     0.00     5490     0.00     0.00  deallocate
+  0.00      0.00     0.00     5490     0.00     0.00  insert
+  0.00      0.00     0.00     5490     0.00     0.00  remove_this_link
+  0.00      0.00     0.00     5140     0.00     0.00  find_previous_linkk
+  0.00      0.00     0.00     4740     0.00     0.00  release
+  0.00      0.00     0.00     4590     0.00     0.00  clear_entry_chain
+  0.00      0.00     0.00     4320     0.00     0.00  find_previous_entry_for_key
+  0.00      0.00     0.00     4320     0.00     0.00  get_bucket_index
+  0.00      0.00     0.00     4320     0.00     0.00  hash_string
+  0.00      0.00     0.00     4100     0.00     0.00  retain
+  0.00      0.00     0.00     4020     0.00     0.00  find_previous_link
+  0.00      0.00     0.00     3970     0.00     0.00  str_compare
+  0.00      0.00     0.00     3280     0.00     0.00  ioopm_linked_list_size
+  0.00      0.00     0.00     2780     0.00     0.00  doNothing
+  0.00      0.00     0.00     2710     0.00     0.00  doNothing
+  0.00      0.00     0.00     2710     0.00     0.00  ioopm_linked_list_get
+  0.00      0.00     0.00     2220     0.00     0.00  ioopm_hash_table_lookup
+  0.00      0.00     0.00     1360     0.00     0.00  link_create
+  0.00      0.00     0.00     1360     0.00     0.00  link_destroy
+  0.00      0.00     0.00     1050     0.00     0.00  entry_create
+  0.00      0.00     0.00     1050     0.00     0.00  entry_destroy
+  0.00      0.00     0.00     1050     0.00     0.00  ioopm_hash_table_insert
+  0.00      0.00     0.00     1050     0.00     0.00  ioopm_hash_table_remove
+  0.00      0.00     0.00     1050     0.00     0.00  load_factor
+  0.00      0.00     0.00     1050     0.00     0.00  should_resize
+  0.00      0.00     0.00      730     0.00     0.00  warehouse_add_merch_with_fields
+  0.00      0.00     0.00      710     0.00     0.00  ioopm_linked_list_clear
+  0.00      0.00     0.00      710     0.00     0.00  ioopm_linked_list_create
+  0.00      0.00     0.00      710     0.00     0.00  ioopm_linked_list_destroy
+  0.00      0.00     0.00      700     0.00     0.00  ioopm_linked_list_append
+  0.00      0.00     0.00      660     0.00     0.00  ioopm_linked_list_insert
+  0.00      0.00     0.00      660     0.00     0.00  ioopm_linked_list_remove
+  0.00      0.00     0.00      640     0.00     0.00  warehouse_destroy_aux
+  0.00      0.00     0.00      340     0.00     0.00  warehouse_store_location
+  0.00      0.00     0.00      320     0.00     0.00  create_stock
+  0.00      0.00     0.00      310     0.00     0.00  remove_locations
+  0.00      0.00     0.00      270     0.00     0.00  ioopm_hash_table_clear
+  0.00      0.00     0.00      270     0.00     0.00  ioopm_hash_table_create
+  0.00      0.00     0.00      270     0.00     0.00  ioopm_hash_table_destroy
+  0.00      0.00     0.00      240     0.00     0.00  add_merchandise_to_cart_with_index
+  0.00      0.00     0.00      240     0.00     0.00  cart_item_exists
+  0.00      0.00     0.00      170     0.00     0.00  ioopm_hash_table_keys
+  0.00      0.00     0.00      140     0.00     0.00  getAmountSingel
+  0.00      0.00     0.00      140     0.00     0.00  get_next_cart_index
+  0.00      0.00     0.00      140     0.00     0.00  warehouse_add_cart
+  0.00      0.00     0.00      140     0.00     0.00  warehouse_create
+  0.00      0.00     0.00      140     0.00     0.00  warehouse_delete_cart_with_index
+  0.00      0.00     0.00      140     0.00     0.00  warehouse_destroy
+  0.00      0.00     0.00      130     0.00     0.00  shelf_db_create
+  0.00      0.00     0.00      130     0.00     0.00  warehouse_size_of_cart
+  0.00      0.00     0.00      120     0.00     0.00  amount_to_add_available
+  0.00      0.00     0.00       90     0.00     0.00  remove_cart_with_name_from_carts
+  0.00      0.00     0.00       90     0.00     0.00  warehouse_remove_merch_with_key
+  0.00      0.00     0.00       80     0.00     0.00  create_list_of_carts
+  0.00      0.00     0.00       80     0.00     0.00  warehouse_destroy_carts
+  0.00      0.00     0.00       60     0.00     0.00  remove_amount_from_merch
+  0.00      0.00     0.00       50     0.00     0.00  warehouse_checkout_cart_aux
+  0.00      0.00     0.00       50     0.00     0.00  warehouse_total_cost_of_cart_with_index
+  0.00      0.00     0.00       40     0.00     0.00  ioopm_linked_list_is_empty
+  0.00      0.00     0.00       40     0.00     0.00  is_merch_stocked
+  0.00      0.00     0.00       40     0.00     0.00  warehouse_key_has_locations
+  0.00      0.00     0.00       30     0.00     0.00  ioopm_hash_table_size
+  0.00      0.00     0.00       30     0.00     0.00  is_cart_empty
+  0.00      0.00     0.00       30     0.00     0.00  is_shelf_available
+  0.00      0.00     0.00       30     0.00     0.00  merch_getdesc
+  0.00      0.00     0.00       20     0.00     0.00  warehouse_edit_merchandise_with_fields
+  0.00      0.00     0.00       10     0.00     0.00  warehouse_list_locations
+
+ %         the percentage of the total running time of the
+time       program used by this function.
+
+cumulative a running sum of the number of seconds accounted
+ seconds   for by this function and those listed above it.
+
+ self      the number of seconds accounted for by this
+seconds    function alone.  This is the major sort for this
+           listing.
+
+calls      the number of times this function was invoked, if
+           this function is profiled, else blank.
+
+ self      the average number of milliseconds spent in this
+ms/call    function per call, if this function is profiled,
+	   else blank.
+
+ total     the average number of milliseconds spent in this
+ms/call    function and its descendents per call, if this
+	   function is profiled, else blank.
+
+name       the name of the function.  This is the minor sort
+           for this listing. The index shows the location of
+	   the function in the gprof listing. If the index is
+	   in parenthesis it shows where it would appear in
+	   the gprof listing if it were to be printed.
+
+Copyright (C) 2012-2019 Free Software Foundation, Inc.
+
+Copying and distribution of this file, with or without modification,
+are permitted in any medium without royalty provided the copyright
+notice and this notice are preserved.
+
+		     Call graph (explanation follows)
+
+
+granularity: each sample hit covers 2 byte(s) no time propagated
+
+index % time    self  children    called     name
+                0.00    0.00     140/5490        warehouse_add_cart [46]
+                0.00    0.00     200/5490        add_merchandise_to_cart_with_index [41]
+                0.00    0.00     270/5490        ioopm_hash_table_create [39]
+                0.00    0.00     320/5490        create_stock [36]
+                0.00    0.00     730/5490        warehouse_add_merch_with_fields [27]
+                0.00    0.00    1050/5490        entry_create [21]
+                0.00    0.00    1360/5490        link_create [19]
+                0.00    0.00    1420/5490        ioopm_linked_list_create [29]
+[1]      0.0    0.00    0.00    5490         allocate [1]
+                0.00    0.00    5490/5490        insert [3]
+-----------------------------------------------
+                0.00    0.00      10/5490        remove_amount_from_merch [57]
+                0.00    0.00      30/5490        remove_cart_with_name_from_carts [53]
+                0.00    0.00      90/5490        warehouse_remove_merch_with_key [54]
+                0.00    0.00     310/5490        remove_locations [37]
+                0.00    0.00     310/5490        warehouse_delete_cart_with_index [48]
+                0.00    0.00    4740/5490        release [6]
+[2]      0.0    0.00    0.00    5490         deallocate [2]
+                0.00    0.00    5490/5490        remove_this_link [4]
+                0.00    0.00    2780/2780        doNothing [15]
+                0.00    0.00    2710/2710        doNothing [16]
+-----------------------------------------------
+                0.00    0.00    5490/5490        allocate [1]
+[3]      0.0    0.00    0.00    5490         insert [3]
+-----------------------------------------------
+                0.00    0.00    5490/5490        deallocate [2]
+[4]      0.0    0.00    0.00    5490         remove_this_link [4]
+                0.00    0.00    5140/5140        find_previous_linkk [5]
+-----------------------------------------------
+                0.00    0.00    5140/5140        remove_this_link [4]
+[5]      0.0    0.00    0.00    5140         find_previous_linkk [5]
+-----------------------------------------------
+                0.00    0.00     270/4740        ioopm_hash_table_destroy [40]
+                0.00    0.00     640/4740        warehouse_destroy_aux [34]
+                0.00    0.00    1050/4740        entry_destroy [22]
+                0.00    0.00    1360/4740        link_destroy [20]
+                0.00    0.00    1420/4740        ioopm_linked_list_destroy [30]
+[6]      0.0    0.00    0.00    4740         release [6]
+                0.00    0.00    4740/5490        deallocate [2]
+-----------------------------------------------
+                0.00    0.00    4590/4590        ioopm_hash_table_clear [38]
+[7]      0.0    0.00    0.00    4590         clear_entry_chain [7]
+-----------------------------------------------
+                0.00    0.00    1050/4320        ioopm_hash_table_insert [23]
+                0.00    0.00    1050/4320        ioopm_hash_table_remove [24]
+                0.00    0.00    2220/4320        ioopm_hash_table_lookup [18]
+[8]      0.0    0.00    0.00    4320         find_previous_entry_for_key [8]
+                0.00    0.00    2920/3970        str_compare [13]
+-----------------------------------------------
+                0.00    0.00    1050/4320        ioopm_hash_table_insert [23]
+                0.00    0.00    1050/4320        ioopm_hash_table_remove [24]
+                0.00    0.00    2220/4320        ioopm_hash_table_lookup [18]
+[9]      0.0    0.00    0.00    4320         get_bucket_index [9]
+                0.00    0.00    4320/4320        hash_string [10]
+-----------------------------------------------
+                0.00    0.00    4320/4320        get_bucket_index [9]
+[10]     0.0    0.00    0.00    4320         hash_string [10]
+-----------------------------------------------
+                0.00    0.00     270/4100        ioopm_hash_table_create [39]
+                0.00    0.00    1050/4100        entry_create [21]
+                0.00    0.00    1360/4100        link_create [19]
+                0.00    0.00    1420/4100        ioopm_linked_list_create [29]
+[11]     0.0    0.00    0.00    4100         retain [11]
+-----------------------------------------------
+                0.00    0.00     660/4020        ioopm_linked_list_insert [32]
+                0.00    0.00     660/4020        ioopm_linked_list_remove [33]
+                0.00    0.00    2700/4020        ioopm_linked_list_get [17]
+[12]     0.0    0.00    0.00    4020         find_previous_link [12]
+-----------------------------------------------
+                0.00    0.00    1050/3970        ioopm_hash_table_remove [24]
+                0.00    0.00    2920/3970        find_previous_entry_for_key [8]
+[13]     0.0    0.00    0.00    3970         str_compare [13]
+-----------------------------------------------
+                0.00    0.00      20/3280        warehouse_list_locations [68]
+                0.00    0.00      30/3280        is_shelf_available [65]
+                0.00    0.00      50/3280        warehouse_total_cost_of_cart_with_index [59]
+                0.00    0.00      60/3280        remove_amount_from_merch [57]
+                0.00    0.00     100/3280        warehouse_checkout_cart_aux [58]
+                0.00    0.00     130/3280        warehouse_size_of_cart [51]
+                0.00    0.00     140/3280        warehouse_destroy [49]
+                0.00    0.00     140/3280        warehouse_add_cart [46]
+                0.00    0.00     200/3280        warehouse_destroy_carts [56]
+                0.00    0.00     200/3280        add_merchandise_to_cart_with_index [41]
+                0.00    0.00     240/3280        amount_to_add_available [52]
+                0.00    0.00     280/3280        remove_cart_with_name_from_carts [53]
+                0.00    0.00     310/3280        warehouse_delete_cart_with_index [48]
+                0.00    0.00     340/3280        warehouse_store_location [35]
+                0.00    0.00     420/3280        cart_item_exists [42]
+                0.00    0.00     620/3280        remove_locations [37]
+[14]     0.0    0.00    0.00    3280         ioopm_linked_list_size [14]
+-----------------------------------------------
+                0.00    0.00    2780/2780        deallocate [2]
+[15]     0.0    0.00    0.00    2780         doNothing [15]
+-----------------------------------------------
+                0.00    0.00    2710/2710        deallocate [2]
+[16]     0.0    0.00    0.00    2710         doNothing [16]
+-----------------------------------------------
+                0.00    0.00      10/2710        warehouse_list_locations [68]
+                0.00    0.00      20/2710        warehouse_store_location [35]
+                0.00    0.00      30/2710        is_cart_empty [64]
+                0.00    0.00      50/2710        is_shelf_available [65]
+                0.00    0.00      60/2710        remove_amount_from_merch [57]
+                0.00    0.00     120/2710        amount_to_add_available [52]
+                0.00    0.00     130/2710        remove_cart_with_name_from_carts [53]
+                0.00    0.00     130/2710        getAmountSingel [44]
+                0.00    0.00     130/2710        warehouse_size_of_cart [51]
+                0.00    0.00     130/2710        warehouse_checkout_cart_aux [58]
+                0.00    0.00     180/2710        warehouse_total_cost_of_cart_with_index [59]
+                0.00    0.00     220/2710        cart_item_exists [42]
+                0.00    0.00     240/2710        add_merchandise_to_cart_with_index [41]
+                0.00    0.00     310/2710        remove_locations [37]
+                0.00    0.00     310/2710        warehouse_delete_cart_with_index [48]
+                0.00    0.00     640/2710        warehouse_destroy [49]
+[17]     0.0    0.00    0.00    2710         ioopm_linked_list_get [17]
+                0.00    0.00    2700/4020        find_previous_link [12]
+-----------------------------------------------
+                0.00    0.00      10/2220        warehouse_list_locations [68]
+                0.00    0.00      20/2220        warehouse_edit_merchandise_with_fields [67]
+                0.00    0.00      30/2220        test_replenish_merch [144]
+                0.00    0.00      30/2220        merch_getdesc [66]
+                0.00    0.00      40/2220        test_add_merch [131]
+                0.00    0.00      40/2220        test_edit_merch [136]
+                0.00    0.00      40/2220        test_remove_merch [142]
+                0.00    0.00      40/2220        warehouse_key_has_locations [62]
+                0.00    0.00      40/2220        is_merch_stocked [61]
+                0.00    0.00      50/2220        is_shelf_available [65]
+                0.00    0.00      90/2220        warehouse_remove_merch_with_key [54]
+                0.00    0.00     120/2220        amount_to_add_available [52]
+                0.00    0.00     140/2220        getAmountSingel [44]
+                0.00    0.00     240/2220        add_merchandise_to_cart_with_index [41]
+                0.00    0.00     310/2220        remove_locations [37]
+                0.00    0.00     340/2220        warehouse_store_location [35]
+                0.00    0.00     640/2220        warehouse_destroy_aux [34]
+[18]     0.0    0.00    0.00    2220         ioopm_hash_table_lookup [18]
+                0.00    0.00    2220/4320        get_bucket_index [9]
+                0.00    0.00    2220/4320        find_previous_entry_for_key [8]
+-----------------------------------------------
+                0.00    0.00     660/1360        ioopm_linked_list_insert [32]
+                0.00    0.00     700/1360        ioopm_linked_list_append [31]
+[19]     0.0    0.00    0.00    1360         link_create [19]
+                0.00    0.00    1360/5490        allocate [1]
+                0.00    0.00    1360/4100        retain [11]
+-----------------------------------------------
+                0.00    0.00     660/1360        ioopm_linked_list_remove [33]
+                0.00    0.00     700/1360        ioopm_linked_list_clear [28]
+[20]     0.0    0.00    0.00    1360         link_destroy [20]
+                0.00    0.00    1360/4740        release [6]
+-----------------------------------------------
+                0.00    0.00    1050/1050        ioopm_hash_table_insert [23]
+[21]     0.0    0.00    0.00    1050         entry_create [21]
+                0.00    0.00    1050/5490        allocate [1]
+                0.00    0.00    1050/4100        retain [11]
+-----------------------------------------------
+                0.00    0.00    1050/1050        ioopm_hash_table_remove [24]
+[22]     0.0    0.00    0.00    1050         entry_destroy [22]
+                0.00    0.00    1050/4740        release [6]
+-----------------------------------------------
+                0.00    0.00     320/1050        warehouse_store_location [35]
+                0.00    0.00     730/1050        warehouse_add_merch_with_fields [27]
+[23]     0.0    0.00    0.00    1050         ioopm_hash_table_insert [23]
+                0.00    0.00    1050/4320        get_bucket_index [9]
+                0.00    0.00    1050/4320        find_previous_entry_for_key [8]
+                0.00    0.00    1050/1050        entry_create [21]
+                0.00    0.00    1050/1050        should_resize [26]
+-----------------------------------------------
+                0.00    0.00      10/1050        remove_amount_from_merch [57]
+                0.00    0.00      90/1050        warehouse_remove_merch_with_key [54]
+                0.00    0.00     310/1050        remove_locations [37]
+                0.00    0.00     640/1050        warehouse_destroy_aux [34]
+[24]     0.0    0.00    0.00    1050         ioopm_hash_table_remove [24]
+                0.00    0.00    1050/4320        get_bucket_index [9]
+                0.00    0.00    1050/4320        find_previous_entry_for_key [8]
+                0.00    0.00    1050/3970        str_compare [13]
+                0.00    0.00    1050/1050        entry_destroy [22]
+-----------------------------------------------
+                0.00    0.00    1050/1050        should_resize [26]
+[25]     0.0    0.00    0.00    1050         load_factor [25]
+-----------------------------------------------
+                0.00    0.00    1050/1050        ioopm_hash_table_insert [23]
+[26]     0.0    0.00    0.00    1050         should_resize [26]
+                0.00    0.00    1050/1050        load_factor [25]
+-----------------------------------------------
+                0.00    0.00      20/730         warehouse_edit_merchandise_with_fields [67]
+                0.00    0.00      50/730         test_add_merch [131]
+                0.00    0.00      50/730         test_replenish_merch [144]
+                0.00    0.00      50/730         test_edit_merch [136]
+                0.00    0.00      50/730         test_remove_merch [142]
+                0.00    0.00      50/730         test_add_to_cart [132]
+                0.00    0.00      50/730         test_calculate_cost [134]
+                0.00    0.00      50/730         test_checkout [135]
+                0.00    0.00      50/730         test_key_has_locations [140]
+                0.00    0.00      50/730         test_shelf_available [145]
+                0.00    0.00      50/730         test_amount_add_available [133]
+                0.00    0.00      50/730         test_is_merch_stocked [139]
+                0.00    0.00      50/730         test_size_of_cart [146]
+                0.00    0.00      50/730         test_is_cart_empty [138]
+                0.00    0.00      60/730         test_remove_with_cart [143]
+[27]     0.0    0.00    0.00     730         warehouse_add_merch_with_fields [27]
+                0.00    0.00     730/5490        allocate [1]
+                0.00    0.00     730/1050        ioopm_hash_table_insert [23]
+-----------------------------------------------
+                0.00    0.00     710/710         ioopm_linked_list_destroy [30]
+[28]     0.0    0.00    0.00     710         ioopm_linked_list_clear [28]
+                0.00    0.00     700/1360        link_destroy [20]
+-----------------------------------------------
+                0.00    0.00      80/710         create_list_of_carts [55]
+                0.00    0.00     140/710         warehouse_add_cart [46]
+                0.00    0.00     170/710         ioopm_hash_table_keys [43]
+                0.00    0.00     320/710         warehouse_store_location [35]
+[29]     0.0    0.00    0.00     710         ioopm_linked_list_create [29]
+                0.00    0.00    1420/5490        allocate [1]
+                0.00    0.00    1420/4100        retain [11]
+-----------------------------------------------
+                0.00    0.00      10/710         remove_amount_from_merch [57]
+                0.00    0.00      30/710         is_shelf_available [65]
+                0.00    0.00     140/710         warehouse_delete_cart_with_index [48]
+                0.00    0.00     220/710         warehouse_destroy [49]
+                0.00    0.00     310/710         remove_locations [37]
+[30]     0.0    0.00    0.00     710         ioopm_linked_list_destroy [30]
+                0.00    0.00    1420/4740        release [6]
+                0.00    0.00     710/710         ioopm_linked_list_clear [28]
+-----------------------------------------------
+                0.00    0.00     700/700         ioopm_hash_table_keys [43]
+[31]     0.0    0.00    0.00     700         ioopm_linked_list_append [31]
+                0.00    0.00     700/1360        link_create [19]
+-----------------------------------------------
+                0.00    0.00     140/660         warehouse_add_cart [46]
+                0.00    0.00     200/660         add_merchandise_to_cart_with_index [41]
+                0.00    0.00     320/660         warehouse_store_location [35]
+[32]     0.0    0.00    0.00     660         ioopm_linked_list_insert [32]
+                0.00    0.00     660/4020        find_previous_link [12]
+                0.00    0.00     660/1360        link_create [19]
+-----------------------------------------------
+                0.00    0.00      10/660         remove_amount_from_merch [57]
+                0.00    0.00      30/660         remove_cart_with_name_from_carts [53]
+                0.00    0.00     310/660         remove_locations [37]
+                0.00    0.00     310/660         warehouse_delete_cart_with_index [48]
+[33]     0.0    0.00    0.00     660         ioopm_linked_list_remove [33]
+                0.00    0.00     660/4020        find_previous_link [12]
+                0.00    0.00     660/1360        link_destroy [20]
+-----------------------------------------------
+                0.00    0.00     640/640         warehouse_destroy [49]
+[34]     0.0    0.00    0.00     640         warehouse_destroy_aux [34]
+                0.00    0.00     640/2220        ioopm_hash_table_lookup [18]
+                0.00    0.00     640/1050        ioopm_hash_table_remove [24]
+                0.00    0.00     640/4740        release [6]
+                0.00    0.00     270/310         remove_locations [37]
+-----------------------------------------------
+                0.00    0.00      20/340         test_remove_merch [142]
+                0.00    0.00      20/340         test_key_has_locations [140]
+                0.00    0.00      20/340         test_shelf_available [145]
+                0.00    0.00      20/340         test_amount_add_available [133]
+                0.00    0.00      20/340         test_is_merch_stocked [139]
+                0.00    0.00      30/340         test_add_to_cart [132]
+                0.00    0.00      30/340         test_calculate_cost [134]
+                0.00    0.00      30/340         test_checkout [135]
+                0.00    0.00      30/340         test_size_of_cart [146]
+                0.00    0.00      30/340         test_is_cart_empty [138]
+                0.00    0.00      40/340         test_remove_with_cart [143]
+                0.00    0.00      50/340         test_replenish_merch [144]
+[35]     0.0    0.00    0.00     340         warehouse_store_location [35]
+                0.00    0.00     340/2220        ioopm_hash_table_lookup [18]
+                0.00    0.00     340/3280        ioopm_linked_list_size [14]
+                0.00    0.00     320/320         create_stock [36]
+                0.00    0.00     320/710         ioopm_linked_list_create [29]
+                0.00    0.00     320/660         ioopm_linked_list_insert [32]
+                0.00    0.00     320/1050        ioopm_hash_table_insert [23]
+                0.00    0.00      20/2710        ioopm_linked_list_get [17]
+-----------------------------------------------
+                0.00    0.00     320/320         warehouse_store_location [35]
+[36]     0.0    0.00    0.00     320         create_stock [36]
+                0.00    0.00     320/5490        allocate [1]
+-----------------------------------------------
+                0.00    0.00      40/310         warehouse_remove_merch_with_key [54]
+                0.00    0.00     270/310         warehouse_destroy_aux [34]
+[37]     0.0    0.00    0.00     310         remove_locations [37]
+                0.00    0.00     620/3280        ioopm_linked_list_size [14]
+                0.00    0.00     310/2710        ioopm_linked_list_get [17]
+                0.00    0.00     310/660         ioopm_linked_list_remove [33]
+                0.00    0.00     310/1050        ioopm_hash_table_remove [24]
+                0.00    0.00     310/2220        ioopm_hash_table_lookup [18]
+                0.00    0.00     310/5490        deallocate [2]
+                0.00    0.00     310/710         ioopm_linked_list_destroy [30]
+-----------------------------------------------
+                0.00    0.00     270/270         ioopm_hash_table_destroy [40]
+[38]     0.0    0.00    0.00     270         ioopm_hash_table_clear [38]
+                0.00    0.00    4590/4590        clear_entry_chain [7]
+-----------------------------------------------
+                0.00    0.00     130/270         shelf_db_create [50]
+                0.00    0.00     140/270         warehouse_create [47]
+[39]     0.0    0.00    0.00     270         ioopm_hash_table_create [39]
+                0.00    0.00     270/5490        allocate [1]
+                0.00    0.00     270/4100        retain [11]
+-----------------------------------------------
+                0.00    0.00     270/270         warehouse_destroy [49]
+[40]     0.0    0.00    0.00     270         ioopm_hash_table_destroy [40]
+                0.00    0.00     270/270         ioopm_hash_table_clear [38]
+                0.00    0.00     270/4740        release [6]
+-----------------------------------------------
+                0.00    0.00      10/240         test_is_cart_empty [138]
+                0.00    0.00      30/240         test_add_to_cart [132]
+                0.00    0.00      40/240         test_checkout [135]
+                0.00    0.00      40/240         test_size_of_cart [146]
+                0.00    0.00      60/240         test_calculate_cost [134]
+                0.00    0.00      60/240         test_remove_with_cart [143]
+[41]     0.0    0.00    0.00     240         add_merchandise_to_cart_with_index [41]
+                0.00    0.00     240/2220        ioopm_hash_table_lookup [18]
+                0.00    0.00     240/2710        ioopm_linked_list_get [17]
+                0.00    0.00     240/240         cart_item_exists [42]
+                0.00    0.00     200/5490        allocate [1]
+                0.00    0.00     200/3280        ioopm_linked_list_size [14]
+                0.00    0.00     200/660         ioopm_linked_list_insert [32]
+-----------------------------------------------
+                0.00    0.00     240/240         add_merchandise_to_cart_with_index [41]
+[42]     0.0    0.00    0.00     240         cart_item_exists [42]
+                0.00    0.00     420/3280        ioopm_linked_list_size [14]
+                0.00    0.00     220/2710        ioopm_linked_list_get [17]
+-----------------------------------------------
+                0.00    0.00      30/170         is_shelf_available [65]
+                0.00    0.00     140/170         warehouse_destroy [49]
+[43]     0.0    0.00    0.00     170         ioopm_hash_table_keys [43]
+                0.00    0.00     700/700         ioopm_linked_list_append [31]
+                0.00    0.00     170/710         ioopm_linked_list_create [29]
+-----------------------------------------------
+                0.00    0.00      20/140         test_replenish_merch [144]
+                0.00    0.00      30/140         test_add_to_cart [132]
+                0.00    0.00      90/140         test_checkout [135]
+[44]     0.0    0.00    0.00     140         getAmountSingel [44]
+                0.00    0.00     140/2220        ioopm_hash_table_lookup [18]
+                0.00    0.00     130/2710        ioopm_linked_list_get [17]
+-----------------------------------------------
+                0.00    0.00     140/140         warehouse_add_cart [46]
+[45]     0.0    0.00    0.00     140         get_next_cart_index [45]
+-----------------------------------------------
+                0.00    0.00      10/140         test_add_to_cart [132]
+                0.00    0.00      10/140         test_calculate_cost [134]
+                0.00    0.00      20/140         test_checkout [135]
+                0.00    0.00      30/140         test_is_cart_empty [138]
+                0.00    0.00      30/140         test_remove_with_cart [143]
+                0.00    0.00      40/140         test_size_of_cart [146]
+[46]     0.0    0.00    0.00     140         warehouse_add_cart [46]
+                0.00    0.00     140/5490        allocate [1]
+                0.00    0.00     140/140         get_next_cart_index [45]
+                0.00    0.00     140/710         ioopm_linked_list_create [29]
+                0.00    0.00     140/3280        ioopm_linked_list_size [14]
+                0.00    0.00     140/660         ioopm_linked_list_insert [32]
+-----------------------------------------------
+                0.00    0.00      10/140         test_add_merch [131]
+                0.00    0.00      10/140         test_replenish_merch [144]
+                0.00    0.00      10/140         test_edit_merch [136]
+                0.00    0.00      10/140         test_remove_merch [142]
+                0.00    0.00      10/140         test_add_to_cart [132]
+                0.00    0.00      10/140         test_calculate_cost [134]
+                0.00    0.00      10/140         test_checkout [135]
+                0.00    0.00      10/140         test_key_has_locations [140]
+                0.00    0.00      10/140         test_shelf_available [145]
+                0.00    0.00      10/140         test_amount_add_available [133]
+                0.00    0.00      10/140         test_is_merch_stocked [139]
+                0.00    0.00      10/140         test_size_of_cart [146]
+                0.00    0.00      10/140         test_is_cart_empty [138]
+                0.00    0.00      10/140         test_remove_with_cart [143]
+[47]     0.0    0.00    0.00     140         warehouse_create [47]
+                0.00    0.00     140/270         ioopm_hash_table_create [39]
+-----------------------------------------------
+                0.00    0.00      20/140         warehouse_checkout_cart_aux [58]
+                0.00    0.00     120/140         warehouse_destroy_carts [56]
+[48]     0.0    0.00    0.00     140         warehouse_delete_cart_with_index [48]
+                0.00    0.00     310/2710        ioopm_linked_list_get [17]
+                0.00    0.00     310/5490        deallocate [2]
+                0.00    0.00     310/660         ioopm_linked_list_remove [33]
+                0.00    0.00     310/3280        ioopm_linked_list_size [14]
+                0.00    0.00     140/710         ioopm_linked_list_destroy [30]
+-----------------------------------------------
+                0.00    0.00      10/140         test_add_merch [131]
+                0.00    0.00      10/140         test_replenish_merch [144]
+                0.00    0.00      10/140         test_edit_merch [136]
+                0.00    0.00      10/140         test_remove_merch [142]
+                0.00    0.00      10/140         test_add_to_cart [132]
+                0.00    0.00      10/140         test_calculate_cost [134]
+                0.00    0.00      10/140         test_checkout [135]
+                0.00    0.00      10/140         test_key_has_locations [140]
+                0.00    0.00      10/140         test_shelf_available [145]
+                0.00    0.00      10/140         test_amount_add_available [133]
+                0.00    0.00      10/140         test_is_merch_stocked [139]
+                0.00    0.00      10/140         test_size_of_cart [146]
+                0.00    0.00      10/140         test_is_cart_empty [138]
+                0.00    0.00      10/140         test_remove_with_cart [143]
+[49]     0.0    0.00    0.00     140         warehouse_destroy [49]
+                0.00    0.00     640/2710        ioopm_linked_list_get [17]
+                0.00    0.00     640/640         warehouse_destroy_aux [34]
+                0.00    0.00     270/270         ioopm_hash_table_destroy [40]
+                0.00    0.00     220/710         ioopm_linked_list_destroy [30]
+                0.00    0.00     140/170         ioopm_hash_table_keys [43]
+                0.00    0.00     140/3280        ioopm_linked_list_size [14]
+                0.00    0.00      80/80          warehouse_destroy_carts [56]
+-----------------------------------------------
+                0.00    0.00      10/130         test_replenish_merch [144]
+                0.00    0.00      10/130         test_edit_merch [136]
+                0.00    0.00      10/130         test_remove_merch [142]
+                0.00    0.00      10/130         test_add_to_cart [132]
+                0.00    0.00      10/130         test_calculate_cost [134]
+                0.00    0.00      10/130         test_checkout [135]
+                0.00    0.00      10/130         test_key_has_locations [140]
+                0.00    0.00      10/130         test_shelf_available [145]
+                0.00    0.00      10/130         test_amount_add_available [133]
+                0.00    0.00      10/130         test_is_merch_stocked [139]
+                0.00    0.00      10/130         test_size_of_cart [146]
+                0.00    0.00      10/130         test_is_cart_empty [138]
+                0.00    0.00      10/130         test_remove_with_cart [143]
+[50]     0.0    0.00    0.00     130         shelf_db_create [50]
+                0.00    0.00     130/270         ioopm_hash_table_create [39]
+-----------------------------------------------
+                0.00    0.00      40/130         test_size_of_cart [146]
+                0.00    0.00      90/130         test_remove_with_cart [143]
+[51]     0.0    0.00    0.00     130         warehouse_size_of_cart [51]
+                0.00    0.00     130/2710        ioopm_linked_list_get [17]
+                0.00    0.00     130/3280        ioopm_linked_list_size [14]
+-----------------------------------------------
+                0.00    0.00      40/120         test_amount_add_available [133]
+                0.00    0.00      80/120         warehouse_checkout_cart_aux [58]
+[52]     0.0    0.00    0.00     120         amount_to_add_available [52]
+                0.00    0.00     240/3280        ioopm_linked_list_size [14]
+                0.00    0.00     120/2220        ioopm_hash_table_lookup [18]
+                0.00    0.00     120/2710        ioopm_linked_list_get [17]
+-----------------------------------------------
+                0.00    0.00      90/90          warehouse_remove_merch_with_key [54]
+[53]     0.0    0.00    0.00      90         remove_cart_with_name_from_carts [53]
+                0.00    0.00     280/3280        ioopm_linked_list_size [14]
+                0.00    0.00     130/2710        ioopm_linked_list_get [17]
+                0.00    0.00      30/660         ioopm_linked_list_remove [33]
+                0.00    0.00      30/5490        deallocate [2]
+-----------------------------------------------
+                0.00    0.00      20/90          test_remove_with_cart [143]
+                0.00    0.00      20/90          warehouse_edit_merchandise_with_fields [67]
+                0.00    0.00      50/90          test_remove_merch [142]
+[54]     0.0    0.00    0.00      90         warehouse_remove_merch_with_key [54]
+                0.00    0.00      90/2220        ioopm_hash_table_lookup [18]
+                0.00    0.00      90/90          remove_cart_with_name_from_carts [53]
+                0.00    0.00      90/1050        ioopm_hash_table_remove [24]
+                0.00    0.00      90/5490        deallocate [2]
+                0.00    0.00      40/310         remove_locations [37]
+-----------------------------------------------
+                0.00    0.00      10/80          test_edit_merch [136]
+                0.00    0.00      10/80          test_remove_merch [142]
+                0.00    0.00      10/80          test_add_to_cart [132]
+                0.00    0.00      10/80          test_calculate_cost [134]
+                0.00    0.00      10/80          test_checkout [135]
+                0.00    0.00      10/80          test_size_of_cart [146]
+                0.00    0.00      10/80          test_is_cart_empty [138]
+                0.00    0.00      10/80          test_remove_with_cart [143]
+[55]     0.0    0.00    0.00      80         create_list_of_carts [55]
+                0.00    0.00      80/710         ioopm_linked_list_create [29]
+-----------------------------------------------
+                0.00    0.00      80/80          warehouse_destroy [49]
+[56]     0.0    0.00    0.00      80         warehouse_destroy_carts [56]
+                0.00    0.00     200/3280        ioopm_linked_list_size [14]
+                0.00    0.00     120/140         warehouse_delete_cart_with_index [48]
+-----------------------------------------------
+                0.00    0.00      60/60          warehouse_checkout_cart_aux [58]
+[57]     0.0    0.00    0.00      60         remove_amount_from_merch [57]
+                0.00    0.00      60/2710        ioopm_linked_list_get [17]
+                0.00    0.00      60/3280        ioopm_linked_list_size [14]
+                0.00    0.00      10/1050        ioopm_hash_table_remove [24]
+                0.00    0.00      10/660         ioopm_linked_list_remove [33]
+                0.00    0.00      10/5490        deallocate [2]
+                0.00    0.00      10/40          ioopm_linked_list_is_empty [60]
+                0.00    0.00      10/710         ioopm_linked_list_destroy [30]
+-----------------------------------------------
+                0.00    0.00      20/50          test_checkout [135]
+                0.00    0.00      30/50          test_remove_with_cart [143]
+[58]     0.0    0.00    0.00      50         warehouse_checkout_cart_aux [58]
+                0.00    0.00     130/2710        ioopm_linked_list_get [17]
+                0.00    0.00     100/3280        ioopm_linked_list_size [14]
+                0.00    0.00      80/120         amount_to_add_available [52]
+                0.00    0.00      60/60          remove_amount_from_merch [57]
+                0.00    0.00      20/140         warehouse_delete_cart_with_index [48]
+-----------------------------------------------
+                0.00    0.00      50/50          test_calculate_cost [134]
+[59]     0.0    0.00    0.00      50         warehouse_total_cost_of_cart_with_index [59]
+                0.00    0.00     180/2710        ioopm_linked_list_get [17]
+                0.00    0.00      50/3280        ioopm_linked_list_size [14]
+-----------------------------------------------
+                0.00    0.00      10/40          remove_amount_from_merch [57]
+                0.00    0.00      30/40          is_cart_empty [64]
+[60]     0.0    0.00    0.00      40         ioopm_linked_list_is_empty [60]
+-----------------------------------------------
+                0.00    0.00      40/40          test_is_merch_stocked [139]
+[61]     0.0    0.00    0.00      40         is_merch_stocked [61]
+                0.00    0.00      40/2220        ioopm_hash_table_lookup [18]
+-----------------------------------------------
+                0.00    0.00      40/40          test_key_has_locations [140]
+[62]     0.0    0.00    0.00      40         warehouse_key_has_locations [62]
+                0.00    0.00      40/2220        ioopm_hash_table_lookup [18]
+-----------------------------------------------
+                0.00    0.00      30/30          test_remove_merch [142]
+[63]     0.0    0.00    0.00      30         ioopm_hash_table_size [63]
+-----------------------------------------------
+                0.00    0.00      30/30          test_is_cart_empty [138]
+[64]     0.0    0.00    0.00      30         is_cart_empty [64]
+                0.00    0.00      30/2710        ioopm_linked_list_get [17]
+                0.00    0.00      30/40          ioopm_linked_list_is_empty [60]
+-----------------------------------------------
+                0.00    0.00      30/30          test_shelf_available [145]
+[65]     0.0    0.00    0.00      30         is_shelf_available [65]
+                0.00    0.00      50/2220        ioopm_hash_table_lookup [18]
+                0.00    0.00      50/2710        ioopm_linked_list_get [17]
+                0.00    0.00      30/170         ioopm_hash_table_keys [43]
+                0.00    0.00      30/3280        ioopm_linked_list_size [14]
+                0.00    0.00      30/710         ioopm_linked_list_destroy [30]
+-----------------------------------------------
+                0.00    0.00      30/30          test_add_merch [131]
+[66]     0.0    0.00    0.00      30         merch_getdesc [66]
+                0.00    0.00      30/2220        ioopm_hash_table_lookup [18]
+-----------------------------------------------
+                0.00    0.00      20/20          test_edit_merch [136]
+[67]     0.0    0.00    0.00      20         warehouse_edit_merchandise_with_fields [67]
+                0.00    0.00      20/2220        ioopm_hash_table_lookup [18]
+                0.00    0.00      20/90          warehouse_remove_merch_with_key [54]
+                0.00    0.00      20/730         warehouse_add_merch_with_fields [27]
+-----------------------------------------------
+                0.00    0.00      10/10          test_size_of_cart [146]
+[68]     0.0    0.00    0.00      10         warehouse_list_locations [68]
+                0.00    0.00      20/3280        ioopm_linked_list_size [14]
+                0.00    0.00      10/2220        ioopm_hash_table_lookup [18]
+                0.00    0.00      10/2710        ioopm_linked_list_get [17]
+-----------------------------------------------
+
+ This table describes the call tree of the program, and was sorted by
+ the total amount of time spent in each function and its children.
+
+ Each entry in this table consists of several lines.  The line with the
+ index number at the left hand margin lists the current function.
+ The lines above it list the functions that called this function,
+ and the lines below it list the functions this one called.
+ This line lists:
+     index	A unique number given to each element of the table.
+		Index numbers are sorted numerically.
+		The index number is printed next to every function name so
+		it is easier to look up where the function is in the table.
+
+     % time	This is the percentage of the `total' time that was spent
+		in this function and its children.  Note that due to
+		different viewpoints, functions excluded by options, etc,
+		these numbers will NOT add up to 100%.
+
+     self	This is the total amount of time spent in this function.
+
+     children	This is the total amount of time propagated into this
+		function by its children.
+
+     called	This is the number of times the function was called.
+		If the function called itself recursively, the number
+		only includes non-recursive calls, and is followed by
+		a `+' and the number of recursive calls.
+
+     name	The name of the current function.  The index number is
+		printed after it.  If the function is a member of a
+		cycle, the cycle number is printed between the
+		function's name and the index number.
+
+
+ For the function's parents, the fields have the following meanings:
+
+     self	This is the amount of time that was propagated directly
+		from the function into this parent.
+
+     children	This is the amount of time that was propagated from
+		the function's children into this parent.
+
+     called	This is the number of times this parent called the
+		function `/' the total number of times the function
+		was called.  Recursive calls to the function are not
+		included in the number after the `/'.
+
+     name	This is the name of the parent.  The parent's index
+		number is printed after it.  If the parent is a
+		member of a cycle, the cycle number is printed between
+		the name and the index number.
+
+ If the parents of the function cannot be determined, the word
+ `<spontaneous>' is printed in the `name' field, and all the other
+ fields are blank.
+
+ For the function's children, the fields have the following meanings:
+
+     self	This is the amount of time that was propagated directly
+		from the child into the function.
+
+     children	This is the amount of time that was propagated from the
+		child's children to the function.
+
+     called	This is the number of times the function called
+		this child `/' the total number of times the child
+		was called.  Recursive calls by the child are not
+		listed in the number after the `/'.
+
+     name	This is the name of the child.  The child's index
+		number is printed after it.  If the child is a
+		member of a cycle, the cycle number is printed
+		between the name and the index number.
+
+ If there are any cycles (circles) in the call graph, there is an
+ entry for the cycle-as-a-whole.  This entry shows who called the
+ cycle (as parents) and the members of the cycle (as children.)
+ The `+' recursive calls entry shows the number of function calls that
+ were internal to the cycle, and the calls entry for each member shows,
+ for that member, how many times it was called from other members of
+ the cycle.
+
+Copyright (C) 2012-2019 Free Software Foundation, Inc.
+
+Copying and distribution of this file, with or without modification,
+are permitted in any medium without royalty provided the copyright
+notice and this notice are preserved.
+
+Index by function name
+
+  [41] add_merchandise_to_cart_with_index [23] ioopm_hash_table_insert [53] remove_cart_with_name_from_carts
+   [1] allocate               [43] ioopm_hash_table_keys  [37] remove_locations
+  [52] amount_to_add_available [18] ioopm_hash_table_lookup [4] remove_this_link
+  [42] cart_item_exists       [24] ioopm_hash_table_remove [11] retain
+   [7] clear_entry_chain      [63] ioopm_hash_table_size  [50] shelf_db_create
+  [55] create_list_of_carts   [31] ioopm_linked_list_append [26] should_resize
+  [36] create_stock           [28] ioopm_linked_list_clear [13] str_compare
+   [2] deallocate             [29] ioopm_linked_list_create [46] warehouse_add_cart
+  [16] doNothing              [30] ioopm_linked_list_destroy [27] warehouse_add_merch_with_fields
+  [15] doNothing              [17] ioopm_linked_list_get  [58] warehouse_checkout_cart_aux
+  [21] entry_create           [32] ioopm_linked_list_insert [47] warehouse_create
+  [22] entry_destroy          [60] ioopm_linked_list_is_empty [48] warehouse_delete_cart_with_index
+   [8] find_previous_entry_for_key [33] ioopm_linked_list_remove [49] warehouse_destroy
+  [12] find_previous_link     [14] ioopm_linked_list_size [34] warehouse_destroy_aux
+   [5] find_previous_linkk    [64] is_cart_empty          [56] warehouse_destroy_carts
+  [44] getAmountSingel        [61] is_merch_stocked       [67] warehouse_edit_merchandise_with_fields
+   [9] get_bucket_index       [65] is_shelf_available     [62] warehouse_key_has_locations
+  [45] get_next_cart_index    [19] link_create            [68] warehouse_list_locations
+  [10] hash_string            [20] link_destroy           [54] warehouse_remove_merch_with_key
+   [3] insert                 [25] load_factor            [51] warehouse_size_of_cart
+  [38] ioopm_hash_table_clear [66] merch_getdesc          [35] warehouse_store_location
+  [39] ioopm_hash_table_create [6] release                [59] warehouse_total_cost_of_cart_with_index
+  [40] ioopm_hash_table_destroy [57] remove_amount_from_merch

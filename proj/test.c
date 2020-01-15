@@ -1,9 +1,9 @@
 #include "CUnit/Basic.h"
 #include <stdbool.h>
-#include "hash_table.h"
-#include "list_linked.h"
-#include "refmem.c"
-#include "iterator.h"
+//#include "hash_table.h"
+//#include "list_linked.h"
+#include "../src/refmem.c"
+//#include "iterator.h"
 #include <stdio.h>
 #include <string.h>
 
@@ -397,16 +397,26 @@ void test_shutdown()
 
 void test_cascade()
 {
-    set_cascade_limit(3);
-    CU_ASSERT_TRUE(3 == get_cascade_limit());
+  printf("---cascade limit tests!!! \n");
+  size_t lim = 3;
+    set_cascade_limit(lim);
+    CU_ASSERT_TRUE(lim == get_cascade_limit());
 
     cell1_t *c0 = allocate(sizeof(cell1_t), cell_destructor1);
     c0->cell = allocate(sizeof(cell1_t), cell_destructor1);
     c0->cell->cell = allocate(sizeof(cell1_t), cell_destructor1);
     cell1_t *temp = c0->cell->cell;
-
+    
     release(c0);
-    deallocate(temp);
+    //cell1_t *cl = get_last_cascade();
+    //release(cl);
+    deallocate(temp); // tests for double free i think
+    
+    
+    CU_ASSERT_TRUE(lim == get_cascade_limit());
+
+    printf("---cascade limit tests FIN!!! \n");
+      
 }
 
 void test_default_destructor()
