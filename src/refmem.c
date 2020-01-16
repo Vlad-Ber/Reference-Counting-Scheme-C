@@ -4,8 +4,8 @@
 #include "refmem.h"
 #include <assert.h>
 
-size_t cascade_limit= 20;
-size_t true_cascade_limit = 20;
+size_t cascade_limit= 100;
+size_t true_cascade_limit = 100;
 obj *last_cascade = NULL;
 
 objectInfo_t *first_info = NULL;
